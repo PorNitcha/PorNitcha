@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>FP&A Org Chart — ไทยวา จำกัด (มหาชน)</title>
+<style>
+  :root{
+    --navy:#1F2A44;
+    --navy-soft:#3A4763;
+    --accent:#0F6D66;
+    --accent-soft:#E6F2F1;
+    --grey-line:#C9CDD6;
+    --grey-text:#5B6472;
+    --bg:#FFFFFF;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    padding:60px 20px;
+    background:var(--bg);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color:var(--navy);
+  }
+  .wrap{ max-width:920px; margin:0 auto; }
+  header{ text-align:center; margin-bottom:56px; }
+  header .eyebrow{
+    font-size:12px;
+    letter-spacing:1.5px;
+    color:var(--grey-text);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  header h1{
+    font-size:24px;
+    font-weight:700;
+    margin:0 0 6px 0;
+    color:var(--navy);
+  }
+  header p{
+    font-size:13px;
+    color:var(--grey-text);
+    margin:0;
+  }
+
+  .chart{ display:flex; flex-direction:column; align-items:center; }
+
+  .card{
+    background:#fff;
+    border:1.5px solid var(--navy);
+    border-radius:8px;
+    padding:18px 28px;
+    text-align:center;
+    min-width:220px;
+  }
+  .card.lead{
+    background:var(--navy);
+    border-color:var(--navy);
+    color:#fff;
+  }
+  .card .name{
+    font-size:17px;
+    font-weight:700;
+    margin:0 0 2px 0;
+  }
+  .card .title{
+    font-size:12.5px;
+    font-weight:500;
+    margin:0 0 6px 0;
+  }
+  .card.lead .title{ color:#C9D3E0; }
+  .card:not(.lead) .title{ color:var(--accent); }
+  .card .tag{
+    display:inline-block;
+    font-size:10px;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    padding:2px 8px;
+    border-radius:10px;
+    font-weight:600;
+  }
+  .card.lead .tag{ background:rgba(255,255,255,0.15); color:#fff; }
+  .card:not(.lead) .tag{ background:var(--accent-soft); color:var(--accent); }
+
+  .connector-v{
+    width:2px;
+    height:32px;
+    background:var(--grey-line);
+  }
+
+  .children-row{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    gap:48px;
+    width:100%;
+    padding-top:32px;
+  }
+  .children-row::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:calc(16.6% + 24px);
+    right:calc(16.6% + 24px);
+    height:2px;
+    background:var(--grey-line);
+  }
+  .child-branch{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:1;
+    max-width:240px;
+  }
+  .child-branch .stub{
+    width:2px;
+    height:32px;
+    background:var(--grey-line);
+    margin-top:-2px;
+  }
+
+  .card .desc{
+    font-size:11.5px;
+    color:var(--grey-text);
+    margin-top:8px;
+    line-height:1.5;
+  }
+  .card.lead .desc{ color:#C9D3E0; }
+
+  footer{
+    margin-top:56px;
+    text-align:center;
+    font-size:11px;
+    color:var(--grey-text);
+  }
+  footer .legend{
+    display:inline-flex;
+    gap:20px;
+    align-items:center;
+    margin-top:10px;
+  }
+  .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; margin-right:6px; vertical-align:middle; }
+  .dot.navy{ background:var(--navy); }
+  .dot.accent{ background:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">FP&A Company OS</div>
+    <h1>ทีม FP&A + AI Employees</h1>
+    <p>ไทยวา จำกัด (มหาชน)</p>
+  </header>
+
+  <div class="chart">
+    <div class="card lead">
+      <div class="name">Por</div>
+      <div class="title">Finance Director</div>
+      <span class="tag">Team Lead</span>
+      <div class="desc">Management Account · FP&A · Supply Chain Finance &amp; Costing</div>
+    </div>
+
+    <div class="connector-v"></div>
+
+    <div class="children-row">
+      <div class="child-branch">
+        <div class="stub"></div>
+        <div class="card">
+          <div class="name">น้องพยาก</div>
+          <div class="title">Forecast &amp; Variance Analyst</div>
+          <span class="tag">AI Employee</span>
+          <div class="desc">Forecast P&amp;L รายเดือน/ไตรมาส<br>+ variance analysis</div>
+        </div>
+      </div>
+
+      <div class="child-branch">
+        <div class="stub"></div>
+        <div class="card">
+          <div class="name">น้องทุน</div>
+          <div class="title">Costing &amp; Supply Chain Finance Analyst</div>
+          <span class="tag">AI Employee</span>
+          <div class="desc">Unit cost · landed cost<br>supply chain finance</div>
+        </div>
+      </div>
+
+      <div class="child-branch">
+        <div class="stub"></div>
+        <div class="card">
+          <div class="name">น้องโอกาส</div>
+          <div class="title">Margin &amp; Growth Opportunity Scout</div>
+          <span class="tag">AI Employee</span>
+          <div class="desc">โอกาสเพิ่มกำไร/ยอดขาย<br>scenario analysis</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    3 AI Employees ภายใต้การดูแลของ Por (3+1)
+    <div class="legend">
+      <span><span class="dot navy"></span>Human — Team Lead</span>
+      <span><span class="dot accent"></span>AI Employee</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

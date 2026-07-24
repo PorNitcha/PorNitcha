@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Office — AI Employee Office</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>" />
+  <link rel="stylesheet" href="css/office.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-block">
+      <h1 id="office-name">Agent Office</h1>
+      <p id="office-tagline">AI Employee Office</p>
+    </div>
+    <nav class="controls" aria-label="ตัวควบคุมออฟฟิศ">
+      <span class="stat" id="agent-count">พนักงาน AI: —</span>
+      <button class="pill" id="btn-pause" type="button">⏸ พัก</button>
+      <button class="pill" id="btn-speed" type="button">⚡ x1</button>
+    </nav>
+    <p id="motion-note" hidden>โหมดลดการเคลื่อนไหวทำงานอยู่ — พนักงานจะคุยกันจากโต๊ะแทนการเดิน</p>
+  </header>
+
+  <main>
+    <section id="world-wrap" aria-label="ผังออฟฟิศจำลอง">
+      <div id="world-stage">
+        <svg id="office-floor" role="img" aria-label="ผังออฟฟิศแบ่งตามแผนก"></svg>
+        <!-- พนักงานถูกเพิ่มเข้ามาที่นี่โดย js/agents.js -->
+      </div>
+    </section>
+    <aside id="employee-card" hidden aria-live="polite"></aside>
+  </main>
+
+  <script src="data/office-config.js"></script>
+  <script src="data/employees.js"></script>
+  <script src="data/dialogues.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/dialogue.js"></script>
+  <script src="js/agents.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
