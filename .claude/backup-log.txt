@@ -1,1 +1,25 @@
 ﻿[2026-07-24 16:45:00] Starting backup...
+git : warning: in the working copy of '.claude/settings.local.json', LF will be replaced by CRLF the next time Git 
+touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:12 char:1
++ git add -A 2>&1 | Out-File -FilePath $logPath -Append -Encoding utf8
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of '.claude/daily-backup.ps1', LF will be replaced by CRLF the next time Git touches it
+[main 0fd0cdd] Auto backup 2026-07-24 16:45:00
+ 3 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 .claude/backup-log.txt
+ create mode 100644 .claude/daily-backup.ps1
+git : To https://github.com/PorNitcha/PorNitcha.git
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:19 char:5
++     git push origin main 2>&1 | Out-File -FilePath $logPath -Append - ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...a/PorNitcha.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   6470806..0fd0cdd  main -> main
+[2026-07-24 16:45:00] Backup pushed to GitHub.
+[2026-07-31 11:01:35] Starting backup...
+[2026-07-31 11:01:35] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe

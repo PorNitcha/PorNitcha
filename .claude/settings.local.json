@@ -50,7 +50,10 @@
       "Bash(git push *)",
       "PowerShell(Get-Process | Where-Object { $_.ProcessName -match \"GitCredentialManager|git-credential|dotnet\" } | Select-Object Id, ProcessName)",
       "PowerShell(Start-ScheduledTask -TaskName \"FPA-Memory-Backup\")",
-      "PowerShell(Get-ScheduledTaskInfo -TaskName \"FPA-Memory-Backup\")"
+      "PowerShell(Get-ScheduledTaskInfo -TaskName \"FPA-Memory-Backup\")",
+      "PowerShell(\\(Get-Command git\\).Source)",
+      "Bash(schtasks /run /tn \"FPA-Memory-Backup\")",
+      "Bash(schtasks /query /tn \"FPA-Memory-Backup\" /v /fo LIST)"
     ]
   }
 }

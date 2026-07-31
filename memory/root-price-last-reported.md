@@ -1,7 +1,40 @@
 # Root Price — Last Reported State
 
-- Latest complete day reported: 2026-07-23
-- Reported timestamp: 2026-07-24 12:53 (+07:00) — first run of scheduled task, includes 30-day backfill
+- **Latest complete day (ครบทุกโรงงาน): 2026-07-29** ← ค่านี้คือเกณฑ์หลักของกราฟเทรนด์ 30 วัน
+- **Partial day ที่รายงานไปแล้ว: 2026-07-30 — โรงงานที่มีข้อมูลจริง = [PM]**
+  - กฎรอบถัดไปของวันนี้: ถ้า 30-Jul ยังมีแค่ PM → หยุดเงียบๆ ไม่ต้องรายงานซ้ำ
+  - ถ้ามีโรงงานเพิ่ม (TN / TKT / TDC ลงข้อมูล) → รายงาน update และถ้าครบแล้วให้ย้าย 30-Jul เข้ากราฟ + history CSV (ตัด 2026-06-30 ออก)
+- Reported timestamp: 2026-07-30 ~09:xx (รอบที่ 2 ของวัน)
 - Source (internal): SharePoint site TWPCROOTSOURCINGTEAM > General/2026 Daily root report
-  - Daily root purchased report - 07_July 20261.xlsx (July data)
-  - Daily root purchased report - 06_June 2026.xlsx (June 24-30 backfill)
+  - Daily root purchased report - 07_July 20261.xlsx
+- วิธีที่ใช้: sharepoint_folder_search ("2026 Daily root report") → read_resource ของโฟลเดอร์เพื่อหา itemId ของไฟล์ → read_resource ไฟล์ → เนื้อหายาวเกิน token limit → อ่าน .txt ที่ระบบ save ด้วย Read tool
+  - **Tip ประหยัดเวลา:** sharepoint_search ด้วย query "Daily root purchased report" ไม่เจอไฟล์เดือนปัจจุบัน (index ไม่ทัน) ให้ใช้ sharepoint_folder_search ตรงๆ เร็วกว่าและได้ผลแน่นอน
+  - บรรทัดที่ 1 ของ .txt มีตารางรายวันครบทุกโรงงาน (stock/purchased/supply/consumption/price/starch/...) เรียง TN → TKT → PM → MS → TDC + แถว MTD ท้ายบรรทัด → อ่านแค่บรรทัด 1-4 พอ ไม่ต้องอ่านทั้งไฟล์
+
+## ข้อมูลใหม่รอบนี้ — 30-Jul-2026 (partial: PM เท่านั้น)
+
+| โรงงาน | ปริมาณ (ตัน) | ราคา (฿/กก.) | %Starch | แป้ง (ตัน, คำนวณ) | เทียบ 29-Jul |
+|---|---|---|---|---|---|
+| PM | 156 | 3.82 | 22.43% | 35.0 | ลงจาก 3.92 → 🟢 |
+| TN | — | — | (20.80% default) | — | ยังไม่ลงข้อมูล |
+| TKT | — | — | (18.40% default) | — | ยังไม่ลงข้อมูล |
+| TDC | — | — | (21.00% default) | — | ยังไม่ลงข้อมูล |
+| MS | 0 | — | — | 0 | ไม่ซื้อตามปกติ ⚪ |
+
+**Cross-validation ที่ทำรอบนี้ (ผ่าน):** MTD ในไฟล์ PM = 7,098 (รอบก่อน 6,942) ต่าง **156 ตัน = ตรงกับ purchased 30-Jul พอดี** ขณะที่ MTD TN=11,000, TKT=13,288, TDC=7,066 **ไม่ขยับเลย** → ยืนยันชัดว่ามีแค่ PM ที่ลงข้อมูลจริง ไม่ใช่การอ่านผิด
+Stock at 08.00 am ของ 30-Jul ก็ตรงกับ carry-over ของ 29-Jul ทุกโรงงาน (TN 0, TKT 108, PM 0, TDC 0) → mapping โรงงานถูกต้อง
+
+## Decision log รอบนี้ (สำคัญ — ใช้เป็นบรรทัดฐานต่อไป)
+**ไม่นำวันที่ยังไม่ครบทุกโรงงานเข้ากราฟเทรนด์ 30 วัน / history CSV** เพราะจะทำให้ TN/TKT/TDC แสดงเป็น 0 ซึ่งไม่ใช่ข้อเท็จจริง (ยังไม่ลงข้อมูล ≠ ไม่ซื้อ) — แสดงในกล่อง "สถานะระหว่างวัน" บน dashboard แทน แล้วย้ายเข้ากราฟเมื่อครบ
+- rolling window ใน root-price-history.csv จึงยังเป็น **2026-06-30 → 2026-07-29 (30 วัน, 150 แถว)** ไม่แก้รอบนี้
+- root-price-external.csv ไม่แก้รอบนี้ (ไม่มีโพสต์ใหม่)
+
+## สถานะแหล่ง external
+- **nettathai.org:** เช็ค 30-Jul แล้ว โพสต์ล่าสุดยังเป็น **24-Jul (ค้าง 6 วัน ไม่มีโพสต์ใหม่)** และแถว "พิมาย" ขึ้น "-" ทุกโพสต์ตั้งแต่ 17-Jul (กำลังการผลิตเฉลี่ยแถบนั้น < 50%) → ยังมีแค่ 1 จุดข้อมูลใช้ได้ (15-Jul: 25%=3.60, 30%=4.00)
+- **oae.go.th:** ยังไม่ได้เช็ค (ไม่มี URL ที่ Por ระบุไว้ให้ fetch ได้ตาม provenance restriction) — ถ้า Por ให้ URL มา จะเช็คให้ทุกรอบ
+- **rakakaset.com:** ถูก IT บล็อก (high-risk) ไม่ใช้
+
+## หมายเหตุ business ที่ควรติดตาม
+- **PM:** กลับมาซื้อต่อเนื่อง 6 วันแล้ว (25-Jul เป็นต้นมา) ราคาเริ่มอ่อนลง (3.92 → 3.82) และ %starch ลดจาก 24.51% → 22.43% (เข้าใกล้ช่วงปกติ 19-21% มากขึ้น) แต่ปริมาณ 156 ตัน ยังต่ำกว่า capacity 750 ตัน/วัน มาก (util 21%)
+- **TN:** 28-Jul หยุด 1 วัน แล้วกลับมาปกติ 29-Jul (646 ตัน) ยังไม่มี remark/CIP note ระบุสาเหตุ
+- **MS:** ไม่มีการซื้อเลยตลอดเดือน (pattern ปกติ)
