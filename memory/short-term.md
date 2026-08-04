@@ -38,3 +38,8 @@
 - รายละเอียด/context: 27-Jul บ่าย connector TWPCROOTSOURCINGTEAM หายจากระบบ (list_connectors ตอบ "No installed connectors found") งาน root price รันไม่ได้หลายรอบ — 29-Jul กลับมาปกติ ดึงไฟล์ + parse สำเร็จครบ
 - บทเรียน (lesson learned): อาการนี้คือ MCP server disconnect ชั่วคราว ไม่ใช่ auth หมดอายุ → ถ้าเจอซ้ำ ให้ลอง ToolSearch อีกครั้งในรอบถัดไปก่อนสรุปว่า blocked และอย่ารีบ pause scheduled task
 - เกี่ยวข้องกับ: น้องทุน
+
+### 2026-08-03 — เปิดเดือน ส.ค. ปริมาณซื้อหัวมันกระโดด +55% และ capacity 2 โรงงานเปลี่ยนในไฟล์ (ยังไม่ยืนยันสาเหตุ)
+- รายละเอียด/context: ไฟล์ Daily root report เดือน ส.ค. ลงข้อมูลจริงแล้ว 1-Aug และ 2-Aug ครบทุกโรงงาน ปริมาณรวม 2,007 และ 1,975 ตัน/วัน (ก.ค. เฉลี่ย ~1,293 ตัน/วัน) ประเด็นที่ยังไม่ confirm: (1) **TKT** ราคากระโดด 3.78 → 3.91 และซื้อ 875 ตัน = utilization 159% ของ Root Capacity ใหม่ 550 ตัน/วัน (เดิม 300) — ยังไม่ทราบว่าขยายกำลังผลิตจริงหรือแค่ตั้งค่าใหม่ (ค้างมาตั้งแต่รอบ 1-Aug) (2) **TDC** Root Capacity ในไฟล์ ส.ค. ลดจาก 400 → 250 ตัน/วัน ยังไม่ทราบเหตุผล (3) TDC 2-Aug consumption = 0, carry over 426 ตัน (สูงกว่า cap) น่าจะไม่เดินหีบวันอาทิตย์
+- ต้องทำอะไรต่อ (next step): ถ้า Por อยากรู้สาเหตุ ให้ถามทีม root sourcing (supattra.janwiset@thaiwah.com) เรื่อง capacity TKT 550 / TDC 250 และแผนการซื้อของ TKT ที่เกิน cap
+- เกี่ยวข้องกับ: น้องทุน (root-price-daily-update scheduled task), Por
