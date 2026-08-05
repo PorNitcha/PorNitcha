@@ -76,3 +76,33 @@ At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-bac
 [2026-08-02 08:00:04] Backup pushed to GitHub.
 [2026-08-04 08:00:03] Starting backup...
 [2026-08-04 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/mid-term.md', LF will be replaced by CRLF the next time Git touches 
+it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/short-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak2', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'scripts/make_root_charts.py', LF will be replaced by CRLF the next time Git touches it
+[main 58325e4] Auto backup 2026-08-04 08:00:03
+ 8 files changed, 707 insertions(+), 208 deletions(-)
+ create mode 100644 memory/root-price-history.csv.bak2
+ create mode 100644 memory/root-price-history.csv.bak3
+ create mode 100644 scripts/make_root_charts.py
+git.exe : To https://github.com/PorNitcha/PorNitcha.git
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...a/PorNitcha.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   4f04424..58325e4  main -> main
+[2026-08-04 08:00:03] Backup pushed to GitHub.
+[2026-08-05 08:00:04] Starting backup...
+[2026-08-05 08:00:04] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe

@@ -21,6 +21,18 @@
 
 ---
 
+## ผู้รับอีเมล (อัปเดต 4-Aug-2026 — 7 คน)
+1. nitcha.s@thaiwah.com — Por (Finance Director)
+2. wipada.k@thaiwah.com — Wipada Kiatwuttikrai
+3. napatkanok.k@thaiwah.com — Napatkanok Khunasakpitak
+4. benjamas.p@thaiwah.com — Benjamas Prateeppornnarong (Senior Manager, Supply Chain Finance & Costing)
+5. patcharin.w@thaiwah.com — Patcharin Wachiraworakam  *(เพิ่ม 4-Aug)*
+6. supattra.k@thaiwah.com — Supattra Kemasith  *(เพิ่ม 4-Aug)*
+7. chintaapha.k@thaiwah.com — Chintaapha Kitikunanon  *(เพิ่ม 4-Aug)*
+หมายเหตุ: 3 คนที่เพิ่มใหม่ อยู่ในรายชื่อผู้รับ "Daily root purchased report" ของทีม sourcing อยู่แล้ว (ยืนยันอีเมลถูกต้อง)
+
+---
+
 ## CAG (Cost After Grind) — เพิ่มเข้า dataset แล้ว 2026-08-03
 - นิยาม: CAG = Cost before grind ÷ %Recovery  (ตรวจสอบแล้วตรงกับสูตรในไฟล์)
   และ Cost before grind = ราคา ÷ %Starch
