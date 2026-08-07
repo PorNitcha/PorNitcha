@@ -1,11 +1,74 @@
+## แก้ไข 6-Aug-2026 — snapshot day ต้องเป็น T-1 (เมื่อวาน) เสมอ
+- Por ย้ำ: **วันที่แสดงบน dashboard = เมื่อวาน (T-1)** และป้าย 'ครบ' ใช้ได้เฉพาะเมื่อข้อมูลวันนั้นครบจริง
+- ผมเคยพลาด: trim dashboard ไปจบที่ 4-Aug ทั้งที่วันนี้ 6-Aug → snapshot ต้องเป็น 5-Aug → แก้แล้ว
+- **ค่าที่ verify แล้วจากไฟล์ (ผ่าน CBG=price/starch และ CAG=CBG/recovery ทุกค่า):**
+  * 3-Aug: TN 20.81 / TKT 18.06 / PM 19.12 / TDC 18.15 — ครบ
+  * 4-Aug: TN 17.07 / TKT 18.91 / PM 18.59 / TDC 18.09 — ครบ (weighted group CAG = 18.17)
+  * 5-Aug: PM 18.06(rec95.2%) ครบ · TN/TKT/TDC รอผลโม่ (recovery=100% placeholder) · MS ไม่ซื้อ · TWIC 17.83(rec99.6%) ครบ
+    - 5-Aug Thai total 2,128 t @ 3.84 · group CAG ยังไม่แสดง (รอ TN/TKT/TDC)
+- **สถานะ: ส่งอีเมล 5-Aug แล้ว 6-Aug 18:18 น.** (ผู้รับ 8 คน ยืนยันใน Sent Items) → thai_last_sent_date = 2026-08-05
+
+### ⚠️ บทเรียนสำคัญ 6-Aug-2026 — เกือบส่งเลข %Starch ผิด
+- ตอนพิมพ์ body อีเมลรอบแรก ผมหยิบ **ค่า CAG มาใส่ช่อง %Starch** ของ PM (18.06) และ TWIC (17.83)
+  และใช้ค่า default/forecast ของ TN (20.80) / TKT (19.28) แทนค่าจริง → **ผิดทั้ง 4 โรงงาน**
+- จับได้ตอน cross-check กับ CSV ก่อนกดส่ง แล้วแก้เป็นค่าจริง: TN 23.04 · TKT 21.37 · PM 22.16 · TDC 20.90 · TWIC 18.32
+- **กฎใหม่ (บังคับ): ก่อนส่งอีเมลทุกครั้ง ต้องรัน cross-check ตัวเลขในอีเมลกับ root-price-history.csv
+  และ verify ด้วย identity CBG = price ÷ %Starch, CAG = CBG ÷ %Recovery** — ห้ามพิมพ์ตัวเลขจากความจำ/จากตาราง dashboard ด้วยตาเปล่า
+  (6-Aug ตรวจแล้ว: PM 3.81/22.16% → CBG 17.19 ÷ 95.2% = 18.06 ✓ · TWIC 3.25/18.32% → 17.74 ÷ 99.63% = 17.81 ≈ 17.83 ✓)
+
+### 🔧 บทเรียน 6-Aug-2026 — file_upload ของเบราว์เซอร์ใช้ไม่ได้ (วิธีแก้ที่ได้ผล)
+- `file_upload` ล้มเหลวกับ **ไฟล์ที่มีอยู่จริงทุกไฟล์** (Windows path → error "paths: expected array, received undefined";
+  VM path /sessions/... → "only files this session is allowed to read") ลองแล้วทั้ง backslash / forward slash / path สั้น-ยาว
+- ทางที่ใช้ไม่ได้: Chrome เปิด `file://` ไม่ได้ · OneDrive cloud picker ไม่เห็นโฟลเดอร์ Desktop (ไม่ได้ sync ขึ้น cloud)
+- **วิธีที่ได้ผลจริง (ใช้ซ้ำได้):** ใช้ `javascript_tool` ในหน้า compose ของ Outlook
+  1. เขียนตัวเลข/ตารางเป็น HTML ใส่ `[aria-label="Message body"][contenteditable]` โดยตรง
+  2. วาดกราฟด้วย **canvas API ในหน้าเว็บเอง** (ส่งเฉพาะ "ตัวเลข" ~7KB เข้าไป ไม่ต้องอัปโหลดรูป)
+     แล้ว `canvas.toDataURL('image/png')` → สร้าง `<img>` แปะลง body → OWA แปลงเป็น inline image ตอนส่งเอง
+  3. ยิง `input` event หลังแก้ body ทุกครั้ง เพื่อให้ Outlook save draft
+- **✅ แก้ได้แล้ว 6-Aug (วิธีแนบไฟล์ที่ใช้ได้จริง — ทดสอบผ่านแล้ว):** จำลอง drag & drop ด้วย JS ในหน้า compose
+  ```js
+  const b=document.querySelector('[aria-label="Message body"][contenteditable="true"]');
+  const f=new File([htmlString],'Daily root dashboard - 5 Aug 2026.html',{type:'text/html'});
+  const dt=new DataTransfer(); dt.items.add(f);
+  ['dragenter','dragover','drop'].forEach(t=>b.dispatchEvent(new DragEvent(t,{bubbles:true,cancelable:true,dataTransfer:dt})));
+  ```
+  - **หมายเหตุ:** การ set `input[type=file].files = dt.files` ตรงๆ **ไม่ได้ผล** (files กลับเป็น 0) ต้องใช้ DragEvent เท่านั้น
+  - หลัง drop จะมี dialog "Upload to OneDrive" ขึ้นมา → **กด Cancel** เพื่อให้แนบเป็นไฟล์แนบธรรมดา (ถ้ากด Upload จะกลายเป็นลิงก์ OneDrive)
+  - ต้องส่งเนื้อ HTML เข้าไปเป็น string (ไฟล์ dashboard ~28KB — ส่งผ่าน javascript_tool ได้)
+
+### 📐 กฎรูปแบบตารางในอีเมล (Por สั่ง 6-Aug-2026)
+- **ตารางไทย กับ ตาราง TWIC ต้องกว้างเท่ากันและคอลัมน์ตรงกันทุกคอลัมน์** (6-Aug ส่งไปแล้วสองตารางกว้างไม่เท่ากัน Por ทัก)
+- วิธีทำ: ใช้ `table-layout:fixed; width:720px` + `<colgroup>` ชุด **เดียวกันเป๊ะ** ทั้งสองตาราง เช่น
+  `<col style="width:170px"><col style="width:90px"><col style="width:80px"><col style="width:80px"><col style="width:90px"><col style="width:90px"><col style="width:120px">`
+- font size / สี / alignment ต้องเหมือนกันทั้งสองตาราง (ตัวเลขชิดขวา, ชื่อโรงงานชิดซ้าย)
+
+---
+
+## Run log 6-Aug-2026 18:20 (scheduled) — ไม่มีข้อมูลใหม่ ไม่ส่งอีเมล
+- ตรวจไฟล์ SharePoint 08_Aug (mod 6-Aug 17:01) + Sent Items + TWIC email
+- **5-Aug (T-1) ไม่เปลี่ยน:** PM ครบ (CAG 18.06/rec 95.2%) · TN/TKT/TDC ยัง placeholder (rec 100.0% + CAG=CBG) = รอผลโม่เหมือนเดิม · MS ไม่ซื้อ · TWIC ครบ
+- **6-Aug คือวันนี้ (T) ไม่ใช่ T-1** → ยังไม่รายงาน (มีแต่ PM ลงจริง 573t@3.77, ที่เหลือว่าง/ default)
+- Rule E: thai_root_date 5-Aug = thai_last_sent 5-Aug → ไม่ส่ง · twic_latest 5-Aug = twic_last_sent 5-Aug (หลังแก้) → ไม่ส่ง ⇒ **หยุดเงียบ ถูกต้อง**
+- แก้ state: twic_last_sent_date 08-04 → 08-05 (กันส่ง TWIC updated ซ้ำ) · CSV/dashboard ไม่ต้องแตะ (ข้อมูลไม่เปลี่ยน)
+
+---
+
 # Root Price — Last Reported / Last Emailed State
 
 ## STATE (ตัวควบคุมการส่งอีเมล — อัปเดตทุกครั้งที่ส่ง)
-- `thai_last_sent_date`  : **2026-08-04**   (ข้าม 3-Aug/4-Aug ตามที่ Por สั่ง 5-Aug — ให้เริ่มส่งจากข้อมูล 5-Aug เป็นต้นไป)
-- `twic_last_sent_date`  : **2026-08-04**   (มีข้อมูล TWIC ถึง 4-Aug แล้ว)
+- `thai_last_sent_date`  : **2026-08-05**   (ส่งแล้ว 6-Aug 18:18 · ผู้รับ 8 คน · ยืนยันใน Sent Items)
+- `twic_last_sent_date`  : **2026-08-05**   (แก้ 6-Aug 18:20 — verify Sent Items แล้ว: อีเมล 5-Aug ที่ส่ง 18:18 **มี TWIC 5-Aug ครบอยู่แล้ว** (3.25/467t/18.32%/CAG 17.83/rec 99.6%) → ค่าเดิม 08-04 เป็น note ที่ผิด/ค้าง จะทำให้ส่งรอบ "(TWIC updated)" ซ้ำโดยไม่จำเป็น จึงแก้เป็น 08-05)
 - `cag_alert_date`       : **2026-08-04**   (วันล่าสุดที่แจ้ง Por เรื่อง CAG ไม่มาภายใน 12:00 — กันแจ้งซ้ำ)   (วันที่ข้อมูล TWIC ที่ส่งไปแล้ว/ถือว่าครอบคลุมแล้ว)
 - หมายเหตุ: อีเมล 2-Aug ที่ส่งจริงเมื่อ 3-Aug 18:35 **ยังไม่มี TWIC** (เพิ่ม TWIC เข้า dashboard ทีหลัง)
   Por สั่งให้ข้ามการส่งรอบ TWIC ของคืนนี้ และเริ่ม cadence ใหม่ตั้งแต่พรุ่งนี้ → จึง set twic_last_sent_date = 2026-08-01
+
+## กฎ CAG รวมกลุ่ม (Por ยืนยัน 6-Aug-2026 — เปลี่ยนจากเดิม)
+- **CAG รวม 5 โรงงานไทย = ค่าเฉลี่ยถ่วงน้ำหนักด้วยปริมาณซื้อ ของ CAG รายโรงงาน** (Σ CAG×vol ÷ Σ vol)
+  → **ไม่ใช้** ค่า group CAG จากไฟล์อีกต่อไป เพราะไฟล์ใช้ avg recovery แบบ consumption-based (เช่น 4-Aug ไฟล์ = 24.25 บน recovery 72.5% ซึ่งเพี้ยนจากรายโรงงาน 95-98%)
+- **แสดงเฉพาะเมื่อ CAG ครบทุกโรงงานที่ซื้อ** ถ้ายังมีโรงงานรอผลโม่ → ช่อง CAG รวม = "—" พร้อม note ว่ารอโรงงานไหน
+- ตัวอย่าง 4-Aug: TN 17.07(683t) + TKT 18.91(794t) + PM 18.59(470t) + TDC 18.09(277t) = 18.17 ฿/กก.
+
+---
 
 ## บันทึกการตัดสินใจ 5-Aug-2026
 - Por สั่ง: **ไม่ต้องส่งอีเมลของ 4-Aug** (ที่ค้างเพราะเบราว์เซอร์หลุด + ตัวแนบไฟล์บั๊ก) → **รอข้อมูลวันที่ 5-Aug แล้วค่อยส่ง**
@@ -30,16 +93,17 @@
 
 ---
 
-## ผู้รับอีเมล (อัปเดต 5-Aug-2026 — 8 คน)
+## ผู้รับอีเมล (อัปเดต 6-Aug-2026 — **7 คน**)
 1. nitcha.s@thaiwah.com — Por (Finance Director)
 2. wipada.k@thaiwah.com — Wipada Kiatwuttikrai
 3. napatkanok.k@thaiwah.com — Napatkanok Khunasakpitak
 4. benjamas.p@thaiwah.com — Benjamas Prateeppornnarong (Senior Manager, Supply Chain Finance & Costing)
 5. patcharin.w@thaiwah.com — Patcharin Wachiraworakam  *(เพิ่ม 4-Aug)*
 6. supattra.k@thaiwah.com — Supattra Kemasith  *(เพิ่ม 4-Aug)*
-7. chintaapha.k@thaiwah.com — Chintaapha Kitikunanon  *(เพิ่ม 4-Aug)*
-8. nittaya.p@thaiwah.com — Nittaya Puengpradit  *(เพิ่ม 5-Aug)*
-หมายเหตุ: 3 คนที่เพิ่มใหม่ อยู่ในรายชื่อผู้รับ "Daily root purchased report" ของทีม sourcing อยู่แล้ว (ยืนยันอีเมลถูกต้อง)
+7. nittaya.p@thaiwah.com — Nittaya Puengpradit  *(เพิ่ม 5-Aug)*
+
+❌ **chintaapha.k@thaiwah.com — Chintaapha Kitikunanon — Por สั่งถอดออก 6-Aug-2026 ห้ามใส่กลับ**
+หมายเหตุ: ผู้รับที่เพิ่มมา อยู่ในรายชื่อผู้รับ "Daily root purchased report" ของทีม sourcing อยู่แล้ว (ยืนยันอีเมลถูกต้อง)
 
 ---
 
