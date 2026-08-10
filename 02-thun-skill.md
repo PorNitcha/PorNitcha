@@ -102,3 +102,9 @@ _(ยังไม่มี entry — จะเพิ่มหลังจบง�
 - ข้อควรระวังเรื่องวันที่: วันนี้ 6-Aug แต่ไฟล์มีแถว 6-Aug อยู่แล้ว (PM ลงจริง 573t@3.77) — อย่าเผลอเอา 6-Aug มารายงาน เพราะ 6-Aug = วันนี้ (T) ไม่ใช่ T-1. reporting date ต้อง = 5-Aug เสมอ. TN/TKT/TDC ของ 6-Aug ยัง blank/default
 - 5-Aug mill result (TN/TKT/TDC) ยัง placeholder (rec 100.0% + CAG=CBG) ถึงเย็น 6-Aug = ผลโม่ช้ากว่าปกติ >1 วัน. อีเมล 5-Aug ส่งไปพร้อม note "Pending mill result" แล้ว (ถูกตาม Rule E: เลย 13:00 ส่งได้พร้อม note) — รอบถัดไปถ้า CAG มาให้ refresh CSV/dashboard ได้เลย (ไม่ต้องส่งอีเมลใหม่เพราะวันไม่เปลี่ยน)
 - Action ครั้งถัดไป: ถ้าพรุ่งนี้ (7-Aug run) เห็น CAG ของ TN/TKT/TDC 5-Aug มาแล้ว → อัปเดต CSV+dashboard เงียบๆ ไม่ต้องอีเมล; อีเมลรอบใหม่จะเกิดเมื่อ thai_root_date ขยับเป็น 6-Aug
+
+### 🔎 บทเรียน 7-Aug-2026 — หาไฟล์เดือนปัจจุบันใน SharePoint
+- `sharepoint_search` ด้วย query ตรงๆ ("08_Aug 2026" / "Aug 2026") **หาไฟล์เดือนปัจจุบันไม่เจอ** (index ยังไม่ทัน / ไฟล์อยู่ top-level ไม่ใช่โฟลเดอร์ report)
+- **วิธีที่ได้ผล:** `sharepoint_search(query="Daily root purchased report", folderName="2026 Daily root report")` → เจอ "08_Aug 2026.xlsx" ที่ top-level ทันที
+- read_resource ของไฟล์นี้เป็นแบบ **"Workbook: 16 worksheets" tab-separated** (5,067 บรรทัด เกิน token) → ระบบ save เป็น .txt ใน `.claude/projects/.../tool-results/` (อยู่ใน mnt ที่ bash เข้าถึงได้ผ่าน /sessions/*/mnt/.claude/projects/...) → parse ด้วย python: sheet "Aug" แถว header ที่ col A="Date", data rows 1-Aug..31-Aug, block ต่อโรงงาน = TN(cap850,16คอล) TKT(cap550,มี Recovery Total/Native/CF, 20คอล) PM(cap750) MS(cap700) TDC(cap400)
+- **ระวัง bash timeout:** `find /` แบบ wildcard กว้างๆ + grep tabs บนไฟล์บรรทัดยาว → ค้าง 120s ให้ระบุ path ตรงหรือ scope find ให้แคบ

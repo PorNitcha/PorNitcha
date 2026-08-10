@@ -36,6 +36,73 @@
   - หลัง drop จะมี dialog "Upload to OneDrive" ขึ้นมา → **กด Cancel** เพื่อให้แนบเป็นไฟล์แนบธรรมดา (ถ้ากด Upload จะกลายเป็นลิงก์ OneDrive)
   - ต้องส่งเนื้อ HTML เข้าไปเป็น string (ไฟล์ dashboard ~28KB — ส่งผ่าน javascript_tool ได้)
 
+### 📎 วิธีแนบไฟล์ที่ใช้ได้จริง 100% (ยืนยัน 7-Aug-2026) — **ใช้วิธีนี้เท่านั้น**
+drag&drop ด้วย DragEvent จะถูก OWA **auto-upload ขึ้น OneDrive แล้วแทรกเป็น "ลิงก์"** ไม่ใช่ไฟล์แนบ (hasAttachments=false)
+**ขั้นตอนที่ถูกต้อง:**
+1. drop ไฟล์ด้วย DragEvent (ไฟล์จะถูกอัปขึ้น OneDrive อัตโนมัติ) — ยอมให้มันอัปไปก่อน
+2. **ลบลิงก์ออกจาก body** ด้วย `[...b.querySelectorAll('a')].filter(a=>/\.html/i.test(a.textContent)).forEach(a=>a.remove())`
+   ⚠️ **ห้ามใช้ `a.closest('div,p').remove()`** เพราะจะลบ wrapper ของ body ทั้งก้อน (เคยพลาด 2 ครั้ง เนื้อหาหายหมด)
+3. Ribbon → **Attach file → OneDrive → ช่องค้นหาพิมพ์ชื่อไฟล์ → เลือกไฟล์ (คลิกที่ radio/ชื่อ)**
+4. กดลูกศร ⌄ ข้างปุ่ม **"Share link"** → เลือก **"Attach"** (= แนบเป็นสำเนา) → จะได้การ์ดไฟล์แนบจริงเหนือ body
+5. ตรวจด้วย `outlook_email_search` ว่า **hasAttachments=true** ก่อนถือว่าสำเร็จ
+**ข้อควรระวังอื่น:** ถ้า reload draft แล้วรูปกราฟจะกลายเป็น cid/blob (ไม่ใช่ data:) → ถ้าไป filter ลบ non-data img จะลบกราฟทิ้ง
+  ✅ วิธีลบลิงก์ที่ปลอดภัย (ไม่โดนกราฟ): ลบเฉพาะ `<a>` ที่ text มี .html และลบ `<img>` ที่ **width < 50** (ไอคอนไฟล์) เท่านั้น — กราฟกว้าง 920/552 จึงรอด
+
+### 🧪 สรุปผลทดสอบ `file_upload` (ปิดเคสแล้ว 7-Aug-2026)
+**`file_upload` พังกับ "ไฟล์ที่มีอยู่จริง" ทุกกรณี — ไม่เกี่ยวกับความยาว/รูปแบบ path**
+- path ที่ชี้ไปไฟล์ **ไม่มีจริง** → ผ่าน validation (ได้ error เรื่องสิทธิ์แทน) เช่น `C:/Users/test/a - b.png`, `C:/Users/.../lovely/t.png` (65 ตัวอักษร)
+- path ที่ชี้ไปไฟล์ **มีจริง** → error `paths: expected array, received undefined` เสมอ
+  ทดสอบแล้ว: backslash / forward slash / path สั้น 65 ตัวอักษร (`C:/Users/NitchaSuwongtham/OneDrive - THAIWAH/Desktop/lovely/d.htm`) / path ยาว / .png / .htm
+⇒ **เลิกใช้ `file_upload` ได้เลย อย่าเสียเวลาลองอีก** ใช้วิธี canvas + OneDrive picker แทน
+
+### ⏳ ข้อจำกัดที่เจอ 7-Aug รอบเย็น — search ของ OneDrive picker มี index lag
+- ไฟล์ที่เพิ่งถูก auto-upload ขึ้น OneDrive **ยังค้นไม่เจอในช่อง Search ของ picker** (index ตามไม่ทัน อาจใช้เวลาเป็นชั่วโมง)
+- แท็บ "Recent" ก็ไม่ขึ้น (แสดงเฉพาะไฟล์ที่ "เปิด/แก้ไข" ไม่ใช่ไฟล์ที่อัปโหลด) · แท็บ Files บางครั้ง error "We couldn't retrieve the items"
+- ปุ่ม **"Attach instead"** ในทppถแจ้งเตือน **ใช้ไม่ได้จริง** — กดแล้วยังคงเป็นลิงก์ (ทดสอบ 3 ครั้ง)
+- ⇒ **วิธีแนบที่การันตีได้มีทางเดียว: picker → Files/Search เจอไฟล์ (ต้องรอ index) → ลูกศร ⌄ ข้าง Share link → "Attach"**
+- **แนวทางที่ควรทำต่อไป (ยังไม่ได้ลอง):** อัปโหลดไฟล์ dashboard ขึ้น OneDrive/SharePoint **ล่วงหน้า** ตั้งแต่ตอนสร้าง (ไม่ใช่ตอนกำลังจะแนบ)
+  เพื่อให้ index ทันก่อนถึงเวลาส่งอีเมล · หรือใส่เป็น **ลิงก์ในเนื้ออีเมล** ไปเลย (เปิดได้ในองค์กรอยู่แล้ว) จะเสถียรกว่าการแนบ
+
+### 🌾 กฎปริมาณแป้ง (Por ยืนยัน 7-Aug-2026 — **สรุปแล้ว**)
+- **สูตร: ปริมาณแป้ง (ตัน) = ปริมาณซื้อ × %Starch × %Recovery** ✅ (Por ยืนยัน "ควรคูณ % recovery ด้วย")
+  เดิมใช้แค่ volume × %Starch ซึ่งเป็น "แป้งตามทฤษฎีในหัวมัน" ไม่ใช่แป้งที่ได้จริงหลังโม่
+- **ถ้าวันไหนไม่มี %Recovery → ห้ามคำนวณ/ห้ามแสดง** ให้เป็น null (เพราะขาดตัวคูณ)
+- ใช้กับทั้ง dashboard และกราฟในอีเมล
+- ผลกระทบตอนเปลี่ยนสูตร (98 วันที่มี recovery): รวม 8,057 t → **7,679 t (−4.7%)**
+  วันที่ recovery > 100% ตัวเลขจะสูงขึ้น (เช่น TKT 3-Aug 197.0 → 202.7) · วันที่ recovery ต่ำจะลดลงมาก (TN 3-Aug rec 80.7%: 153.7 → 124.0)
+- หมายเหตุ: ค่านี้คำนวณจาก **ปริมาณซื้อ** ไม่ใช่ปริมาณที่โม่จริง (consumption) จึงไม่เท่ากับคอลัมน์ "Est. Starch (KG)" ในไฟล์เป๊ะๆ — เป็น indicator ไม่ใช่ตัวเลขบัญชี
+
+### 🔴🔴 ค้นพบสำคัญที่สุด 7-Aug-2026 — **ชีต master "Aug" ใส่ค่า default ทับช่องที่ยังว่างจริง**
+Por ส่งภาพหน้าจอ **ชีตราย plant (แท็บ TDC)** มาให้ → เห็นชัดว่าแถว 6-Aug ของ TDC:
+`%Starch = ว่าง · Starch output (Tons) = ว่าง · Recovery (%) = ว่าง` (Por ไฮไลต์เหลือง)
+แต่ **ชีต master "Aug" กลับโชว์ %Starch 22.49% และ %Recovery 100.0%** → **เป็นค่า default ที่ระบบเติมให้ ไม่ใช่ค่าจริง**
+- **แปลว่า: ชีตรายโรงงาน (แท็บ TN/TKT/PM/MS/TDC) = ground truth · ชีต master = มี default ปนอยู่ เชื่อ 100% ไม่ได้**
+- **ช่องที่ต้องเช็คในชีตราย plant:** Date, Root Stock, Root Purchased(Tons), Total root supply, Actual root consumption,
+  Carry over, **%Starch**, **Starch output(Tons)**, **Recovery(%)**, Cost before grind, Cost after grind, Gap
+  → ถ้า **Recovery (%) ว่าง = ยังไม่มีผลโม่** (ไม่ใช่ 100.0% แบบที่ master โชว์)
+- **⚠️ ข้อจำกัดทางเทคนิค: `read_resource` ดึงมาได้แค่ ~2-3 ชีตแรก (May(FC) / Aug / Sum) — ชีตราย plant ไม่เคยติดมาเลย**
+  ทำให้ผม **ตรวจ ground truth เองไม่ได้** ต้องอาศัย Por ยืนยัน หรือหาวิธีเปิดชีตราย plant ให้ได้ก่อน
+- **ผลกระทบที่เกิดขึ้นจริง:** อีเมล 6-Aug ที่ส่ง 16:22 รายงาน **TDC %Starch 22.49%** ซึ่งน่าจะเป็น default ไม่ใช่ค่าจริง
+  (และราคา TDC 3.97 ก็ตรงกับค่า forecast default ที่บันทึกไว้ก่อนหน้า — ต้องให้ Por ยืนยัน)
+- **TODO ก่อนใช้ข้อมูลรายวันครั้งต่อไป:** หาวิธีอ่านชีตราย plant ให้ได้ (เช่น ขอ export แยก, หรืออ่านผ่าน Excel connector อื่น)
+  ระหว่างที่ยังอ่านไม่ได้ → **ถ้า master โชว์ %Recovery = 100.0% พอดี ให้ถือว่ายังไม่มีผลโม่ และต้องถาม Por ก่อนรายงาน**
+
+### 🚨 ข้อจำกัดสำคัญ: กฎ placeholder แยก "%Recovery = 100.0% จริง" ไม่ได้ (พบ 7-Aug-2026)
+- Por ทักว่า "%Recovery ของ PM และ TKT พร้อมแล้ว" ทั้งที่ผมตรวจแล้วขึ้น placeholder → ตรวจไฟล์ซ้ำพบว่า **ไฟล์ถูกอัปเดตอีกรอบช่วงเย็น**
+- **TKT: แยกได้ด้วยกฎที่มีอยู่** → ถ้า %Recovery Total / Native / CF **ต่างกัน** = ค่าจริง · ถ้าเท่ากันหมดและลงตัว (95.0%) = ค่า forecast
+  * 6-Aug TKT: Total 101.3 / Native 102.2 / CF 99.4 → จริง · CAG 18.04 (CBG 18.28 ÷ 101.3% = 18.05 ✓)
+  * 5-Aug TKT: Total 100.0 / Native 102.7 / CF 94.6 → **จริงเช่นกัน** (เดิมผมตั้ง null ไว้ผิด แก้แล้ว) · CAG 18.39
+- **PM / TN / TDC: แยกไม่ได้เลย** ถ้า %Recovery = 100.0% พอดี เพราะ CAG จะเท่ากับ CBG โดยธรรมชาติอยู่แล้ว
+  * 6-Aug: PM 100.0% = **ค่าจริง** (Por ยืนยัน) แต่ TN 100.0% และ TDC 100.0% = **ยังเป็น placeholder** — หน้าตาในไฟล์เหมือนกันทุกประการ
+  * คอลัมน์ Root consumption ก็แยกไม่ได้ (6-Aug มีค่าครบทั้ง TN 843 / PM 698 / TDC 149)
+- **⚠️ ต้องหา signal ที่เชื่อถือได้ หรือถาม Por ทุกครั้งที่เจอ %Recovery = 100.0% พอดี** — ห้ามเดาเอง
+  (แนวทางที่ยังไม่ได้ลอง: เปิดชีตรายโรงงานแยก อาจมีช่อง Recovery ว่าง/ไม่ว่างที่ชัดกว่า)
+
+### 📊 นิยามคอลัมน์ "Starch (KG)" ในไฟล์ต้นทาง (ตรวจแล้ว 7-Aug-2026)
+`Starch (KG)` ในไฟล์ = **ปริมาณซื้อ × %Starch** (ไม่ได้คูณ recovery และไม่ได้อิง consumption)
+ตรวจ 3 จุด: PM 6-Aug 573×21.29% = 121,990 vs ไฟล์ 121,969 ✓ · PM 5-Aug 133,630 vs 133,602 ✓ · PM 4-Aug 99,264 vs 99,202 ✓
+→ **ตัวเลข "ปริมาณแป้ง" ที่เราแสดง (คูณ recovery ตามที่ Por สั่ง) จะต่ำกว่าคอลัมน์นี้ในไฟล์** เป็นคนละนิยาม อย่าเอาไป cross-check กัน
+
 ### 📐 กฎรูปแบบตารางในอีเมล (Por สั่ง 6-Aug-2026)
 - **ตารางไทย กับ ตาราง TWIC ต้องกว้างเท่ากันและคอลัมน์ตรงกันทุกคอลัมน์** (6-Aug ส่งไปแล้วสองตารางกว้างไม่เท่ากัน Por ทัก)
 - วิธีทำ: ใช้ `table-layout:fixed; width:720px` + `<colgroup>` ชุด **เดียวกันเป๊ะ** ทั้งสองตาราง เช่น
@@ -56,9 +123,11 @@
 # Root Price — Last Reported / Last Emailed State
 
 ## STATE (ตัวควบคุมการส่งอีเมล — อัปเดตทุกครั้งที่ส่ง)
-- `thai_last_sent_date`  : **2026-08-05**   (ส่งแล้ว 6-Aug 18:18 · ผู้รับ 8 คน · ยืนยันใน Sent Items)
+- `thai_last_sent_date`  : **2026-08-06**   (ส่ง 2 รอบ · ผู้รับ 7 คน · ยืนยันใน Sent Items)
+  * รอบ 1 — 7-Aug 16:22 `Daily root dashboard - 6 August 2026` · **มีไฟล์แนบ HTML จริง** · ⚠️ ตัวเลข TDC %Starch 22.49% ในรอบนี้**ผิด** (เป็น default จาก master)
+  * รอบ 2 — 7-Aug 20:06 `... (mill results updated)` · **ไม่มีไฟล์แนบ** (แนบไม่สำเร็จ ดูสาเหตุด้านล่าง) · แก้ TDC + เพิ่มผลโม่ TKT/PM ครบแล้ว
 - `twic_last_sent_date`  : **2026-08-05**   (แก้ 6-Aug 18:20 — verify Sent Items แล้ว: อีเมล 5-Aug ที่ส่ง 18:18 **มี TWIC 5-Aug ครบอยู่แล้ว** (3.25/467t/18.32%/CAG 17.83/rec 99.6%) → ค่าเดิม 08-04 เป็น note ที่ผิด/ค้าง จะทำให้ส่งรอบ "(TWIC updated)" ซ้ำโดยไม่จำเป็น จึงแก้เป็น 08-05)
-- `cag_alert_date`       : **2026-08-04**   (วันล่าสุดที่แจ้ง Por เรื่อง CAG ไม่มาภายใน 12:00 — กันแจ้งซ้ำ)   (วันที่ข้อมูล TWIC ที่ส่งไปแล้ว/ถือว่าครอบคลุมแล้ว)
+- `cag_alert_date`       : **2026-08-06**   (แจ้ง Por 7-Aug 12:07 — CAG 6-Aug ยังไม่มาภายใน 12:00 · กันแจ้งซ้ำ)
 - หมายเหตุ: อีเมล 2-Aug ที่ส่งจริงเมื่อ 3-Aug 18:35 **ยังไม่มี TWIC** (เพิ่ม TWIC เข้า dashboard ทีหลัง)
   Por สั่งให้ข้ามการส่งรอบ TWIC ของคืนนี้ และเริ่ม cadence ใหม่ตั้งแต่พรุ่งนี้ → จึง set twic_last_sent_date = 2026-08-01
 
@@ -243,3 +312,96 @@ Por ทักว่าตัวเลข TKT/TDC วันที่ 3-Aug "ม�
 - **Email (rule E):** thai_root_date(5-Aug) > thai_last_sent(4-Aug) = มีวันใหม่ที่ต้องส่ง **แต่ CAG ยังไม่ครบ และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอ CAG มาก่อน)** · ไม่แก้ state
 - **รอบถัดไป:** ถ้าผลโม่ 5-Aug ลงครบ → ส่งอีเมล 5-Aug ได้ทันที · ถ้าเลย 13:00 แล้วยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" · ถ้าเลย 12:00 แล้วยังไม่ครบ → แจ้ง Por (step D)
 - STATE คงเดิม: thai_last_sent=2026-08-04 · twic_last_sent=2026-08-04 · cag_alert=2026-08-04
+
+---
+## รอบ 7-Aug-2026 (scheduled run เช้า 08:07) — อัปเดตข้อมูล 6-Aug · ยังไม่ถึงคิวส่งอีเมล
+- ไฟล์ไทย 08_Aug 2026 (แก้ไขล่าสุด 6-Aug 22:50) : reporting date = **6-Aug** (T-1)
+- **6-Aug ปริมาณ+ราคา+%Starch ครบทุกโรงงานที่ซื้อ (root complete)** แต่ **ผลโม่ (CAG/%Recovery) ยังไม่ลงเลยสักโรงงาน**
+  * TN 624t @3.78 (23.58%) · TKT 828t @3.93 (21.50%) · PM 573t @3.77 (21.29%) · TDC ไม่ซื้อ (stock 0) · MS ไม่ซื้อ
+  * placeholder: TN/PM = cons ว่าง + rec 100.0% (CAG=CBG) · TKT rec Total=Native=CF=95.0% (ค่า forecast) → ทั้งหมดตั้ง CAG/rec = null
+  * ราคา: TN คงที่ (3.78) · TKT คงที่ (3.93) · PM ลง -0.04 (3.81→3.77) · wavg 3.84 · รวม 3 โรงไทย 2,025 t (ตรงยอด total ในไฟล์ 2,024,948 kg ✓)
+  * group CAG ในไฟล์ 23.57 (AvgRec 73.8%) — บิดเบือนจาก placeholder ทั้งหมด ไม่ใช้
+- **PM 5-Aug ยังครบเหมือนเดิม (rec 95.2%/CAG 18.06)** · TN/TKT/TDC 5-Aug ยัง placeholder (ผลโม่ยังไม่มา) — ไม่มี revision ของ 1–5 Aug
+- **TWIC:** อีเมลล่าสุด "Aug, 05 2026" (put.p ส่ง 6-Aug 10:20) · **ยังไม่มีอีเมล 6-Aug** → twic_latest = 5-Aug (อยู่ใน CSV แล้ว) ไม่มีของใหม่
+- **CSV:** roll เป็นหน้าต่าง 8-Jul→6-Aug (drop 7-Jul) · เพิ่ม 6 แถวของ 6-Aug (TWIC 6-Aug = ว่างทุกช่อง รอรายงาน) · backup .bak9
+- **Dashboard:** อัปเดตเป็น 8-Jul→6-Aug · badge 6-Aug: TN/TKT/PM = รอผลโม่(เหลือง) · TDC/MS = ไม่ซื้อ(เทา) · TWIC = ยังไม่ลงข้อมูล(เทา) · update_artifact สำเร็จ ไม่มี error ใน debug log
+- **CAG alert (step D):** ยังไม่ถึง 12:00 (รัน 08:07) → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-04
+- **Email (rule E):** thai_root_date(6-Aug) > thai_last_sent(5-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG ยังไม่ครบ และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอ CAG)** · STATE คงเดิม: thai_last_sent=2026-08-05 · twic_last_sent=2026-08-05 · cag_alert=2026-08-04
+- **รอบถัดไป:** ถ้าผลโม่ 6-Aug ลงครบ → ส่งอีเมล 6-Aug ได้ทันที · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" · ถ้าเลย 12:00 ยังไม่ครบ → แจ้ง Por (step D)
+
+---
+## รอบ 7-Aug-2026 (scheduled run 09:13) — ตรวจซ้ำ 6-Aug · ผลโม่ยังไม่มา · ไม่ส่งอีเมล
+- ไฟล์ไทย 08_Aug 2026 (แก้ไขล่าสุด 7-Aug 08:25) : reporting date = **6-Aug** (T-1)
+- **6-Aug root complete** (vol+price+starch ครบ) แต่ **ผลโม่ (CAG/%Recovery) ยังไม่ลงเลยสักโรงงาน** เหมือนรอบเช้า
+  * TN 624t @3.78 (23.58%) rec100.0%/CAG16.03=CBG → null · TKT 828t @3.93 (21.50%) rec Total=Native=CF=95.0%(forecast) → null · PM 573t @3.77 (21.29%) rec100.0%/CAG17.71=CBG → null · TDC 278t @3.97 (22.49%) rec100.0%/CAG17.65=CBG → null · MS ไม่ซื้อ
+  * รวม 5 โรงไทย (incl TDC) = 2,303 t (ตรงยอด total-incl-TDC ในไฟล์ 2,303,274 kg ✓) · wavg 3.85 · (ยอด -TDC = 2,024,948 kg = 2,025t ✓)
+  * ข้อมูลทุกค่าตรงกับ CSV เดิม (เขียนไว้รอบเช้า 08:46) — **ไม่มี revision / ไม่มีข้อมูลใหม่** → CSV ไม่แตะ
+- **TWIC:** อีเมลล่าสุดยัง "Aug, 05 2026" (put.p ส่ง 6-Aug 10:20) · **ยังไม่มีอีเมล 6-Aug** → twic_latest = 5-Aug (อยู่ใน CSV แล้ว)
+- **Dashboard:** เช็คแล้ว artifact อัปเดตล่าสุด 7-Aug 09:05 — แสดง 6-Aug ถูกต้องครบ (TDC 278 badge "รอผลโม่", total 2,303t, 4/5 โรงงาน, CAG รวม=รอผลโม่, TWIC=ข้อมูล 5-Aug) → **ไม่ต้องอัปเดตซ้ำ**
+- **CAG alert (step D):** เวลา 09:13 ยังไม่ถึง 12:00 → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-04
+- **Email (rule E):** thai_root_date(6-Aug) > thai_last_sent(5-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG ยังไม่ครบ และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอ CAG)** · STATE คงเดิม: thai_last_sent=2026-08-05 · twic_last_sent=2026-08-05 · cag_alert=2026-08-04
+- **รอบถัดไป:** ถ้าผลโม่ 6-Aug ลงครบ → ส่งอีเมล 6-Aug ได้ทันที · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" · ถ้าเลย 12:00 ยังไม่ครบ → แจ้ง Por (step D)
+
+---
+## รอบ 7-Aug-2026 (scheduled run 10:07) — ตรวจซ้ำ 6-Aug · ผลโม่ยังไม่มา · ไม่ส่งอีเมล
+- ไฟล์ไทย 08_Aug 2026 (แก้ไขล่าสุด 7-Aug 09:08) : reporting date = **6-Aug** (T-1)
+- **6-Aug root complete** (vol+price+starch ครบ) แต่ **ผลโม่ (CAG/%Recovery) ยัง placeholder ทุกโรงงาน** เหมือนรอบ 09:13
+  * TN 624t @3.78 (23.58%) rec100.0%/CAG16.03=CBG → null · TKT 828t @3.93 (21.50%) rec Total=Native=CF=95.0%(forecast)/CAG19.24 → null · PM 573t @3.77 (21.29%) rec100.0%/CAG17.71=CBG → null · TDC 278t @3.97 (22.49%) rec100.0%/CAG17.65=CBG → null · MS ไม่ซื้อ
+  * รวม incl TDC 2,303 t (ตรงยอดไฟล์ 2,303,274 kg ✓) · excl TDC 2,025 t @ 3.84 (2,024,948 kg ✓)
+  * หมายเหตุ: TKT 5-Aug ตอนนี้ Native 102.7%/CF 94.6% เริ่มมีค่าจริง แต่ Total ยัง 100.0% (CAG=CBG=18.39) = placeholder → คง null (ใช้ %Recovery Total ตามกฎ)
+- **ข้อมูลทุกค่าตรงกับ CSV เดิม (เขียน 08:46) — ไม่มี revision / ไม่มีข้อมูลใหม่** → CSV/dashboard ไม่แตะ
+- **TWIC:** อีเมลล่าสุดยัง "Aug, 05 2026" (put.p ส่ง 6-Aug 10:20) · ยังไม่มีอีเมล 6-Aug → twic_latest = 5-Aug (อยู่ใน CSV แล้ว)
+- **CAG alert (step D):** เวลา 10:07 ยังไม่ถึง 12:00 → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-04
+- **Email (rule E):** thai_root_date(6-Aug) > thai_last_sent(5-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG ยังไม่ครบ และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอ CAG)** · STATE คงเดิม: thai_last_sent=2026-08-05 · twic_last_sent=2026-08-05 · cag_alert=2026-08-04
+- **รอบถัดไป:** ถ้าผลโม่ 6-Aug ลงครบ → ส่งอีเมล 6-Aug ได้ทันที · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" · ถ้าเลย 12:00 ยังไม่ครบ → แจ้ง Por (step D)
+
+---
+## รอบ 7-Aug-2026 (scheduled run 11:07) — ตรวจซ้ำ 6-Aug · ผลโม่ยังไม่มา · ไม่ส่งอีเมล
+- ไฟล์ไทย 08_Aug 2026 (แก้ไขล่าสุด 7-Aug 10:10) : reporting date = **6-Aug** (T-1)
+- **6-Aug root complete** (vol+price+starch ครบ) แต่ **ผลโม่ (CAG/%Recovery) ยัง placeholder ทุกโรงงาน** เหมือนรอบ 10:07
+  * TN 624t @3.78 (23.58%) rec100.0%/CAG16.03=CBG → null · TKT 828t @3.93 (21.50%) rec Total=Native=CF=95.0%(forecast)/CAG19.24 → null · PM 573t @3.77 (21.29%) rec100.0%/CAG17.71=CBG → null · TDC 278t @3.97 (22.49%) rec100.0%/CAG17.65=CBG → null · MS ไม่ซื้อ
+  * รวม incl TDC 2,303,274 kg = 2,303t (ตรงยอดไฟล์ ✓) · excl TDC 2,024,948 kg = 2,025t @ 3.84 (✓)
+  * 5-Aug ไม่มี revision: TN/TKT ยัง placeholder (TKT Total 100.0% แม้ Native102.7/CF94.6) · PM 18.06/95.2 · TDC 19.63/92.1 คงเดิม
+- **ข้อมูลทุกค่าตรงกับ CSV เดิม (เขียน 08:46) — ไม่มี revision / ไม่มีข้อมูลใหม่** → CSV/dashboard ไม่แตะ
+- **TWIC:** อีเมลล่าสุดยัง "Aug, 05 2026" (put.p ส่ง 6-Aug 10:20) · **ยังไม่มีอีเมล 6-Aug** (รัน 11:07 ก่อนเวลาที่อีเมลมักเข้า/หรือมาช้า) → twic_latest = 5-Aug (อยู่ใน CSV แล้ว)
+- **CAG alert (step D):** เวลา 11:07 ยังไม่ถึง 12:00 → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-04
+- **Email (rule E):** thai_root_date(6-Aug) > thai_last_sent(5-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG ยังไม่ครบ และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอ CAG)** · STATE คงเดิม: thai_last_sent=2026-08-05 · twic_last_sent=2026-08-05 · cag_alert=2026-08-04
+- **รอบถัดไป:** ถ้าผลโม่ 6-Aug ลงครบ → ส่งอีเมล 6-Aug ได้ทันที · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" · ถ้าเลย 12:00 ยังไม่ครบ → แจ้ง Por (step D)
+
+---
+## รอบ 7-Aug-2026 (scheduled run 12:07) — ⏰ Step D CAG alert 6-Aug · ยังไม่ส่งอีเมล
+- ไฟล์ไทย 08_Aug 2026 mod 7-Aug 10:10 (เท่ารอบ 11:07 เป๊ะ) = **ไม่มี revision / ไม่มีข้อมูลใหม่** → CSV/dashboard ไม่แตะ
+- **6-Aug root complete** (verify จาก CSV): TN 624t@3.78/23.58% · TKT 828t@3.93/21.50% · PM 573t@3.77/21.29% · TDC 278t@3.97/22.49% · MS ไม่ซื้อ · รวม 2,303t @ 3.85 THB/kg
+- **ผลโม่ (CAG/%Recovery) ยังขาดทั้ง 4 โรงงาน** (TN, TKT, PM, TDC)
+- **TWIC:** อีเมลล่าสุดยัง "Aug, 05 2026" (put.p ส่ง 6-Aug 10:20) · ยังไม่มีอีเมล 6-Aug (รัน 12:07) → twic_latest = 5-Aug (อยู่ใน CSV แล้ว)
+- **CAG alert (step D):** เวลา 12:07 **เลย 12:00 แล้ว** · root ครบ แต่ CAG ขาด 4 โรงงาน · cag_alert_date เดิม 2026-08-04 ≠ 6-Aug → **แจ้ง Por** (ในข้อความสรุป run นี้) · set cag_alert_date=2026-08-06 (กันแจ้งซ้ำ)
+- **Email (rule E):** thai_root_date(6-Aug) > thai_last_sent(5-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG ยังไม่ครบ และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอ CAG)** · STATE: thai_last_sent=2026-08-05 · twic_last_sent=2026-08-05 (คงเดิม)
+- **รอบถัดไป:** ถ้าผลโม่ 6-Aug ลงครบ → ส่งอีเมล 6-Aug ทันที · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่"
+
+---
+## รอบ 7-Aug-2026 (scheduled run เย็น 17:07) — ไม่มีข้อมูลใหม่ของ 6-Aug · แก้ revision เล็ก TDC 4-Aug · ไม่ส่งอีเมล
+- ไฟล์ไทย 08_Aug 2026 mod 7-Aug 16:43 (หลังอีเมล 6-Aug ที่ส่ง 16:22) : reporting date = **6-Aug** (T-1)
+- **6-Aug ยัง root complete แต่ผลโม่ (CAG/%Recovery) ยัง placeholder ทุกโรงงาน** (เหมือนตอนส่งอีเมล 16:22)
+  * TN 624t@3.78/23.58% rec100.0%/CAG16.03=CBG→null · TKT 828t@3.93/21.50% recTotal=Nat=CF=95.0%(forecast)/CAG19.24→null · PM 573t@3.77/21.29% rec100.0%/CAG17.71=CBG→null · TDC 278t@3.97/22.49% rec100.0%/CAG17.65=CBG→null · MS ไม่ซื้อ
+  * รวม incl TDC 2,303,274 kg=2,303t (ตรงไฟล์✓) · excl TDC 2,024,948 kg=2,025t @3.84 (✓) · wavg incl 3.85
+- **พบ revision ย้อนหลัง 1 จุด (verify ผ่าน CBG/rec ทุกค่า):** TDC 4-Aug เดิม CAG 18.09/rec 97.0% → ไฟล์ปัจจุบัน **CAG 18.20/rec 96.4%** (CBG 17.55 ÷ 96.4% = 18.21≈18.20 ✓)
+  → อัปเดต root-price-history.csv (backup .bak11) + dashboard (แก้ TDC cag[27]/recov[27] + refresh date 7-Aug) · verify_artifact ไม่มี error · 1–3,5,6-Aug ทุกค่าตรง CSV เดิม ไม่มี revision อื่น
+- **TWIC:** อีเมลล่าสุดยัง "Aug, 05 2026" (put.p ส่ง 6-Aug 10:20) · **ยังไม่มีอีเมล 6-Aug** → twic_latest = 5-Aug (อยู่ใน CSV แล้ว)
+- **CAG alert (step D):** เวลา 17:07 เลย 12:00 แล้ว · 6-Aug root ครบแต่ CAG ขาด 4 โรงงาน · **cag_alert_date = 2026-08-06 อยู่แล้ว (แจ้ง Por ไป 12:07)** → ไม่แจ้งซ้ำ
+- **Email (rule E):** thai_root_date(6-Aug) = thai_last_sent(6-Aug) → ไม่มีวันไทยใหม่ · twic_latest(5-Aug) = twic_last_sent(5-Aug) → ไม่มี TWIC ใหม่ ⇒ **หยุดเงียบ ถูกต้อง ไม่ส่งอีเมล**
+- STATE คงเดิม: thai_last_sent=2026-08-06 · twic_last_sent=2026-08-05 · cag_alert=2026-08-06
+- **รอบถัดไป:** ถ้าผลโม่ 6-Aug ลงครบ → ข้อมูลจะครบสมบูรณ์ (อีเมล 6-Aug ส่งไปแล้วพร้อม note รอผลโม่ จึงไม่ต้องส่งซ้ำเพราะ CAG มาทีหลัง) · ถ้า TWIC 6-Aug เข้ามา → ส่งรอบ "(TWIC updated)"
+
+---
+## รอบ 7-Aug-2026 (scheduled run เย็น 18:07) — ผลโม่ TKT 6-Aug ลงแล้ว · อัปเดต CSV+dashboard · ไม่ส่งอีเมล
+- ไฟล์ไทย 08_Aug 2026 (แก้ไขล่าสุด 7-Aug 17:38 — ใหม่กว่ารอบ 17:07 ที่ mod 16:43) : reporting date = **6-Aug** (T-1)
+- **พบข้อมูลใหม่ 1 จุด (revision — verify ผ่าน CBG/rec):** TKT 6-Aug ผลโม่ลงแล้ว → %Recovery Total **101.3%** (Native 102.2 / CF 99.4) · CAG **18.04**
+  * verify: CBG = 3.93 ÷ 21.50% = 18.28 · CAG = 18.28 ÷ 101.3% = 18.04 ✓ (ไม่ใช่ placeholder — rec ≠ 100.0% และ CAG ≠ CBG)
+  * อัปเดต root-price-history.csv (backup .bak12) แถว 2026-08-06 TKT: เพิ่ม cag 18.04 / rec 101.3 · อัปเดต dashboard (TKT cag[29]/recov[29], badge TKT → ครบ, caveat/KPI/total-row note) · verify_artifact reload 18:15 ไม่มี error
+- **6-Aug ยังไม่ครบสมบูรณ์:** TN / PM / TDC ยัง placeholder (rec 100.0% + CAG=CBG) → คง null · MS ไม่ซื้อ · ตอนนี้ 1/4 โรงงานที่ซื้อมีผลโม่ (TKT)
+- **ตรวจ revision ย้อนหลัง 1–5 Aug: ทุกค่าตรงกับ CSV เดิม ไม่มี revision อื่น** (5-Aug TN/TKT ยัง placeholder เหมือนเดิม)
+- **TWIC:** อีเมลล่าสุดยัง "Aug, 05 2026" (put.p ส่ง 6-Aug 10:20) · **ยังไม่มีอีเมล 6-Aug** → twic_latest = 5-Aug (อยู่ใน CSV แล้ว)
+- **CAG alert (step D):** 18:07 เลย 12:00 · cag_alert_date = 2026-08-06 อยู่แล้ว (แจ้ง Por 12:07) → ไม่แจ้งซ้ำ
+- **Email (rule E):** thai_root_date(6-Aug) = thai_last_sent(6-Aug) → ไม่มีวันไทยใหม่ · twic_latest(5-Aug) = twic_last_sent(5-Aug) → ไม่มี TWIC ใหม่ · อีเมล 6-Aug ส่งไปแล้ว (16:22) พร้อม note รอผลโม่ → CAG TKT มาทีหลังไม่ต้องส่งซ้ำ ⇒ **หยุดเงียบ ถูกต้อง ไม่ส่งอีเมล**
+- STATE คงเดิม: thai_last_sent=2026-08-06 · twic_last_sent=2026-08-05 · cag_alert=2026-08-06
+- **รอบถัดไป:** ถ้าผลโม่ TN/PM/TDC 6-Aug ลงครบ → ข้อมูล 6-Aug ครบสมบูรณ์ (ไม่ต้องส่งซ้ำ) · ถ้า TWIC 6-Aug เข้ามา → ส่งรอบ "(TWIC updated)"
