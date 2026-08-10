@@ -108,3 +108,15 @@ _(ยังไม่มี entry — จะเพิ่มหลังจบง�
 - **วิธีที่ได้ผล:** `sharepoint_search(query="Daily root purchased report", folderName="2026 Daily root report")` → เจอ "08_Aug 2026.xlsx" ที่ top-level ทันที
 - read_resource ของไฟล์นี้เป็นแบบ **"Workbook: 16 worksheets" tab-separated** (5,067 บรรทัด เกิน token) → ระบบ save เป็น .txt ใน `.claude/projects/.../tool-results/` (อยู่ใน mnt ที่ bash เข้าถึงได้ผ่าน /sessions/*/mnt/.claude/projects/...) → parse ด้วย python: sheet "Aug" แถว header ที่ col A="Date", data rows 1-Aug..31-Aug, block ต่อโรงงาน = TN(cap850,16คอล) TKT(cap550,มี Recovery Total/Native/CF, 20คอล) PM(cap750) MS(cap700) TDC(cap400)
 - **ระวัง bash timeout:** `find /` แบบ wildcard กว้างๆ + grep tabs บนไฟล์บรรทัดยาว → ค้าง 120s ให้ระบุ path ตรงหรือ scope find ให้แคบ
+
+## Lesson 10-Aug-2026 (run 10:12) — TWIC ส่งช้ากว่าปกติ + TKT recovery > 110% เป็นค่าจริง
+- **TWIC 9-Aug เข้ามา 09:55** (put.p) — ช้ากว่ากรอบปกติ 10:20-10:40 เล็กน้อย · รอบเช้า 09:17/09:44 ยังไม่มี ต้องเช็คซ้ำรอบสาย
+- **TKT 9-Aug %Recovery Total = 114.7% (Native 111.2 / CF 122.6)** — ค่าเกิน 100% เยอะ แต่ **เป็นค่าจริง** เพราะ Total/Native/CF ต่างกันหมด (ตาม A0 TKT exception) ไม่ใช่ placeholder → บันทึกเป็นผลโม่จริง (CAG 16.16 ต่ำเพราะ recovery สูง)
+- ย้ำ: อย่าเห็น recovery > 100% แล้วเข้าใจผิดว่าผิดพลาด — โรงงานมี carry-over stock ทำให้ผลผลิตแป้ง/ปริมาณโม่ในวันนั้นสูงกว่าปริมาณซื้อได้ (สังเกตได้จาก CAG < CBG)
+- routine: 2 จุดข้อมูลใหม่ (TKT ผลโม่ + TWIC 9-Aug) verify ผ่าน identity ทั้งคู่ · dashboard ต้องเขียนไฟล์ใหม่ลง outputs เสมอ (index.html read-only) แล้ว update_artifact
+
+## Lesson 10-Aug-2026 (รอบ 11:15) — root-price-history.csv เป็น CRLF: sed `$` anchor ไม่ match
+- อาการ: `sed -i 's/^...,,$/.../' ` ไม่แก้แถว PM 9-Aug เลย (grep ยังเห็นค่าเดิม) — เพราะไฟล์ลงท้ายบรรทัดด้วย `\r\n` (CRLF) ตัว `$` จึงไปติดหน้า `\r` ไม่ตรง pattern
+- ยืนยันด้วย `grep ... | cat -A` เห็น `^M$` ท้ายบรรทัด
+- **วิธีที่ได้ผล:** แก้ด้วย line number + เติม `\r` กลับเอง: `sed -i '178s/.*/<new line>\r/' file` แล้ว verify ด้วย `cat -A` ว่ายังมี `^M$` ครบ
+- routine round: PM 9-Aug ผลโม่ลง (rec 96.3/CAG 19.00) → 3/4 · ยังไม่ส่งอีเมล (ก่อน 13:00, ขาด TDC) · ทุกอย่างเป็นไปตาม SKILL ไม่มี anomaly อื่น

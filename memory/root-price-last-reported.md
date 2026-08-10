@@ -48,6 +48,32 @@ drag&drop ด้วย DragEvent จะถูก OWA **auto-upload ขึ้น 
 **ข้อควรระวังอื่น:** ถ้า reload draft แล้วรูปกราฟจะกลายเป็น cid/blob (ไม่ใช่ data:) → ถ้าไป filter ลบ non-data img จะลบกราฟทิ้ง
   ✅ วิธีลบลิงก์ที่ปลอดภัย (ไม่โดนกราฟ): ลบเฉพาะ `<a>` ที่ text มี .html และลบ `<img>` ที่ **width < 50** (ไอคอนไฟล์) เท่านั้น — กราฟกว้าง 920/552 จึงรอด
 
+### 🔴 บทเรียน 7-Aug — **กราฟหายจากอีเมลที่ส่งไปแล้ว** (ต้องไม่เกิดซ้ำ)
+อีเมล 7-Aug 20:06 ส่งออกไปโดย **ไม่มีกราฟเลย** — ใน body มีแต่ `<div style="margin:14px 0px"></div>` ว่าง 6 อัน
+(รูปถูกอัปเป็น inline attachment 6 ไฟล์จริง แต่ `<img>` ถูกตัดทิ้งตอน serialize)
+**สาเหตุ:** หลังใส่กราฟ (data: URL) แล้วไปทำอย่างอื่นต่อ (แก้ body / ลบลิงก์ / เปิด picker / draft autosave)
+Outlook แปลง `data:` → `blob:` แล้วตอนส่งแปลง blob → cid ไม่สำเร็จ จึงตัด `<img>` ทิ้ง
+**กฎบังคับ (ลำดับการประกอบอีเมล — ห้ามสลับ):**
+1. ผู้รับ → 2. Subject → 3. **Body + ตาราง** → 4. **ลิงก์ dashboard** (drop ไฟล์ + ย้ายลิงก์เข้าที่ + แก้ข้อความ)
+5. **กราฟ 6 รูป (ขั้นตอนสุดท้ายเสมอ)** → 6. **ตรวจ `img` ทุกตัวยังเป็น `data:` แล้วกด Send ทันที**
+**ห้าม** แก้ body / เปิด attach picker / ปล่อยให้ draft autosave หลังใส่กราฟ · ถ้าเผลอทำ ให้ **ลบกราฟทิ้งแล้วใส่ใหม่**
+**ตรวจหลังส่งทุกครั้ง:** `read_resource` อีเมลใน Sent Items แล้วเช็คว่า body มี `<img` ครบ 6 (ไม่ใช่ div ว่าง)
+
+### 📌 Por สั่ง 10-Aug-2026
+- **ตารางในอีเมลโชว์เฉพาะ reporting date ล่าสุดวันเดียว** (ไม่ต้องรวมย้อนหลังหลายวัน) — กราฟ 30 วันครอบคลุมอยู่แล้ว
+- **ถ้า %Recovery ยังไม่ครบ ให้รอถึง 13:00 ก่อนค่อยส่ง** (ตรงกับกฎ E เดิม — Por ย้ำอีกครั้ง)
+
+### ✅✅ วิธีส่ง dashboard ให้ทีม — **Por ตัดสินใจแล้ว: ใช้ "ลิงก์" ไม่ใช่ไฟล์แนบ** (7-Aug-2026)
+Por: "เป็นลิ้งก็ได้ค่ะ" → **เลิกพยายามแนบไฟล์ ให้ใส่ลิงก์ในเนื้ออีเมลแทน ตั้งแต่รอบต่อไป**
+**วิธีทำ (ง่ายมาก — คือพฤติกรรม default ของ OWA อยู่แล้ว):**
+1. วางเคอร์เซอร์ท้าย body: `const r=document.createRange(); r.selectNodeContents(b); r.collapse(false); getSelection().removeAllRanges(); getSelection().addRange(r);`
+2. drop ไฟล์ด้วย DragEvent (โค้ดเดิม) → OWA อัปขึ้น OneDrive แล้ว **แทรกลิงก์ให้อัตโนมัติ** พร้อมสิทธิ์เข้าถึงของผู้รับ
+3. รอ ~6 วินาที แล้วแก้ข้อความลิงก์ให้สวย: `a.textContent='Daily root dashboard – {D Month YYYY} (open in browser)'`
+   (ชื่อไฟล์ที่ OWA ตั้งจะมีเลขต่อท้าย เช่น "... 4.html" ต้องเปลี่ยนข้อความทุกครั้ง)
+4. ตรวจ `new URL(a.href).host === '365thaiwah-my.sharepoint.com'` แล้วส่งได้เลย
+**ข้อดี:** ไม่ต้องรอ index · เปิดจากมือถือได้ · ไม่มีปัญหาไฟล์แนบใหญ่ · ผู้รับในองค์กรเปิดได้ทุกคน
+**ตัวอย่างที่ส่งจริง:** 7-Aug `Daily root dashboard - 6 August 2026 (interactive dashboard link)` → ผู้รับ 7 คน ✓
+
 ### 🧪 สรุปผลทดสอบ `file_upload` (ปิดเคสแล้ว 7-Aug-2026)
 **`file_upload` พังกับ "ไฟล์ที่มีอยู่จริง" ทุกกรณี — ไม่เกี่ยวกับความยาว/รูปแบบ path**
 - path ที่ชี้ไปไฟล์ **ไม่มีจริง** → ผ่าน validation (ได้ error เรื่องสิทธิ์แทน) เช่น `C:/Users/test/a - b.png`, `C:/Users/.../lovely/t.png` (65 ตัวอักษร)
@@ -405,3 +431,77 @@ Por ทักว่าตัวเลข TKT/TDC วันที่ 3-Aug "ม�
 - **Email (rule E):** thai_root_date(6-Aug) = thai_last_sent(6-Aug) → ไม่มีวันไทยใหม่ · twic_latest(5-Aug) = twic_last_sent(5-Aug) → ไม่มี TWIC ใหม่ · อีเมล 6-Aug ส่งไปแล้ว (16:22) พร้อม note รอผลโม่ → CAG TKT มาทีหลังไม่ต้องส่งซ้ำ ⇒ **หยุดเงียบ ถูกต้อง ไม่ส่งอีเมล**
 - STATE คงเดิม: thai_last_sent=2026-08-06 · twic_last_sent=2026-08-05 · cag_alert=2026-08-06
 - **รอบถัดไป:** ถ้าผลโม่ TN/PM/TDC 6-Aug ลงครบ → ข้อมูล 6-Aug ครบสมบูรณ์ (ไม่ต้องส่งซ้ำ) · ถ้า TWIC 6-Aug เข้ามา → ส่งรอบ "(TWIC updated)"
+
+---
+## รอบ 10-Aug-2026 (scheduled run 09:17) — เติมข้อมูลสุดสัปดาห์ 7/8/9-Aug + ผลโม่ 6-Aug ครบ · อัปเดต CSV+dashboard · ยังไม่ส่งอีเมล
+- ไฟล์ไทย "Daily root purchased report - 08_Aug 2026.xlsx" มีข้อมูลถึง **9-Aug** (T-1) · reporting date = 9-Aug
+- **6-Aug ครบสมบูรณ์แล้ว** (revision ผลโม่ verify ผ่าน CBG/CAG ทุกค่า):
+  * TN null→ rec 87.3% / CAG 18.36 · PM 100.0%/17.71(placeholder เดิม)→ rec 95.8% / CAG 18.49 · TDC null→ rec 101.4% / CAG 17.42 · TKT คงเดิม 101.3%/18.04
+- **7-Aug (ใหม่) ครบสมบูรณ์ทุกโรงงาน:** TN 741t@3.74/22.48%/CAG17.34(rec96.0) · TKT 639t@3.92/21.17%/CAG18.27(rec101.4) · PM 746t@3.74/20.69%/CAG18.48(rec97.8) · TDC 314t@3.81/21.32%/CAG18.31(rec97.6) · MS ไม่ซื้อ · รวม 2,440t @3.80
+- **8-Aug (ใหม่):** TN 615t@3.80/23.54%/CAG17.34(rec93.1) · TKT 921t@3.93/21.25%/CAG18.44(rec100.3) · PM 784t@3.78/20.50%/CAG19.54(rec94.4) real · **TDC 327t@3.91/22.54% รอผลโม่** (rec 100.0% placeholder → null) · MS ไม่ซื้อ · รวม 2,647t @3.85
+- **9-Aug (ใหม่, T-1, อาทิตย์):** root ครบทุกโรงงานที่ซื้อ แต่ **ผลโม่ยังไม่ลงสักโรงงาน** (TN/PM/TDC rec100.0%+CAG=CBG, TKT rec Total=Native=CF=95.0% forecast → null ทั้งหมด) · TN 638t@3.78/23.20% · TKT 675t@3.93/21.21% · PM 522t@3.78/20.65% · TDC 305t@3.95/22.64% · MS ไม่ซื้อ · รวม 2,140t @3.85
+- **TWIC (อีเมล put.p):** ได้รายงาน "on Aug 07" (ส่ง 8-Aug) และ "on Aug 08" (ส่ง 9-Aug) · ตาราง cumulative ในรูป image001 มีครบ 6,7,8-Aug:
+  * 6-Aug 518t@3.17/17.16%/CAG17.11(rec108.08) · 7-Aug 544t@3.10/16.35%/CAG18.02(rec105.19) · 8-Aug 510t@3.11/17.30%/CAG16.48(rec109.20) — verify ผ่าน CBG/rec ทุกค่า
+  * **ไม่มีอีเมล "on Aug 06"** (6-Aug ไม่ได้ส่งแยก แต่อยู่ในตาราง cumulative) · **ยังไม่มีรายงาน 9-Aug** → TWIC 9-Aug = แถวเปล่า (volume ว่าง) · MTD TWIC purchased 2,662t ตรง (87+297+239+467+518+544+510)
+- **CSV:** backup .bak13 · แก้ 5-Aug TKT (placeholder 18.39/100.0 → null) · อัปเดต 6-Aug (TN/PM/TDC/TWIC) · เพิ่ม 7/8/9-Aug · rolling 30 วัน = 2026-07-11..2026-08-09 (ตัด 07-08/09/10 ออก) · cross-check E2 ผ่าน 0 mismatch
+- **Dashboard:** อัปเดต artifact (header→9-Aug, KPI 2,140t/3.85/รอผลโม่/4โรง, ตาราง 9-Aug, TWIC 8-Aug, external PM เพิ่มจุด 3-Aug 3.95, trend 11-Jul..9-Aug) · verify_artifact load 02:13Z ไม่มี error
+- **CAG alert (step D):** เวลา 09:17 ยังไม่ถึง 12:00 → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-06
+- **Email (rule E):** thai_root_date(9-Aug) > thai_last_sent(6-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG 9-Aug ยังไม่ครบ (0/4 โรงงาน) และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอผลโม่/รอ 13:00)** · STATE คงเดิม
+- **STATE:** thai_last_sent_date=**2026-08-06** · twic_last_sent_date=**2026-08-05** · cag_alert_date=**2026-08-06** (ทั้งหมดคงเดิม — ไม่ได้ส่งอีเมล)
+- **รอบถัดไป:** ถ้าผลโม่ 9-Aug ลงครบ → ส่งอีเมล 9-Aug ได้ทันที (รวม TWIC ถึง 8-Aug) · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" ทุกโรงงาน · ถ้าเลย 12:00 ยังไม่ครบ → step D แจ้ง Por (set cag_alert_date=2026-08-09) · ถ้า TWIC 9-Aug เข้ามา จะรวมในอีเมลรอบที่ส่ง
+
+### 🔑 บทเรียน 10-Aug-2026 — วิธีหาไฟล์เดือนปัจจุบันเมื่อ SharePoint search index ตามไม่ทัน
+- อาการ: `sharepoint_search` (ทั้ง query ธรรมดา, fileType=xlsx, folderName filter, afterDateTime) **หาไฟล์เดือนปัจจุบัน "08_Aug 2026.xlsx" ไม่เจอเลย** (เจอแต่ไฟล์เดือนเก่าใน report/Backup) — index lag ของไฟล์ที่เพิ่งแก้
+- `sharepoint_folder_search "2026 Daily root report"` คืนแค่ **โฟลเดอร์ลูก** (KPI/PPT/report/Backup) ไม่คืนตัวไฟล์ระดับบนสุด
+- **วิธีที่ได้ผล 100%:** ใช้ read_resource แบบ **path-based URI** บน driveId ของ site: 
+  `file:///b!M-GbdTwFgU2VcdjKK8ac3TenySK2qXlCiF4iMdOaBid8qWThmL8QQaczJWXd_EOO/root:/General/2026 Daily root report:`
+  → คืนรายการไฟล์จริงในโฟลเดอร์รวมถึงไฟล์เดือนปัจจุบัน พร้อม itemId ที่เอาไปอ่านต่อได้ · (driveId ของ TWPCROOTSOURCINGTEAM ตัวนี้ใช้ซ้ำได้)
+- **สังเกตไฟล์:** column offset ยืนยันตรง SKILL (TN=1-16, TKT=17-36 มี Native/CF, PM=37-52, MS=53-68, TDC=69-84) · **แต่คอลัมน์สรุปท้ายแถว (col103 total) formula เพี้ยน** — 5,6-Aug = purchased, แต่ 7/8/9-Aug = total supply (stock+purchased) → **อย่าใช้ col103 ตรวจยอด ให้บวกปริมาณรายโรงเอง**
+- **artifact index.html เป็น read-only** ในเซสชันนี้ (แก้ในที่ไม่ได้) → ต้องเขียนไฟล์ใหม่ลง outputs (Windows path เต็ม) แล้วส่ง html_path เข้า update_artifact
+
+---
+## รอบ 10-Aug-2026 (scheduled run 09:44) — ผลโม่ TN 9-Aug ลงแล้ว · อัปเดต CSV+dashboard · ยังไม่ถึงคิวส่งอีเมล
+- รันห่างจากรอบ 09:17 แค่ ~27 นาที · ตรวจไฟล์ไทย "08_Aug 2026.xlsx" ซ้ำ (read_resource path-based URI, save .txt อ่านด้วย bash)
+- **ข้อมูลใหม่ 1 จุด (revision — verify ผ่าน CBG/CAG):** TN 9-Aug ผลโม่ลงแล้ว → %Recovery **97.6%** · CAG **16.69** (เดิมรอบ 09:17 เป็น placeholder rec100.0%/CAG=CBG → null)
+  * verify: CBG = 3.78 ÷ 23.20% = 16.29 · CAG = 16.29 ÷ 97.6% = 16.69 ✓ (ไม่ใช่ placeholder — rec ≠ 100.0%, CAG ≠ CBG, consumption 1,028 มีค่า)
+  * อัปเดต root-price-history.csv (backup .bak14) แถว 2026-08-09 TN: cag 16.69 / rec 97.6 · อัปเดต dashboard (TN cag[29]/recov[29]=9-Aug, badge TN→ครบ, KPI/caveat/total-row note = 1/4 โรงงานมีผลโม่) · verify_artifact reload 02:36Z ไม่มี error
+- **9-Aug ยังไม่ครบสมบูรณ์ (1/4):** TN ครบ · TKT rec Total=Native=CF=95.0% (forecast) → null · PM rec 100.0%+CAG=CBG → null · TDC rec 100.0%+CAG=CBG → null · MS ไม่ซื้อ
+  * ยอด 5 โรงไทย 9-Aug = TN 638 + TKT 675 + PM 522 + TDC 305 = 2,140t @ 3.85 (excl MS) — บวกรายโรงเอง (col103 formula เพี้ยนสำหรับ 7/8/9-Aug ตามบทเรียน)
+- **ตรวจ revision ย้อนหลัง 6/7/8-Aug: ทุกค่าตรงกับ CSV เดิม ไม่มี revision อื่น** (8-Aug TDC ยัง placeholder rec100.0%/CAG=CBG → null เหมือนเดิม)
+- **TWIC:** อีเมลล่าสุดยัง "on Aug, 08 2026" (put.p ส่ง 9-Aug 04:07Z) · **ยังไม่มีอีเมล 9-Aug** → twic_latest = 8-Aug (อยู่ใน CSV แล้ว) ไม่มีของใหม่
+- **CAG alert (step D):** เวลา 09:44 ยังไม่ถึง 12:00 → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-06
+- **Email (rule E):** thai_root_date(9-Aug) > thai_last_sent(6-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG 9-Aug ยังไม่ครบ (1/4 มีแค่ TN) และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอผลโม่ TKT/PM/TDC หรือรอ 13:00)** · STATE คงเดิม
+- **STATE:** thai_last_sent_date=**2026-08-06** · twic_last_sent_date=**2026-08-05** · cag_alert_date=**2026-08-06** (ทั้งหมดคงเดิม — ไม่ได้ส่งอีเมล)
+- **รอบถัดไป:** ถ้าผลโม่ TKT/PM/TDC 9-Aug ลงครบ → ส่งอีเมล 9-Aug ทันที (รวม TWIC ถึง 8-Aug, อัปเดตทั้ง thai+twic last_sent) · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" โรงที่ขาด · ถ้าเลย 12:00 ยังไม่ครบ → step D แจ้ง Por (set cag_alert_date=2026-08-09)
+
+---
+## รอบ 10-Aug-2026 (scheduled run 10:12) — ผลโม่ TKT 9-Aug + TWIC 9-Aug เข้ามา · อัปเดต CSV+dashboard · ยังไม่ถึงคิวส่งอีเมล (2/4 โรงงาน, ก่อน 13:00)
+- อ่านไฟล์ไทย "Daily root purchased report - 08_Aug 2026.xlsx" ใหม่ (read_resource path-based URI, save .txt อ่านด้วย bash) · reporting date = **9-Aug** (T-1)
+- **ข้อมูลใหม่ 2 จุด (verify ผ่าน CBG/CAG ทุกค่า):**
+  1. **TKT 9-Aug ผลโม่ลงแล้ว** → %Recovery Total **114.7%** (Native 111.2 / CF 122.6 — ต่างกันหมด = ค่าจริง ตาม A0 TKT exception) · CAG **16.16**
+     verify: CBG = 3.93 ÷ 21.21% = 18.53 · CAG = 18.53 ÷ 114.7% = 16.16 ✓ (rec ≠ 100.0%, CAG ≠ CBG)
+  2. **TWIC 9-Aug เข้ามาแล้ว** (put.p ส่ง 10-Aug 09:55 น. "on Aug, 09 2026") → 595t @ 3.18 / 17.30% starch / CAG **17.13** / rec **107.22%**
+     verify: CBG = 3.18 ÷ 17.30% = 18.38 · CAG = 18.38 ÷ 107.22% = 17.13 ✓ · MTD purchased 3,257t reconcile (87+297+239+467+518+544+510+595 ✓)
+- **9-Aug ตอนนี้ 2/4 โรงงานมีผลโม่:** TN ✓ (16.69/97.6) · TKT ✓ (16.16/114.7) · PM รอ (rec 100.0%+CAG=CBG → null) · TDC รอ (rec 100.0%+CAG=CBG → null) · MS ไม่ซื้อ · ยอด 5 โรงไทย = 2,140t @ 3.85
+- **ตรวจ revision ย้อนหลัง 6/7/8-Aug: ทุกค่าตรงกับ CSV เดิม ไม่มี revision อื่น** (8-Aug TDC ยัง placeholder rec100.0%/CAG=CBG → null เหมือนเดิม)
+- **CSV:** backup .bak15 · อัปเดต 2 แถว (2026-08-09 TKT: cag 16.16/rec 114.7 · 2026-08-09 TWIC: 3.18/595/17.30/17.13/107.22) · E2 cross-check ผ่าน (mismatch เดียว = 30-Jul TKT rec 28.3% ค่าประวัติเดิม เพี้ยน 0.12 จาก rounding ไม่ได้แตะรอบนี้)
+- **Dashboard:** เขียนไฟล์ใหม่ลง outputs (artifact index.html read-only) → update_artifact · header (TWIC ส่งถึง 9-Aug), KPI (2/4 TN,TKT), caveat, ตาราง TKT→ครบ/TWIC→9-Aug, กราฟ TKT cag[29]/recov[29]=16.16/114.7 + TWIC 9-Aug จุดใหม่ · verify_artifact ไม่มี error
+- **CAG alert (step D):** เวลา 10:12 ยังไม่ถึง 12:00 → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-06
+- **Email (rule E):** thai_root_date(9-Aug) > thai_last_sent(6-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG 9-Aug ยังไม่ครบ (2/4, ขาด PM/TDC) และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอผลโม่ PM/TDC หรือรอ 13:00)** · TWIC 9-Aug จะถูกรวมในอีเมลรอบที่ส่ง 9-Aug (ไม่ส่งรอบ TWIC แยกเพราะยังไม่เคยส่ง 9-Aug) · STATE คงเดิม
+- **STATE:** thai_last_sent_date=**2026-08-06** · twic_last_sent_date=**2026-08-05** · cag_alert_date=**2026-08-06** (ทั้งหมดคงเดิม — ไม่ได้ส่งอีเมล)
+- **รอบถัดไป:** ถ้าผลโม่ PM/TDC 9-Aug ลงครบ → ส่งอีเมล 9-Aug ทันที (รวม TWIC 9-Aug, อัปเดตทั้ง thai+twic last_sent = 2026-08-09) · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" โรงที่ขาด (PM/TDC) · ถ้าเลย 12:00 ยังไม่ครบ → step D แจ้ง Por (set cag_alert_date=2026-08-09)
+
+---
+## รอบ 10-Aug-2026 (scheduled run 11:15) — ผลโม่ PM 9-Aug ลงแล้ว · อัปเดต CSV+dashboard · ยังไม่ถึงคิวส่งอีเมล (3/4 โรงงาน, ก่อน 13:00)
+- อ่านไฟล์ไทย "Daily root purchased report - 08_Aug 2026.xlsx" ใหม่ (read_resource path-based URI) · reporting date = **9-Aug** (T-1) · แถว 10-Aug ในไฟล์มีแต่ stock (ยังไม่มี purchased volume) → reporting date คง 9-Aug
+- **ข้อมูลใหม่ 1 จุด (verify ผ่าน CBG/CAG):** **PM 9-Aug ผลโม่ลงแล้ว** → %Recovery **96.3%** · CAG **19.00** (เดิมรอบ 10:12 เป็น placeholder rec100.0%/CAG=CBG → null)
+  * verify: CBG = 3.78 ÷ 20.65% = 18.31 · CAG = 18.31 ÷ 96.3% = 19.01 ≈ 19.00 ✓ (rec ≠ 100.0%, CAG ≠ CBG, consumption 738 มีค่า — ค่าจริง)
+  * อัปเดต root-price-history.csv (backup .bak16) แถว 2026-08-09 PM: cag 19.00 / rec 96.3 · E2 cross-check 105 rows, 0 mismatch
+- **9-Aug ตอนนี้ 3/4 โรงงานมีผลโม่:** TN ✓ (16.69/97.6) · TKT ✓ (16.16/114.7) · PM ✓ (19.00/96.3) · TDC รอ (rec 100.0%+CAG=CBG 17.45 → null) · MS ไม่ซื้อ · ยอด 5 โรงไทย = 2,140t @ 3.85
+- **ตรวจ revision ย้อนหลัง 6/7/8-Aug: ทุกค่าตรงกับ CSV เดิม ไม่มี revision อื่น** (8-Aug TDC ยัง placeholder rec100.0%/CAG=CBG → null เหมือนเดิม)
+- **TWIC:** อีเมลล่าสุด "on Aug, 09 2026" (put.p ส่ง 10-Aug 09:54 น. = 02:54Z) — เป็นตัวเดียวกับที่รับมาแล้วรอบ 10:12 (595t อยู่ใน CSV) · **ไม่มีอีเมล 10-Aug** → twic_latest = 9-Aug (ใน CSV แล้ว) ไม่มีของใหม่
+- **Dashboard:** เขียนไฟล์ใหม่ลง outputs (artifact index.html read-only) → update_artifact · PM cag[29]/recov[29]=19.00/96.3, PM row → ครบ, KPI 2/4→3/4 (TN,TKT,PM), caveat, total-row note = รอ TDC · verify_artifact reload 04:08Z ไม่มี error
+- **CAG alert (step D):** เวลา 11:15 ยังไม่ถึง 12:00 → ไม่แจ้ง · cag_alert_date คงเดิม 2026-08-06
+- **Email (rule E):** thai_root_date(9-Aug) > thai_last_sent(6-Aug) = มีวันใหม่ต้องส่ง **แต่ CAG 9-Aug ยังไม่ครบ (3/4, ขาด TDC) และยังไม่ถึง 13:00** → **ยังไม่ส่ง (รอผลโม่ TDC หรือรอ 13:00)** · TWIC 9-Aug จะถูกรวมในอีเมลรอบที่ส่ง 9-Aug · STATE คงเดิม
+- **STATE:** thai_last_sent_date=**2026-08-06** · twic_last_sent_date=**2026-08-05** · cag_alert_date=**2026-08-06** (ทั้งหมดคงเดิม — ไม่ได้ส่งอีเมล)
+- **รอบถัดไป:** ถ้าผลโม่ TDC 9-Aug ลงครบ → ส่งอีเมล 9-Aug ทันที (รวม TWIC 9-Aug, อัปเดตทั้ง thai+twic last_sent = 2026-08-09) · ถ้าเลย 13:00 ยังไม่ครบ → ส่งได้เลยพร้อม note "รอผลโม่" TDC · ถ้าเลย 12:00 ยังไม่ครบ → step D แจ้ง Por (set cag_alert_date=2026-08-09)
