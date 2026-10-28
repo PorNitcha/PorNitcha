@@ -120,3 +120,53 @@ _(ยังไม่มี entry — จะเพิ่มหลังจบง�
 - ยืนยันด้วย `grep ... | cat -A` เห็น `^M$` ท้ายบรรทัด
 - **วิธีที่ได้ผล:** แก้ด้วย line number + เติม `\r` กลับเอง: `sed -i '178s/.*/<new line>\r/' file` แล้ว verify ด้วย `cat -A` ว่ายังมี `^M$` ครบ
 - routine round: PM 9-Aug ผลโม่ลง (rec 96.3/CAG 19.00) → 3/4 · ยังไม่ส่งอีเมล (ก่อน 13:00, ขาด TDC) · ทุกอย่างเป็นไปตาม SKILL ไม่มี anomaly อื่น
+
+---
+### 📓 Lesson Learned 10-Aug-2026 (run 16:07) — เบราว์เซอร์หลุดตอนถึงคิวส่งจริง + dashboard stale จาก partial run
+- **สถานการณ์:** run ก่อนหน้า ~16:00 อัปเดต CSV (เติมผลโม่ TDC 8/9-Aug) แต่ **ไม่ได้เขียน log / ไม่ได้ส่งอีเมล / dashboard อัปเดตไม่ครบ** (KPI ยัง 3/4 แต่ arrays TDC ยัง null,null — ขัดแย้งกันเอง) → เป็น partial run ที่ค้าง
+  * **บทเรียน:** อย่าเชื่อว่า CSV = dashboard sync กันเสมอ · ทุกรอบต้อง verify file↔CSV (E2) และเช็ค dashboard ว่าตรงกับ CSV จริง โดยเฉพาะเมื่อ backup timestamp ล่าสุดไม่มี log คู่กัน
+- **การ verify ที่ได้ผล:** สคริปต์ python เทียบ file↔CSV ต้องระวัง **awk 1-based vs python 0-based** — รอบแรกใช้ index ผิด (ไม่ลบ 1) เจอ 104 mismatch หลอกๆ (คอลัมน์เลื่อน 1 ช่อง) · แก้เป็น idx=col-1 → 0 mismatch · **เตือนตัวเอง: field index ใน python ต้อง −1 จากเลขคอลัมน์ที่นับแบบ awk**
+- **เบราว์เซอร์หลุดตอนถึงคิวส่ง:** 9-Aug ครบ 4/4 + เลย 13:00 = เข้าเงื่อนไขส่งเต็มที่ แต่ `list_connected_browsers`=[] (ลองซ้ำ 2 ครั้งหลังรอ) → ทำตามกฎเป๊ะ: **ไม่ส่ง, ไม่แก้ last_sent_date, แจ้ง Por ในสรุป** (เหมือนเคส 4-Aug ที่เบราว์เซอร์หลุด) — งานที่ไม่ต้องใช้เบราว์เซอร์ (verify CSV + fix dashboard + update artifact) ทำให้เสร็จก่อน เพื่อให้ "พร้อมส่งทันที" เมื่อเบราว์เซอร์กลับมา
+- **update_artifact จากไฟล์ dashboard ของ email:** ไฟล์ที่ใช้แนบอีเมล **ไม่มี** cowork-artifact-meta และใช้ chart.js tag แบบเปล่า · ก่อนส่งเข้า update_artifact ต้อง (1) แทรก meta block หลัง `<!DOCTYPE html>` (2) เปลี่ยน chart.js เป็น tag เต็มที่มี integrity+crossorigin ตามที่ tool บังคับ · เขียนลง outputs (ระวังพิมพ์ session-id path ผิด — เคยพลาด ENOENT) แล้ว verify_artifact
+
+### Lesson Learned — 13-Aug-2026 (run 15:07)
+- ไฟล์ Thai xlsx lastModified ขยับ (14:51) แต่ diff จริงอยู่แค่ row live วันนี้ (13-Aug, ไม่ใช่ reporting date) → 10/11/12-Aug ตรง CSV เป๊ะ. บทเรียน: lastModified ใหม่ ≠ reporting data เปลี่ยนเสมอ ต้อง diff field-by-field ก่อนตัดสินใจแตะ CSV. รอบนี้ถูกต้องที่ไม่ backup/ไม่แก้ CSV.
+- อีเมล 12-Aug ยัง DUE (เลย 13:00, มีวันค้างตั้งแต่ 9-Aug) แต่ autonomous run คง HOLD ตาม policy เดิม (chart-strip 7-Aug + ผู้รับ 7 คน). GAP สะสม 5 วัน — ต้องให้ Por ส่ง attended พร้อม regen .eml (ตัวเดิม stale). ย้ำ: อย่า auto-advance thai_last_sent_date.
+
+### LL 13-Aug 17:06 (scheduled, autonomous)
+- ไม่มีข้อมูลใหม่: 12-Aug (reporting T-1) ตรง CSV เป๊ะ · 13-Aug ยัง live/forecast · TWIC ยัง Aug-12 → ไม่แตะ CSV/dashboard.
+- SharePoint search index ล้าหลัง (คืนแต่ไฟล์เก่า ไม่โชว์ 08_Aug) → workaround: read_resource ด้วย path URI `file:///{driveId}/root:/General/2026 Daily root report/Daily root purchased report - 08_Aug 2026.xlsx` (เกิน token → save .txt แล้ว awk ชีต Aug จากบรรทัด 2059).
+- อีเมล 12-Aug ยัง DUE แต่ HOLD ต่อ (autonomous ไม่มี Por, OWA ตัด inline chart) — คงกฎเดิมทั้งวัน · GAP ยังไม่ส่งจริงตั้งแต่ 9-Aug.
+
+### LL 13-Aug 18:06 (scheduled, autonomous) — รอบปิดวัน
+- ไม่มีข้อมูลใหม่ (รอบที่ 8 ของวัน): Thai xlsx lastModified 14:51:40 BKK คงเดิมเป๊ะ (ไม่ถูกแก้ตั้งแต่รอบ 15:07) · TWIC ยัง Aug-12 (put.p ไม่ส่งใหม่) → ไม่แตะ CSV/dashboard.
+- sharepoint_search รอบนี้ **หาไฟล์ 08_Aug เจอ** ด้วย query "Daily root purchased report 08_Aug 2026" + folderName "2026 Daily root report" + fileType xlsx (ก่อนหน้านี้รอบ 17:06 หาไม่เจอ) → index sync ไม่คงที่ ควรลอง query เจาะชื่อไฟล์ก่อน fallback path URI.
+- E2 verify ผ่าน (python จาก CSV): ไทยรวม 1,792t / avg 3.852 · TDC CAG 20.48 = CSV · TKT/PM CAG null รอผลโม่ · TWIC 16.38.
+- อีเมล 12-Aug ยัง DUE (18:06 > 13:00) แต่ HOLD ต่อ (autonomous, chart-strip risk) — **GAP สะสม 4 วันทำการตั้งแต่ 9-Aug** · ปิดวันแล้วยังไม่มีรอบ attended → ต้องเน้นย้ำให้ Por ส่งเอง. อย่า auto-advance thai_last_sent_date.
+
+### LL 14-Aug 08:18 (scheduled, autonomous) — ข้อมูลใหม่ 13-Aug + ผลโม่หลายวันลงพร้อมกันตอนเช้า
+- วันใหม่ (T-1=13-Aug): Thai xlsx lastModified 14-Aug 07:26 BKK → มี 13-Aug ครบ · sharepoint_search query "Daily root purchased report 08_Aug" เจอไฟล์ทันที (index sync วันนี้โอเค) · read_resource เกิน token → save .txt, `awk 'NR>=2059'` ชีต Aug.
+- **บทเรียนสำคัญ — sweep revision หลายวัน:** ผลโม่ลงย้อนหลัง **พร้อมกัน 3 จุด** ตอนเช้า: TN 11-Aug (rec 106.2/CAG 15.72), TKT 12-Aug (rec 111.2/CAG 16.63), PM 12-Aug (rec 95.4/CAG 19.12) — ทั้งหมดเดิม null. ⇒ อย่าเช็ค revision แค่ T-2; ต้องกวาด **ทุกวันที่ยัง CAG=null ใน CSV** (เทียบ recovery/CAG กับ file) ทุกเช้า.
+- TKT A0 exception ยืนยันใช้ได้: 12-Aug rec Total/Native/CF = 111.2/108.2/119.6 (ต่างกัน=จริง) → เก็บ Total 111.2 · ขณะที่ 13-Aug = 95/95/95 (เท่ากันลงตัว=forecast) → null. แยกได้ชัด.
+- **TDC default row:** 13-Aug TDC มี price 3.97 + starch 21.35% แต่ **purch vol ว่าง + TotalSupply=0** = ยังไม่ลงข้อมูลซื้อ/ไม่ซื้อ → เก็บ null ทั้งแถว (ห้ามเอา price default มาใส่). ตั้ง badge "ยังไม่ลงข้อมูล".
+- E2 ผ่านหมด (CBG=price÷starch, CAG=CBG÷rec, revisions reconcile). CSV backup .bak23, เลื่อน window 15-Jul→13-Aug. update_artifact สำเร็จ (regen จาก CSV, arrays ตรงของเดิมเป๊ะ + revisions).
+- **Email: ไม่ส่ง — ถูกต้องตามกฎ E** (08:18 < 13:00 **และ** CAG 13-Aug ไม่ครบ ทั้ง TN/TKT/PM รอผลโม่). ไม่ใช่การ HOLD เฉยๆ แต่เป็น "ยังไม่ถึงกำหนด" จริงๆ. GAP จริงตั้งแต่ 9-Aug ยังคาอยู่ → รอบ attended/หลัง 13:00 ค่อยส่ง (โชว์ 13-Aug วันเดียว, ข้ามวันค้าง). อย่า advance thai_last_sent_date.
+
+### Lesson Learned — 17-Aug-2026 (run 17:33) · reporting date ต้องไม่เลื่อนตามแถวที่กรอกไม่ครบ
+- **สิ่งที่เจอ:** ไฟล์ไทยถูกแก้ 17:13 แล้ว **PM กรอกแถว 17-Aug ล่วงหน้าโรงเดียว** (691t) ขณะที่ TN/TKT/TDC ยังว่าง และ 17-Aug คือ "วันนี้" ไม่ใช่ T-1
+- **ความเสี่ยงที่เกือบเกิด:** generator ใช้ `D = dates[-1]` (วันล่าสุดใน CSV) → dashboard/อีเมลจะเลื่อนไป 17-Aug อัตโนมัติ · แล้วกฎ F (เลย 13:00 ส่งได้) จะทำให้ส่งอีเมลตารางเกือบว่าง ห่างจากอีเมล 16-Aug ที่ส่งจริง 16:15 เพียง ~1 ชม.
+- **กฎที่เพิ่ม:**
+  1. **reporting date = วันล่าสุดที่ "โรงงานที่ซื้อกรอกหัวมันครบ"** ไม่ใช่วันล่าสุดที่มีตัวเลขโผล่มาช่องใดช่องหนึ่ง · แถวที่มีแค่ 1 โรง + consumption ว่าง = ยังไม่ใช่ reporting date
+  2. `build_dashboard.py` รับ **arg ที่ 2 = reporting date** เพื่อ pin ไว้ ห้ามพึ่ง `dates[-1]`
+  3. ข้อมูลบางส่วนของวันถัดไป **บันทึกลง CSV ได้** (เป็นค่าจริง) แต่ **ห้ามใช้ทริกเกอร์อีเมล**
+- **บั๊ก path:** `build_dashboard.py` / `build_hover_charts.py` hardcode `/sessions/stoic-optimistic-edison/...` = session id เก่า → รอบใหม่รันไม่ได้ · แก้เป็น `os.path.dirname(os.path.abspath(__file__))` แล้ว · **บทเรียน: ห้าม hardcode session path ในสคริปต์ที่ต้องรันข้ามรอบ**
+- **วิธียืนยันว่าค่าเป็นของจริงไม่ใช่ default (ใช้ซ้ำได้):** เทียบกับแถววันถัดไปที่ยังว่าง (= ชุด default) + cross-check `Expense ÷ ปริมาณ = ราคา` และ `Est.Starch ÷ ปริมาณ = %ST` + `Stock วันนี้ = TotalSupply − Consumption ของเมื่อวาน`
+
+---
+### Lesson Learned — 2026-08-17 18:32 (รอบเย็น)
+- **รอบที่ข้อมูลไม่เปลี่ยนเลย ก็ยังต้องอ่านไฟล์ต้นทางสดใหม่** (กฎ A5) แล้วค่อยเทียบกับ CSV — ครั้งนี้ตรงกันทุกช่อง จึงไม่แก้ CSV และไม่ rebuild dashboard ประหยัดเวลาไปมาก · เกณฑ์ตัดสิน "ต้อง rebuild ไหม" = มีค่าใดใน CSV เปลี่ยนหรือไม่ ไม่ใช่ "รันรอบใหม่แล้วต้องสร้างใหม่"
+- **แถว 17-Aug ที่มีแต่ PM = ยังไม่ใช่วันใหม่** — TN/TKT/TDC โชว์ stock + price/starch default (TN 3.78/22.00%, TKT 3.83/rec 95.0% ลงตัว, TDC 3.97/21.35%) และ **ไม่มี Purchased Volume** → ตามกฎ A1 ห้ามเลื่อน reporting date · ยืนยันซ้ำอีกครั้งว่า signature ของ default คือ "ไม่มี Purchased Volume"
+- **TKT คอลัมน์ Starch(%) ในไฟล์ดิบเป็นตัวเลข KG (เช่น 230,991.00) ไม่ใช่ %** เพราะ block TKT มี Native/CF แทรกทำให้ offset เลื่อน → ต้อง**คำนวณ %Starch จาก `price ÷ CBG`** (3.85/18.50 = 20.81%) ตรงกับที่ CSV เก็บไว้ ✓ อย่าอ่านช่องนั้นตรงๆ
+- **ยืนยันกฎ A0 ใช้ได้จริง:** TN 16-Aug %Rec = 100.0% พอดี + CAG 17.10 = CBG 17.10 → รอผลโม่ · TDC เช่นกัน (100.0%, 17.57 = 17.57) · ส่วน TKT %Rec Total/Native/CF ต่างกัน (107.8/108.2/106.3) = ค่าจริง ✓
+- **ไม่ส่งอีเมลก็ถือว่างานสำเร็จ** — กฎ F ไม่เข้าเงื่อนไขทั้ง 3 ข้อ (วันใหม่ / mill updated / TWIC updated) → บันทึก STATE แล้วรายงาน Por ว่าทำไมถึงไม่ส่ง ดีกว่าส่งซ้ำ
+- **ประเด็นค้างที่ต้องตาม:** TDC ค้างผลโม่จริง 3 วัน (14/15/16-Aug ล้วนเป็น rec 100.0% placeholder) · TN ค้าง 16-Aug — สะสมมาหลายรอบแล้ว ควรให้ Por ทักฝ่ายโรงงาน

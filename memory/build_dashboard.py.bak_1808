@@ -1,0 +1,294 @@
+#!/usr/bin/env python3
+"""
+Build the daily root dashboard HTML from memory/root-price-history.csv.
+
+Two hard rules, both learned the painful way:
+  1. NO <script>, NO external src. SharePoint/OneDrive preview blocks both, which
+     is why the Chart.js version showed an empty page when opened from the link.
+     Interactivity (hover to read values) is done with SVG + CSS :hover only.
+  2. The file also carries the 6 chart PNGs in a hidden block. The email body
+     needs raster images (no mail client does CSS :hover), and fetching this file
+     back from SharePoint in the browser is how those bytes reach the compose
+     window without pushing ~450 KB through the agent's context.
+
+Usage:  python3 build_dashboard.py "<out.html>"
+"""
+import csv, sys, io, base64, datetime
+from build_hover_charts import build, S, dates, ext, NAMES
+
+import os; M = os.path.dirname(os.path.abspath(__file__)) + '/'
+OUT = sys.argv[1] if len(sys.argv) > 1 else 'dashboard.html'
+
+THAI = ['TN', 'TKT', 'PM', 'MS', 'TDC']
+TH_NAME = {'TN': 'อ.เมือง อุดรธานี', 'TKT': 'ท่าคันโท กาฬสินธุ์', 'PM': 'พิมาย โคราช',
+           'MS': 'แม่สอด ตาก', 'TDC': 'บ้านฉาง ระยอง', 'TWIC': 'TWIC กัมพูชา'}
+ORDER = ['TKT', 'TN', 'PM', 'TDC', 'MS']
+
+RPT = sys.argv[2] if len(sys.argv) > 2 else dates[-1]
+D = RPT                             # reporting date
+i = dates.index(RPT)
+prev = i - 1
+
+
+def g(p, k, idx=None):
+    return S[p][k][i if idx is None else idx]
+
+
+def fmt(v, nd=2, dash='&mdash;'):
+    if v is None:
+        return dash
+    return ('{:,.%df}' % nd).format(v)
+
+
+# ------------------------------------------------------------------ analytics
+buying = [p for p in THAI if g(p, 'vol')]
+reported = [p for p in buying if g(p, 'cag') is not None and g(p, 'rec') is not None]
+pending = [p for p in buying if p not in reported]
+
+tot_v = sum(g(p, 'vol') or 0 for p in THAI)
+tot_val = sum((g(p, 'price') or 0) * (g(p, 'vol') or 0) for p in THAI)
+tot_st = sum((g(p, 'starch') or 0) * (g(p, 'vol') or 0) for p in THAI)
+wprice = tot_val / tot_v if tot_v else None
+wstarch = tot_st / tot_v if tot_v else None
+cag_v = sum(g(p, 'vol') for p in reported)
+cag_w = (sum(g(p, 'cag') * g(p, 'vol') for p in reported) / cag_v) if cag_v else None
+starch_t = sum(g(p, 'stton') for p in buying if g(p, 'stton') is not None)
+
+
+def last_buy_date(p):
+    for j in range(i - 1, -1, -1):
+        if S[p]['vol'][j]:
+            return j
+    return None
+
+
+def streak(p):
+    """How many consecutive days back this plant has been missing mill results."""
+    n = 0
+    for j in range(i, -1, -1):
+        if not S[p]['vol'][j]:
+            break
+        if S[p]['cag'][j] is None:
+            n += 1
+        else:
+            break
+    return n
+
+
+# ------------------------------------------------------------------- charts
+CH = {c: build(c) for c in ['TN', 'TKT', 'PM', 'MS', 'TDC', 'TWIC']}
+
+CSS = """
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:28px 32px; font-family:'Aptos','Calibri','Segoe UI',Arial,sans-serif; background:#fff; color:#1a1a1a; }
+  .header { display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #0b2540; padding-bottom:12px; margin-bottom:20px; }
+  .header h1 { font-size:20px; font-weight:700; color:#0b2540; margin:0; letter-spacing:0.2px; }
+  .header .sub { font-size:12.5px; color:#6b7280; margin-top:4px; }
+  .header .updated { font-size:11.5px; color:#6b7280; text-align:right; }
+  .kpi-row { display:flex; gap:14px; margin-bottom:22px; }
+  .kpi { flex:1; background:#f7f8fa; border-radius:6px; padding:12px 16px; border-left:3px solid #0b2540; }
+  .kpi .label { font-size:11px; color:#6b7280; margin-bottom:4px; }
+  .kpi .value { font-size:19px; font-weight:700; color:#0b2540; }
+  .kpi .unit { font-size:11px; color:#6b7280; font-weight:400; margin-left:3px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:8px; }
+  thead th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:#6b7280; font-weight:600; padding:8px 10px; border-bottom:1.5px solid #0b2540; }
+  thead th.num, tbody td.num { text-align:right; }
+  tbody td { padding:10px; border-bottom:1px solid #e5e7eb; }
+  .plant-name { font-weight:600; color:#0b2540; }
+  .plant-code { font-size:11px; color:#9ca3af; font-weight:400; }
+  .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .dot.green{background:#1a9850} .dot.red{background:#d73027} .dot.grey{background:#c7cbd1}
+  .delta { font-size:11px; margin-left:6px; }
+  .delta.up{color:#d73027} .delta.down{color:#1a9850} .delta.flat{color:#9ca3af}
+  .badge { display:inline-block; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:10px; margin-right:6px; vertical-align:middle; }
+  .badge.ok{background:#e3f4ea;color:#1a7a44} .badge.wait{background:#fdf0d8;color:#9a6a12} .badge.none{background:#eef0f2;color:#9ca3af}
+  .status-detail { font-size:11.5px; color:#6b7280; }
+  .total-row td { font-weight:700; color:#0b2540; border-bottom:1.5px solid #0b2540; }
+  .footnote { margin-top:10px; font-size:11px; color:#9ca3af; line-height:1.6; }
+  .legend { display:flex; gap:18px; margin:14px 0 30px; font-size:11px; color:#6b7280; flex-wrap:wrap; }
+  .legend span { display:flex; align-items:center; }
+  .section-title { font-size:15px; font-weight:700; color:#0b2540; margin:30px 0 4px; padding-top:18px; border-top:1px solid #e5e7eb; }
+  .section-sub { font-size:12px; color:#6b7280; margin-bottom:14px; }
+  .caveat { background:#fff8ec; border-left:3px solid #e0a11f; padding:10px 14px; font-size:11.5px; color:#6b5a1e; border-radius:4px; margin-bottom:18px; line-height:1.6; }
+  .hint { background:#eef6fb; border-left:3px solid #0e8aa8; padding:10px 14px; font-size:12px; color:#215b70; border-radius:4px; margin-bottom:18px; line-height:1.6; }
+  .color-key { display:flex; gap:16px; margin-bottom:14px; font-size:11.5px; color:#374151; flex-wrap:wrap; align-items:center; }
+  .color-key .swatch { display:inline-block; width:12px; height:3px; border-radius:2px; margin-right:6px; vertical-align:middle; }
+  .color-key .note { color:#9ca3af; font-style:italic; }
+  .chart-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  .chart-box { background:#f7f8fa; border-radius:6px; padding:10px 12px; }
+  .chart-box svg { display:block; width:100%; height:auto; }
+  @media print { .chart-grid { grid-template-columns:1fr; } }
+"""
+
+
+def row(p, twic=False):
+    v, pr = g(p, 'vol'), g(p, 'price')
+    lb = last_buy_date(p)
+    if pr is not None and lb is not None and S[p]['price'][lb] is not None:
+        dl = pr - S[p]['price'][lb]
+        cls, dot = ('up', 'red') if dl > 0.0001 else (('down', 'green') if dl < -0.0001 else ('flat', 'grey'))
+        delta = '<span class="dot %s"></span><span class="delta %s">%+.2f</span>' % (dot, cls, dl)
+    else:
+        delta = '<span class="dot grey"></span><span class="delta flat">&mdash;</span>'
+
+    if not v:
+        badge, det = '<span class="badge none">ไม่ซื้อ</span>', 'ไม่มีการซื้อ'
+    elif g(p, 'cag') is not None:
+        badge, det = '<span class="badge ok">ครบ</span>', 'ข้อมูลครบทุกช่อง'
+    elif twic and g(p, 'rec') == 0:
+        badge = '<span class="badge wait">ไม่ได้เดินเครื่องโม่</span>'
+        det = '%s: %%Recovery 0.00%% / แป้งออก 0 &rarr; CAG คำนวณไม่ได้' % D[5:]
+    else:
+        n = streak(p)
+        badge = '<span class="badge wait">รอผลโม่</span>'
+        det = 'ขาด %Recovery + CAG' + ('' if n <= 1 else ' — ค้าง %d วันติด' % n)
+
+    return ('<tr><td><span class="plant-name">%s</span><br><span class="plant-code">%s</span></td>'
+            '<td class="num">%s</td><td class="num">%s</td><td class="num">%s</td>'
+            '<td class="num">%s</td><td class="num">%s</td><td class="num">%s</td>'
+            '<td>%s<span class="status-detail">%s</span></td></tr>') % (
+        TH_NAME[p], p if not twic else 'TWIC &middot; Oddar Meanchey',
+        fmt(pr), delta, fmt(v, 0), fmt(g(p, 'starch')), fmt(g(p, 'cag')),
+        (fmt(g(p, 'rec'), 1) + '%') if g(p, 'rec') is not None else '&mdash;',
+        badge, det)
+
+
+cag_txt = ('ครบ %d/%d โรงงาน — ถ่วงน้ำหนัก %s ฿/กก.' % (len(reported), len(buying), fmt(cag_w))
+           if cag_w else 'ยังไม่มีผลโม่')
+
+pend_note = ''
+for p in pending:
+    n = streak(p)
+    if n >= 2:
+        pend_note += ('<br><b>&#9888; %s ค้างผลโม่ %d วันติด</b> &mdash; ผิดปกติกว่า mill lag ปกติ (~1 วัน) '
+                      'ควรสอบถามฝ่ายโรงงาน' % (p, n))
+
+twic_note = ''
+if g('TWIC', 'vol') and g('TWIC', 'rec') == 0:
+    twic_note = ('<br><b>&#9888; TWIC %s:</b> ซื้อ %s ตัน @ %s ฿/กก. แต่ <b>%%Recovery = 0.00%% และแป้งออก 0</b> '
+                 '&rarr; ไม่ได้เดินเครื่องโม่ (ไม่ใช่ "รอผลโม่") จึงคำนวณ CAG ไม่ได้'
+                 % (D[5:], fmt(g('TWIC', 'vol'), 0), fmt(g('TWIC', 'price'))))
+
+charts = ''.join('<div class="chart-box">%s</div>' % CH[c][0]
+                 for c in ['TN', 'TKT', 'PM', 'MS', 'TDC', 'TWIC'])
+bundle = ''.join('<img data-plant="%s" alt="%s 30-day trend" src="data:image/png;base64,%s">'
+                 % (c, c, CH[c][1]) for c in ['TN', 'TKT', 'PM', 'MS', 'TDC', 'TWIC'])
+
+HTML = """<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Daily root dashboard - %(D)s</title>
+<style>%(CSS)s</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>สรุปราคาหัวมัน (Root Purchase) — Thaiwah Group</h1>
+    <div class="sub">ข้อมูลการซื้อหัวมันจริงของ Thaiwah (Internal) — 5 โรงงานไทย + TWIC กัมพูชา</div>
+  </div>
+  <div class="updated">
+    ข้อมูลล่าสุด (เมื่อวาน): <b>%(D)s</b><br>
+    <span style="color:#9ca3af">TWIC ส่งถึง %(D)s แล้ว</span><br>
+    อัปเดตเมื่อ: %(NOW)s
+  </div>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="label">ปริมาณซื้อรวมโรงงานไทย (%(Ds)s)</div><div class="value">%(TOTV)s<span class="unit">ตัน</span></div></div>
+  <div class="kpi"><div class="label">ราคาเฉลี่ยถ่วงน้ำหนัก (%(Ds)s)</div><div class="value">%(WP)s<span class="unit">฿/กก.</span></div></div>
+  <div class="kpi"><div class="label">%%Starch เฉลี่ยถ่วงน้ำหนัก (%(Ds)s)</div><div class="value">%(WS)s<span class="unit">%%</span></div></div>
+  <div class="kpi"><div class="label">CAG โรงงานไทย (%(Ds)s)</div><div class="value">%(NR)d/%(NB)d<span class="unit">โรงงานที่มีผลโม่</span></div></div>
+</div>
+
+<div class="hint">
+  <b>&#128070; กราฟด้านล่างดูค่าได้</b> — เอาเมาส์ชี้ที่คอลัมน์วันไหนในกราฟ จะมีกล่องขึ้นบอก <b>ราคา / ปริมาณซื้อ / %%Starch / %%Recovery / CAG / ปริมาณแป้ง</b> ของวันนั้นครบทุกค่า
+  (ทำด้วย SVG + CSS ล้วน ไม่ใช้สคริปต์ จึงใช้ได้แม้เปิดผ่านลิงก์ SharePoint/OneDrive)
+</div>
+
+<div class="caveat">
+  <b>สถานะข้อมูล %(D)s (T-1): %(STATUS)s</b> &mdash; ปริมาณซื้อ ราคา และ %%Starch มาครบ %(NB)d โรงงานที่ซื้อ (%(BUY)s) ·
+  <b>%%Recovery + CAG มาแล้ว %(NR)d โรงงาน</b> (%(REPDET)s) · %(PENDTXT)s · MS ไม่ซื้อ%(PENDNOTE)s%(TWICNOTE)s
+</div>
+
+<table>
+  <thead>
+    <tr><th>โรงงาน / พื้นที่</th><th class="num">ราคา (บาท/กก.)</th><th class="num">เทียบวันซื้อล่าสุด</th>
+        <th class="num">ปริมาณซื้อ (ตัน)</th><th class="num">%%ST</th><th class="num">CAG (บาท/กก.)</th>
+        <th class="num">%%Recovery</th><th>สถานะ</th></tr>
+  </thead>
+  <tbody>
+    %(ROWS)s
+    <tr class="total-row"><td>รวมโรงงานไทย (%(Ds)s)</td><td class="num">%(WP)s</td><td class="num">&mdash;</td>
+      <td class="num">%(TOTV)s</td><td class="num">%(WS)s</td><td class="num">%(CAGW)s</td><td class="num">&mdash;</td>
+      <td><span class="status-detail">CAG %(CAGTXT)s</span></td></tr>
+    %(TWICROW)s
+  </tbody>
+</table>
+
+<div class="legend">
+  <span><span class="dot red" style="margin-right:5px;"></span>ราคาสูงขึ้นจากวันซื้อล่าสุด</span>
+  <span><span class="dot green" style="margin-right:5px;"></span>ราคาลง / คงที่</span>
+  <span><span class="dot grey" style="margin-right:5px;"></span>ไม่มีการซื้อ / ยังไม่ลงข้อมูล</span>
+  <span class="note" style="color:#9ca3af;font-style:italic">TWIC เป็นนิติบุคคลกัมพูชา แยกบรรทัด ไม่รวมยอดไทย · ปริมาณแป้งรวม %(STT)s ตัน (เฉพาะโรงที่มี %%Recovery)</span>
+</div>
+
+<div class="section-title">แนวโน้ม 30 วันย้อนหลัง (%(D0)s ถึง %(D)s)</div>
+<div class="section-sub">แยกกราฟตามโรงงาน (6 แห่ง รวม TWIC กัมพูชา) — แต่ละกราฟแสดง ราคาซื้อ, ปริมาณซื้อ, %%Starch, ปริมาณแป้ง (ตัน), CAG ต้นทุนหลังโม่ และ %%Recovery ของโรงงานนั้น · <b>ชี้เมาส์ที่กราฟเพื่อดูตัวเลขรายวัน</b></div>
+
+<div class="color-key">
+  <span><span class="swatch" style="background:#0b2540;"></span>ราคา (บาท/กก.) — แกนซ้ายที่ 1</span>
+  <span><span class="swatch" style="background:none;height:0;width:14px;border-top:2px dashed #e0821f;"></span>%%Starch — แกนซ้ายที่ 2</span>
+  <span><span class="swatch" style="background:#d6d9de;height:8px;border-radius:1px;"></span>ปริมาณซื้อ (ตัน, แท่งเทา) — แกนขวา</span>
+  <span><span class="swatch" style="background:none;height:0;width:14px;border-top:2px dashed #1a9850;"></span>ปริมาณแป้ง (ตัน) = ปริมาณซื้อ × %%Starch × %%Recovery — แกนขวา</span>
+  <span><span class="swatch" style="background:#8e44ad;"></span>CAG ต้นทุนหลังโม่ (บาท/กก.) — แกนขวาที่ 2</span>
+  <span><span class="swatch" style="background:#0e8aa8;height:7px;width:7px;border-radius:50%%;"></span>%%Recovery (จุด) — แกนซ้ายที่ 3</span>
+  <span class="note">เส้น/จุดขาดช่วง = ไม่มีค่าที่มีความหมายในวันนั้น — ไม่ลากลงศูนย์ · แท่งปริมาณซื้อแสดง 0 ตามจริง</span>
+</div>
+
+<div class="chart-grid">%(CHARTS)s</div>
+
+<div class="footnote">
+  ที่มา (internal): SharePoint — TWPCROOTSOURCINGTEAM / "Daily root purchased report - 08_Aug 2026" · TWIC: อีเมล put.p@thaiwah.com (รายงาน T-1) ·
+  ราคาที่แสดงคือราคาที่ %%Starch จริงของแต่ละวัน (ไม่ปรับเทียบ 25%%) · ที่มา (external): nettathai.org (มีเฉพาะพิมาย = PM) ·
+  ไฟล์นี้ไม่เรียกสคริปต์หรือ CDN ภายนอกเลย กราฟเป็น inline SVG และ hover ทำด้วย CSS จึงแสดงผลครบเมื่อเปิดผ่านลิงก์ SharePoint/OneDrive หรือดูออฟไลน์
+</div>
+
+<div id="png-bundle" style="display:none" aria-hidden="true">%(BUNDLE)s</div>
+
+</body>
+</html>
+""" % {
+    'D': D, 'Ds': D[5:], 'D0': dates[0], 'CSS': CSS,
+    'NOW': datetime.datetime.now().strftime('%d-%b-%Y %H:%M'),
+    'TOTV': fmt(tot_v, 0), 'WP': fmt(wprice), 'WS': fmt(wstarch),
+    'NR': len(reported), 'NB': len(buying),
+    'STATUS': 'ครบ' if not pending else 'ยังไม่ครบ',
+    'BUY': ', '.join(buying),
+    'REPDET': ' · '.join('%s %s%% &rarr; CAG %s' % (p, fmt(g(p, 'rec'), 1), fmt(g(p, 'cag'))) for p in reported) or '&mdash;',
+    'PENDTXT': ('<b>ยังรอผลโม่ %d โรงงาน</b> คือ %s (ไฟล์ต้นทางใส่ default 100.0%% และ CAG = CBG จึงถือว่ายังไม่มีผลโม่)'
+                % (len(pending), ', '.join(pending))) if pending else '<b>ผลโม่มาครบทุกโรงงานที่ซื้อ</b>',
+    'PENDNOTE': pend_note, 'TWICNOTE': twic_note,
+    'ROWS': ''.join(row(p) for p in ORDER),
+    'TWICROW': row('TWIC', twic=True),
+    'CAGW': fmt(cag_w), 'CAGTXT': cag_txt, 'STT': fmt(starch_t, 1),
+    'CHARTS': charts, 'BUNDLE': bundle,
+}
+
+open(OUT, 'w', encoding='utf-8').write(HTML)
+
+# ------------------------------------------------------------------- guardrails
+bad_script = HTML.count('<script')
+bad_http = HTML.count('src="http') + HTML.count("src='http") + HTML.count('@import')
+assert bad_script == 0, 'FAIL: %d <script> tags' % bad_script
+assert bad_http == 0, 'FAIL: %d external references' % bad_http
+print('wrote %s  (%.0f KB)' % (OUT, len(HTML.encode()) / 1024))
+print('  reporting date : %s   window %s..%s (%d days)' % (D, dates[0], dates[-1], len(dates)))
+print('  buying %s | mill results %d/%d %s | pending %s'
+      % (buying, len(reported), len(buying), reported, pending))
+print('  thai total %s t @ %s | wavg %%ST %s | group CAG %s | starch %s t'
+      % (fmt(tot_v, 0), fmt(wprice), fmt(wstarch), fmt(cag_w), fmt(starch_t, 1)))
+print('  <script>=%d  external=%d  inline SVG charts=%d  hover bands=%d  png bundle=%d'
+      % (bad_script, bad_http, HTML.count('<svg'), HTML.count('class="hb"'), HTML.count('data-plant=')))

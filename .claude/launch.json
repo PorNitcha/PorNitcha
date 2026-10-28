@@ -4,8 +4,28 @@
     {
       "name": "agent-office-sim",
       "runtimeExecutable": "powershell",
-      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", ".claude/serve.ps1"],
+      "runtimeArgs": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        ".claude/serve.ps1"
+      ],
       "port": 8321
+    },
+    {
+      "name": "fc-compare",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8766",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "C:/Users/NitchaSuwongtham/THAIWAH/Commercial Finance - General/2026/AI/FC"
+      ],
+      "port": 8766
     }
   ]
 }

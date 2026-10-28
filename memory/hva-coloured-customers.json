@@ -1,0 +1,13 @@
+{
+ "rule": "In HVA customer lists (risk file By customer, tracker Line list), colour the AP customer name (column C) orange C55A11 when it differs from the profitability customer group (column B). These groups were coloured in v4 on 19 Oct 2026 and must stay coloured in every future edition, even if the name-matching rule changes.",
+ "customer_groups": [
+  "S.I.P.C",
+  "JALEX LOGISTICS LTD",
+  "LLC “YUZH-REGION” Russia, 117638, Moscow,vn.ter.g.",
+  "บริษัท ท็อปพลัส ฟู้ด 88 จำกัด",
+  "บริษัท แพ็คฟู้ด จำกัด (มหาชน) สาขาที่ 00028",
+  "DEVCO LOJİSTİK HİZMETLERİ VE TİC.LTD.ŞTİ.",
+  "LLC ZEELANDIA",
+  "PT. SO GOOD FOOD GEDUNG GRAHA PRABA SAMANTA"
+ ]
+}

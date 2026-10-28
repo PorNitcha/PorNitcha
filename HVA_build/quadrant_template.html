@@ -1,0 +1,276 @@
+<title>HVA Customer Quadrant 2025 Base</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of stacked panels, chart + role panel side by side on wide screens, migration + lessons below. */
+:root{
+  --bg:#fbfbf9; --panel:#ffffff; --fg:#14213d; --fg-2:#4b5563; --fg-3:#8a8f98; --line:#e3e4e0; --grid:#eceeea;
+  --fix:#eb6834; --grow:#2a78d6; --protect:#1baf7a; --neutral:#8a8f98;
+  --fix-soft:rgba(235,104,52,.10); --grow-soft:rgba(42,120,214,.09); --protect-soft:rgba(27,175,122,.10); --neutral-soft:rgba(138,143,152,.10);
+  --font:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#141516; --panel:#1c1d1f; --fg:#f2f2ee; --fg-2:#c3c2b7; --fg-3:#8d8e88; --line:#33342f; --grid:#2a2b27;
+  --fix:#d95926; --grow:#3987e5; --protect:#199e70; --neutral:#9a9b95;
+  --fix-soft:rgba(217,89,38,.16); --grow-soft:rgba(57,135,229,.14); --protect-soft:rgba(25,158,112,.16); --neutral-soft:rgba(154,155,149,.14);
+  color-scheme:dark; }}
+:root[data-theme="dark"]{
+  --bg:#141516; --panel:#1c1d1f; --fg:#f2f2ee; --fg-2:#c3c2b7; --fg-3:#8d8e88; --line:#33342f; --grid:#2a2b27;
+  --fix:#d95926; --grow:#3987e5; --protect:#199e70; --neutral:#9a9b95;
+  --fix-soft:rgba(217,89,38,.16); --grow-soft:rgba(57,135,229,.14); --protect-soft:rgba(25,158,112,.16); --neutral-soft:rgba(154,155,149,.14);
+  color-scheme:dark; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 48px;padding-inline:20px}
+h1{font-size:26px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:17px;font-weight:600;margin:0 0 10px}
+.sub{color:var(--fg-2);margin:0 0 18px;max-width:72ch}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);font-weight:600}
+.controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:0 0 14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:transparent;border:0;padding:6px 12px;font:inherit;color:var(--fg-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--grow);outline-offset:2px}
+label.ctl{display:inline-flex;gap:8px;align-items:center;color:var(--fg-2)}
+select{font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-width:0}
+.chart{position:relative;width:100%}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{font-family:var(--font)}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.12);max-width:300px;z-index:5;color:var(--fg)}
+.tip b{font-weight:600}
+.tip .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.roles{display:flex;flex-direction:column;gap:10px}
+.role{border-left:4px solid var(--neutral);padding:8px 10px;background:var(--neutral-soft);border-radius:0 6px 6px 0}
+.role.fix{border-color:var(--fix);background:var(--fix-soft)}
+.role.grow{border-color:var(--grow);background:var(--grow-soft)}
+.role.protect{border-color:var(--protect);background:var(--protect-soft)}
+.role .name{font-weight:600}
+.role .num{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--fg-2);font-size:12px}
+.role .list{font-size:12px;color:var(--fg-2);margin-top:4px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--fg-2);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:18px}
+.lesson{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.lesson .k{font-family:var(--mono);font-size:22px;font-weight:500;font-variant-numeric:tabular-nums;margin:2px 0 6px}
+.lesson p{margin:0;color:var(--fg-2);font-size:13px}
+.lesson .so{margin-top:8px;color:var(--fg);font-size:13px}
+.section{margin-top:26px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+th{color:var(--fg-3);font-weight:600;cursor:pointer;position:sticky;top:0;background:var(--panel)}
+td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td:first-child{font-family:var(--font)}
+.tablewrap{overflow-x:auto;max-height:520px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+details summary{cursor:pointer;font-weight:600;margin-bottom:10px}
+.foot{color:var(--fg-3);font-size:12px;margin-top:14px;max-width:90ch}
+.neg{color:var(--fix)} .pos{color:var(--grow)}
+@media (prefers-reduced-motion:no-preference){.chart circle{transition:opacity .15s}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">HVA modified starch &middot; AP 2027 &middot; customer analysis</div>
+  <h1>Customer quadrant on a 2025 base</h1>
+  <p class="sub">The AP deck classifies customers on 2026 GP per tonne at full cost and 2027 growth versus 2026. This page uses product GP (net sales less Actual Cost and freight &amp; insurance, so before idle cost, PPA and other adjustments; the same basis as the AP reaction targets) and lets you rebase to 2025, to see which accounts sat on the floor before the 2026 cost shock, which fell through it in 2026, and how much of the 2027 growth is only a return to 2025 volume.</p>
+
+  <div class="controls">
+    <span class="eyebrow">Base year</span>
+    <div class="seg" role="group" aria-label="Base year">
+      <button id="b25" aria-pressed="true">2025 actual (FY)</button>
+      <button id="b26" aria-pressed="false">2026 YTD-Sep, annualised</button>
+    </div>
+    <label class="ctl" for="basis">GP basis
+      <select id="basis"><option value="gpp" selected>Product GP (ex idle, ex PPA)</option><option value="gpx">Ex idle (incl. PPA)</option><option value="gpf">Full cost (deck basis)</option></select>
+    </label>
+    <label class="ctl" for="floor">Floor
+      <select id="floor"><option value="4700" selected>4,700 (floor used in the tier tracker)</option><option value="4000">4,000 (ARC red line, full cost)</option><option value="5000">5,000</option><option value="5500">5,500</option></select>
+    </label>
+    <label class="ctl" for="minT">2027 plan &ge;
+      <select id="minT"><option value="0">all</option><option value="100" selected>100 t</option><option value="300">300 t</option><option value="500">500 t</option></select>
+    </label>
+    <label class="ctl" for="lbl">Labels &ge;
+      <select id="lbl"><option value="300">300 t</option><option value="500">500 t</option><option value="1000" selected>1,000 t</option><option value="99999">none</option></select>
+    </label>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2 id="qTitle">2027 plan vs 2025 actual &middot; product GP per tonne 2025</h2>
+      <div class="chart" id="quad"></div>
+      <div class="legend">
+        <span style="--c:var(--fix)">Fix price before volume (below floor, growing)</span>
+        <span style="--c:var(--grow)">Grow with margin (at or above floor, growing)</span>
+        <span style="--c:var(--protect)">Protect (above floor, flat or down)</span>
+        <span style="--c:var(--neutral)">Reprice / exit (below floor, down)</span>
+      </div>
+      <div class="foot">Bubble area = 2027 plan tonnes. Product GP/t = (net sales &minus; Actual Cost &minus; F&amp;I) &divide; tonnes, invoice basis (TDC Profitability data_Actual). Idle, PPA and other adjustments together are about 800&ndash;900 THB/t in both years. Growth axis clamped at &minus;1,500 / +2,500 t; bubbles with a dashed ring sit at the edge of the plot. Accounts with no base-year history are listed under the chart. Huifa and Qingdao Miracle merged.</div>
+      <div id="newlist" class="foot"></div>
+    </div>
+    <div class="panel">
+      <h2>Four roles on this base</h2>
+      <div class="roles" id="roles"></div>
+    </div>
+  </div>
+
+  <div class="section panel">
+    <h2 id="mTitle">Product GP per tonne, 2025 full year &rarr; 2026 January&ndash;September</h2>
+    <p class="sub">The 32 largest accounts in the 2027 plan. Hover a row for the price and product-cost moves behind the change.</p>
+    <div class="chart" id="mig"></div>
+    <div class="legend"><span style="--c:var(--fix)">Margin fell</span><span style="--c:var(--grow)">Margin rose</span><span style="--c:var(--neutral)">Dashed line = selected floor</span></div>
+  </div>
+
+  <div class="section">
+    <h2>Lessons from 2025 &rarr; 2026 that set the 2027 room</h2>
+    <div class="lessons">
+      <div class="lesson"><div class="eyebrow">The fix-price book sat on the floor in 2025, then fell through it</div><div class="k">4,000&ndash;4,900 &rarr; 1,400&ndash;4,000</div><p>On product GP the big bidding accounts earned 4,026&ndash;4,943 THB/t in 2025 (CP Indonesia 4,026, Chunghom 4,241, SunChina 4,327, Indo Asia Tirta 4,358, Barentz 4,431, Tate &amp; Lyle 4,943), all under the 4,700 floor; Huifa was negative. In 2026 they earn 1,447&ndash;3,967. The 2025-base fix book is 7 accounts, 22.3 kt, 35% of the plan: GP 60M in 2025, 26M in nine months of 2026.</p><div class="so">So: "restore the 2025 margin" only returns them to the line. The 2027 target for this book is the floor on the plant that makes them, not 2025.</div></div>
+      <div class="lesson"><div class="eyebrow">Cost moved, price did not, everywhere</div><div class="k">+1,533 vs +212</div><p>Across accounts with history, product cost per tonne rose 1,533 THB and price 212 (tonne-weighted), so product GP/t fell 1,321. The grow accounts lost as much as the bidders: Golden Harvest 8,197&rarr;6,321, Shineroad 8,523&rarr;5,632, Tokai Denpun 11,516&rarr;7,523, ITOCHU 9,121&rarr;7,390, Morii 11,958&rarr;9,763.</p><div class="so">So: the 2026 loss was a pass-through failure across the whole book, not a few bad accounts. The fix is a cost-indexed clause, not account visits.</div></div>
+      <div class="lesson"><div class="eyebrow">2027 "growth" is partly win-back</div><div class="k">31%</div><p>Of the 4.4 kt the grow accounts add versus annualised 2026, 1.4 kt only returns them to their 2025 volume. Accounts the deck calls "protect" on a 2026 base were shrinking in 2026 and are planned back toward 2025 (Samyang, Golden Harvest, Lucky KT, Universal Canning, ITOCHU).</p><div class="so">So: price those tonnes as recovery of lost share, which needs service and spec work, not as new business that needs a discount.</div></div>
+      <div class="lesson"><div class="eyebrow">Related-party margin moved the most</div><div class="k">6,094 &rarr; 3,052</div><p>TW Indonesia is the only large account that crossed from grow to fix-price between the two bases: price &minus;1,321, product cost +1,720 per tonne on 4,270 t planned. The 2026-based quadrant counts it as a customer to reprice.</p><div class="so">So: set the transfer price at the arm's-length floor and report third-party GP separately, so the quadrant shows real customers only.</div></div>
+      <div class="lesson"><div class="eyebrow">Over half the plan has no proven margin at the floor</div><div class="k">56%</div><p>Fix-price book 22.3 kt (35%) plus 56 accounts with no 2025 history 13.4 kt (21%). The seven small accounts lost since 2025 (964 t) averaged 8,402 THB/t product GP.</p><div class="so">So: the control point is a signed price on the fix book and a first-PO date on the new book before the volume is counted. Small high-margin accounts deserve protection, not neglect.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <details>
+      <summary>Table: all accounts (click a header to sort)</summary>
+      <div class="tablewrap"><table id="tbl"><thead><tr>
+        <th data-k="name">Customer</th><th data-k="country">Country</th><th data-k="t25">2025 t</th><th data-k="t26">2026 t (9m)</th><th data-k="t27">2027 plan t</th><th data-k="gpp25">Product GP/t 25</th><th data-k="gpp26">Product GP/t 26</th><th data-k="gpf25">Full GP/t 25</th><th data-k="gpf26">Full GP/t 26</th><th data-k="asp25">ASP/t 25</th><th data-k="asp26">ASP/t 26</th><th data-k="costp25">Product cost/t 25</th><th data-k="costp26">Product cost/t 26</th><th data-k="xl26">XL % 26</th>
+      </tr></thead><tbody></tbody></table></div>
+    </details>
+    <div class="foot">Sources: TDC Profitability_Act 2024-2026_Jul2026_AddPPA (data_Actual, 2025 FY and 2026 Jan&ndash;Sep, reported FX). Product GP = net sales &minus; Actual Cost (col AF) &minus; F&amp;I, which equals Actual Gross Profit + Idle Cost + PPA + Other Adj on the same rows; full GP = as reported. AP27 plan per customer = TDC by Customer + TDC 2.0 by Customer incl. headroom (Top Line HVA Thailand_Oct1 Revised ASP_Final, Rev.5). Floor 4,700 on product GP is the floor used in the GP tier tracker; the 4,000 full-cost red line restates to roughly 4,800&ndash;4,900 on this basis. Prepared 14 Oct 2026, basis restated 19 Oct 2026.</div>
+  </div>
+</div>
+
+<script>
+const DATA = __DATA__;
+const col = {fix:'var(--fix)', grow:'var(--grow)', protect:'var(--protect)', reprice:'var(--neutral)', new:'var(--neutral)'};
+const roleName = {fix:'Fix price before volume', grow:'Grow with margin', protect:'Protect', reprice:'Reprice / exit', new:'New, no history'};
+const basisName = {gpp:'product GP', gpx:'GP ex idle', gpf:'full-cost GP'};
+let base = 25, basis = 'gpp', FLOOR = 4700, minT = 100, lblT = 1000;
+const fmt = n => n==null ? '–' : Math.round(n).toLocaleString('en-US');
+const sgn = n => n==null ? '–' : (n>0?'+':'') + Math.round(n).toLocaleString('en-US');
+const gpOf = (d,y) => d[basis+y];
+const baseT = d => base===25 ? d.t25 : d.t26a;
+const baseGp = d => gpOf(d, base===25?'25':'26');
+
+function roleOf(d){
+  const gp = baseGp(d), bt = baseT(d);
+  if (gp==null || bt===0) return 'new';
+  const g = d.t27 - bt;
+  if (gp >= FLOOR) return g>0 ? 'grow' : 'protect';
+  return g>0 ? 'fix' : 'reprice';
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function short(n){ return n.replace(/บริษัท |จำกัด.*| CO\.,? ?LTD\.?.*| CORP.*| INC\.?.*| S\.A\.S.*| SDN\.? BHD\.?.*| GMBH.*| TRADING.*| Food supply chain.*|  .*|\(.*/gi,'').trim().slice(0,22); }
+const dlt = (a,b) => (a!=null&&b!=null) ? sgn(b-a) : '–';
+
+function tipHtml(d){
+  return `<b>${esc(d.name)}</b><br><span style="color:var(--fg-3)">${esc(d.country)} · ${esc(d.channel)}</span><br>
+  <span class="mono">Tonnes 2025 ${fmt(d.t25)} · 2026 9m ${fmt(d.t26)} · 2027 plan ${fmt(d.t27)}</span><br>
+  <span class="mono">Product GP/t ${fmt(d.gpp25)} → ${fmt(d.gpp26)} (${dlt(d.gpp25,d.gpp26)})</span><br>
+  <span class="mono">Full-cost GP/t ${fmt(d.gpf25)} → ${fmt(d.gpf26)}</span><br>
+  <span class="mono">ASP/t ${fmt(d.asp25)} → ${fmt(d.asp26)} (${dlt(d.asp25,d.asp26)})</span><br>
+  <span class="mono">Product cost/t ${fmt(d.costp25)} → ${fmt(d.costp26)} (${dlt(d.costp25,d.costp26)})</span><br>
+  <span class="mono">XL share ${d.xl25==null?'–':d.xl25+'%'} → ${d.xl26==null?'–':d.xl26+'%'}</span>`;
+}
+function attachTip(container, el, d){
+  const tip = container.querySelector('.tip');
+  const show = (ev)=>{ tip.innerHTML = tipHtml(d); tip.hidden=false;
+    const r = container.getBoundingClientRect(); let x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;
+    if (x + 310 > r.width) x = ev.clientX - r.left - 320; if (y + 160 > r.height) y = ev.clientY - r.top - 170;
+    tip.style.left = x+'px'; tip.style.top = y+'px'; };
+  el.addEventListener('mouseenter', show); el.addEventListener('mousemove', show);
+  el.addEventListener('mouseleave', ()=>{ tip.hidden = true; });
+}
+
+function drawQuad(){
+  const W=780, H=540, m={l:70,r:20,t:30,b:48};
+  const xmin=-1500, xmax=2500, ymin=-2000, ymax=14000;
+  const sx = v => m.l + (Math.max(xmin,Math.min(xmax,v))-xmin)/(xmax-xmin)*(W-m.l-m.r);
+  const sy = v => m.t + (ymax-Math.max(ymin,Math.min(ymax,v)))/(ymax-ymin)*(H-m.t-m.b);
+  const rows = DATA.filter(d=>d.t27>=minT && d.t27>0);
+  const hist = rows.filter(d=>roleOf(d)!=='new');
+  const news = rows.filter(d=>roleOf(d)==='new');
+  const maxT = Math.max(...rows.map(d=>d.t27));
+  const rad = t => 4 + 30*Math.sqrt(t/maxT);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Customer quadrant: GP per tonne on the base year against 2027 plan growth">`;
+  s += `<rect x="${m.l}" y="${m.t}" width="${sx(0)-m.l}" height="${sy(FLOOR)-m.t}" fill="var(--protect-soft)"/>`;
+  s += `<rect x="${sx(0)}" y="${m.t}" width="${W-m.r-sx(0)}" height="${sy(FLOOR)-m.t}" fill="var(--grow-soft)"/>`;
+  s += `<rect x="${sx(0)}" y="${sy(FLOOR)}" width="${W-m.r-sx(0)}" height="${H-m.b-sy(FLOOR)}" fill="var(--fix-soft)"/>`;
+  s += `<rect x="${m.l}" y="${sy(FLOOR)}" width="${sx(0)-m.l}" height="${H-m.b-sy(FLOOR)}" fill="var(--neutral-soft)"/>`;
+  for (let y=0; y<=12000; y+=4000){ s += `<line x1="${m.l}" x2="${W-m.r}" y1="${sy(y)}" y2="${sy(y)}" stroke="var(--grid)"/><text x="${m.l-8}" y="${sy(y)+4}" text-anchor="end" font-size="11" fill="var(--fg-3)">${fmt(y)}</text>`; }
+  for (let x=-1000; x<=2500; x+=500){ s += `<text x="${sx(x)}" y="${H-m.b+18}" text-anchor="middle" font-size="11" fill="var(--fg-3)">${x>0?'+':''}${fmt(x)}</text>`; }
+  s += `<line x1="${m.l}" x2="${W-m.r}" y1="${sy(FLOOR)}" y2="${sy(FLOOR)}" stroke="var(--fg-2)" stroke-dasharray="4 4"/>`;
+  s += `<line x1="${sx(0)}" x2="${sx(0)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--fg-2)"/>`;
+  s += `<text x="${m.l-8}" y="${sy(FLOOR)+4}" text-anchor="end" font-size="11" font-weight="600" fill="var(--fg)">${fmt(FLOOR)}</text>`;
+  s += `<text x="${m.l+6}" y="${m.t+14}" font-size="11" font-weight="600" fill="var(--protect)">PROTECT</text>`;
+  s += `<text x="${W-m.r-6}" y="${m.t+14}" text-anchor="end" font-size="11" font-weight="600" fill="var(--grow)">GROW WITH MARGIN</text>`;
+  s += `<text x="${W-m.r-6}" y="${sy(FLOOR)+16}" text-anchor="end" font-size="11" font-weight="600" fill="var(--fix)">FIX PRICE BEFORE VOLUME</text>`;
+  s += `<text x="${m.l+6}" y="${sy(FLOOR)+16}" font-size="11" font-weight="600" fill="var(--fg-2)">REPRICE / EXIT</text>`;
+  s += `<text x="${(m.l+W-m.r)/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="var(--fg-2)">2027 plan vs ${base===25?'2025 actual':'2026 annualised'}, tonnes →</text>`;
+  s += `<text transform="translate(14 ${(m.t+H-m.b)/2}) rotate(-90)" text-anchor="middle" font-size="11" fill="var(--fg-2)">${basisName[basis]} per tonne ${base===25?'2025':'2026 YTD'}, THB</text>`;
+  const sorted = [...hist].sort((a,b)=>b.t27-a.t27);
+  const pos = d => { const gp = baseGp(d); const g = d.t27-baseT(d); const r = rad(d.t27);
+    const x = Math.max(m.l+r, Math.min(W-m.r-r, sx(g))); const y = Math.max(m.t+r, Math.min(H-m.b-r, sy(gp)));
+    return {x, y, r, clipped: Math.abs(x-sx(g))>0.5 || Math.abs(y-sy(gp))>0.5}; };
+  s += `<g id="bubbles">`;
+  sorted.forEach(d=>{ const r = roleOf(d); const p = pos(d);
+    s += `<circle data-i="${DATA.indexOf(d)}" cx="${p.x}" cy="${p.y}" r="${p.r}" fill="${col[r]}" fill-opacity=".62" stroke="${p.clipped?'var(--fg-2)':'var(--panel)'}" stroke-width="2"${p.clipped?' stroke-dasharray="3 3"':''}/>`; });
+  s += `</g><g font-size="10.5" fill="var(--fg)">`;
+  sorted.forEach(d=>{ if (d.t27>=lblT){ const p=pos(d); const x=p.x, y=p.y, r=p.r;
+    s += `<text x="${x+r+3}" y="${y+4}" ${x+r+90>W?`text-anchor="end" x="${x-r-3}"`:''}>${esc(short(d.name))}</text>`; }});
+  s += `</g></svg><div class="tip" hidden></div>`;
+  const el = document.getElementById('quad'); el.innerHTML = s;
+  el.querySelectorAll('circle').forEach(c=>attachTip(el, c, DATA[+c.dataset.i]));
+  document.getElementById('qTitle').textContent = `2027 plan vs ${base===25?'2025 actual':'2026 annualised'} · ${basisName[basis]} per tonne ${base===25?'2025':'2026 YTD'}`;
+  const nt = news.reduce((a,d)=>a+d.t27,0);
+  const top = [...news].sort((a,b)=>b.t27-a.t27).slice(0,10).map(d=>`${esc(short(d.name))} ${fmt(d.t27)}`).join(' · ');
+  document.getElementById('newlist').innerHTML = `<b>No ${base===25?'2025':'2026'} history:</b> ${news.length} accounts, ${fmt(nt)} t in the 2027 plan. Largest: ${top}.`;
+  const agg = {};
+  rows.forEach(d=>{ const r=roleOf(d); (agg[r]=agg[r]||{n:0,t:0,list:[]}); agg[r].n++; agg[r].t+=d.t27; agg[r].list.push(d); });
+  const total = rows.reduce((a,d)=>a+d.t27,0);
+  document.getElementById('roles').innerHTML = ['fix','grow','protect','reprice','new'].map(r=>{ const a=agg[r]||{n:0,t:0,list:[]};
+    const names = a.list.sort((x,y)=>y.t27-x.t27).slice(0,8).map(d=>esc(short(d.name))).join(' · ');
+    return `<div class="role ${r}"><div class="name">${roleName[r]}</div><div class="num">${a.n} accounts · ${fmt(a.t)} t · ${total?Math.round(a.t/total*100):0}% of plan shown</div><div class="list">${names}${a.list.length>8?' …':''}</div></div>`; }).join('');
+}
+
+function drawMig(){
+  const rows = DATA.filter(d=>d[basis+'25']!=null && d[basis+'26']!=null && d.t27>0).sort((a,b)=>b.t27-a.t27).slice(0,32);
+  const W=780, rh=22, m={l:200,r:70,t:26,b:30}, H=m.t+m.b+rows.length*rh;
+  const xmin=-4000, xmax=16000;
+  const sx = v => m.l + (Math.max(xmin,Math.min(xmax,v))-xmin)/(xmax-xmin)*(W-m.l-m.r);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="GP per tonne 2025 to 2026 by account">`;
+  for (let x=-4000;x<=16000;x+=4000){ s+=`<line x1="${sx(x)}" x2="${sx(x)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--grid)"/><text x="${sx(x)}" y="${m.t-10}" text-anchor="middle" font-size="11" fill="var(--fg-3)">${fmt(x)}</text>`; }
+  s += `<line x1="${sx(FLOOR)}" x2="${sx(FLOOR)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--fg-2)" stroke-dasharray="4 4"/>`;
+  s += `<text x="${sx(FLOOR)+4}" y="${H-m.b+16}" font-size="11" fill="var(--fg-2)">floor ${fmt(FLOOR)}</text>`;
+  rows.forEach((d,i)=>{ const y=m.t+i*rh+rh/2; const a=d[basis+'25'], b=d[basis+'26']; const up=b>=a; const c=up?'var(--grow)':'var(--fix)';
+    s += `<g data-i="${DATA.indexOf(d)}"><rect x="0" y="${y-rh/2}" width="${W}" height="${rh}" fill="transparent"/>`;
+    s += `<text x="${m.l-10}" y="${y+4}" text-anchor="end" font-size="11.5" fill="var(--fg)">${esc(short(d.name))} <tspan fill="var(--fg-3)">${fmt(d.t27)} t</tspan></text>`;
+    s += `<line x1="${sx(a)}" x2="${sx(b)}" y1="${y}" y2="${y}" stroke="${c}" stroke-width="2"/>`;
+    s += `<circle cx="${sx(a)}" cy="${y}" r="5" fill="var(--panel)" stroke="${c}" stroke-width="2"/>`;
+    s += `<circle cx="${sx(b)}" cy="${y}" r="5" fill="${c}" stroke="var(--panel)" stroke-width="1.5"/>`;
+    s += `<text x="${W-m.r+8}" y="${y+4}" font-size="11" font-family="var(--mono)" fill="${c}">${sgn(b-a)}</text></g>`; });
+  s += `<text x="${m.l}" y="${H-4}" font-size="11" fill="var(--fg-3)">hollow = 2025 · filled = 2026 YTD · number = change, THB/t</text>`;
+  s += `</svg><div class="tip" hidden></div>`;
+  const el=document.getElementById('mig'); el.innerHTML=s;
+  el.querySelectorAll('g[data-i]').forEach(g=>attachTip(el, g, DATA[+g.dataset.i]));
+  document.getElementById('mTitle').textContent = `${basisName[basis].charAt(0).toUpperCase()+basisName[basis].slice(1)} per tonne, 2025 full year → 2026 January–September`;
+}
+
+let sortK='t27', sortDir=-1;
+function drawTable(){
+  const rows=[...DATA].sort((a,b)=>{ const x=a[sortK], y=b[sortK]; if(x==null) return 1; if(y==null) return -1; return (x>y?1:x<y?-1:0)*sortDir; });
+  document.querySelector('#tbl tbody').innerHTML = rows.map(d=>`<tr><td>${esc(d.name)}</td><td>${esc(d.country)}</td><td>${fmt(d.t25)}</td><td>${fmt(d.t26)}</td><td>${fmt(d.t27)}</td><td>${fmt(d.gpp25)}</td><td class="${d.gpp26!=null&&d.gpp25!=null?(d.gpp26<d.gpp25?'neg':'pos'):''}">${fmt(d.gpp26)}</td><td>${fmt(d.gpf25)}</td><td>${fmt(d.gpf26)}</td><td>${fmt(d.asp25)}</td><td>${fmt(d.asp26)}</td><td>${fmt(d.costp25)}</td><td>${fmt(d.costp26)}</td><td>${d.xl26==null?'–':d.xl26+'%'}</td></tr>`).join('');
+}
+document.querySelectorAll('#tbl th').forEach(th=>th.addEventListener('click',()=>{ const k=th.dataset.k; if(sortK===k) sortDir*=-1; else {sortK=k; sortDir=(k==='name'||k==='country')?1:-1;} drawTable(); }));
+document.getElementById('b25').addEventListener('click',()=>{ base=25; document.getElementById('b25').setAttribute('aria-pressed','true'); document.getElementById('b26').setAttribute('aria-pressed','false'); drawQuad(); });
+document.getElementById('b26').addEventListener('click',()=>{ base=26; document.getElementById('b26').setAttribute('aria-pressed','true'); document.getElementById('b25').setAttribute('aria-pressed','false'); drawQuad(); });
+document.getElementById('basis').addEventListener('change',e=>{ basis=e.target.value; drawQuad(); drawMig(); });
+document.getElementById('floor').addEventListener('change',e=>{ FLOOR=+e.target.value; drawQuad(); drawMig(); });
+document.getElementById('minT').addEventListener('change',e=>{ minT=+e.target.value; drawQuad(); });
+document.getElementById('lbl').addEventListener('change',e=>{ lblT=+e.target.value; drawQuad(); });
+drawQuad(); drawMig(); drawTable();
+</script>

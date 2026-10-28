@@ -1,0 +1,706 @@
+{
+ "_note": "Por's manual format adjustments to the TWIN profitability workbook (column groups / hidden columns / row highlights). Applied by build_formula_xlsx.py on every build. Re-sync with: python sync_format_profile.py <file Por edited> Labels are matched by column-A text; Thai labels from v6 are aliased to their English equivalents (Total / All customers).",
+ "sheets": {
+  "By customer": {
+   "columns": {
+    "F": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "G": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "H": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "J": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "K": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "L": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "M": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "O": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "P": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "Q": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "R": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "T": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "U": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "V": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "W": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "Y": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "Z": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AA": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AB": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AC": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AD": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AE": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AF": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AG": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AH": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AI": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AK": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AL": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AM": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AN": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AP": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AQ": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AR": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AS": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AU": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AV": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AW": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AX": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "AZ": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BA": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "BB": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BC": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "BD": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BE": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "BF": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BG": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "BH": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BI": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "BJ": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BL": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BM": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BN": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BO": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BQ": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BR": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BS": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BT": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "BV": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BW": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "BX": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BY": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CA": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CB": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CC": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CD": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CE": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CF": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CG": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CH": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CI": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CJ": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CK": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CM": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CN": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CO": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CP": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CR": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CS": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CT": {
+     "level": 2,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CU": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CW": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CX": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "CY": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CZ": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "DB": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "DC": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "DD": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "DE": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "DF": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "DG": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.43
+    },
+    "DH": {
+     "level": 1,
+     "hidden": true,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "DI": {
+     "level": 0,
+     "hidden": false,
+     "collapsed": true,
+     "width": 9.14
+    }
+   },
+   "colA_fills": {
+    "รวมทั้งหมด": {
+     "theme": 5,
+     "tint": 0.6
+    },
+    "HEINZ ABC INDONESIA, PT.": {
+     "theme": 5,
+     "tint": 0.6
+    },
+    "KARUNIA ALAM SEGAR,PT.": {
+     "theme": 5,
+     "tint": 0.6
+    },
+    "PRAKARSA ALAM SEGAR, PT.": {
+     "theme": 5,
+     "tint": 0.6
+    },
+    "GLICO WINGS,PT.": {
+     "theme": 5,
+     "tint": 0.6
+    },
+    "Total": {
+     "theme": 5,
+     "tint": 0.6
+    }
+   },
+   "freeze": "E11",
+   "zoom": 85,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  },
+  "By customer-product": {
+   "columns": {
+    "R": {
+     "level": 1,
+     "hidden": false,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "AS": {
+     "level": 1,
+     "hidden": false,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "BT": {
+     "level": 1,
+     "hidden": false,
+     "collapsed": false,
+     "width": 9.43
+    },
+    "CU": {
+     "level": 1,
+     "hidden": false,
+     "collapsed": false,
+     "width": 9.43
+    }
+   },
+   "colA_fills": {},
+   "freeze": "E11",
+   "zoom": 85,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  },
+  "Summary": {
+   "columns": {},
+   "colA_fills": {},
+   "freeze": "B8",
+   "zoom": 90,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  },
+  "Reported vs Constant": {
+   "columns": {},
+   "colA_fills": {
+    "HEINZ ABC INDONESIA, PT.": {
+     "theme": 5,
+     "tint": 0.8
+    },
+    "KARUNIA ALAM SEGAR,PT.": {
+     "theme": 5,
+     "tint": 0.8
+    },
+    "PRAKARSA ALAM SEGAR, PT.": {
+     "theme": 5,
+     "tint": 0.8
+    },
+    "GLICO WINGS,PT.": {
+     "theme": 5,
+     "tint": 0.8
+    }
+   },
+   "freeze": "C20",
+   "zoom": 90,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  },
+  "Quarterly trend": {
+   "columns": {},
+   "colA_fills": {},
+   "freeze": "B5",
+   "zoom": 85,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  },
+  "Key findings": {
+   "columns": {},
+   "colA_fills": {},
+   "freeze": "A4",
+   "zoom": 90,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  },
+  "TDC product rates": {
+   "columns": {},
+   "colA_fills": {},
+   "freeze": "E5",
+   "zoom": 85,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  },
+  "FX": {
+   "columns": {},
+   "colA_fills": {},
+   "freeze": "B5",
+   "zoom": 90,
+   "outline": {
+    "summaryBelow": true,
+    "summaryRight": true
+   }
+  }
+ },
+ "_source": "por_v6.xlsx"
+}

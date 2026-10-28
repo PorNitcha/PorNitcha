@@ -215,3 +215,2236 @@ warning: in the working copy of 'd.htm', LF will be replaced by CRLF the next ti
  create mode 100644 d.htm
  create mode 100644 memory/root-price-history.csv.bak11
  create mode 100644 memory/root-price-history.csv.bak12
+[2026-08-11 08:00:03] Starting backup...
+[2026-08-11 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '.claude/daily-backup.ps1', LF will be replaced by CRLF the next time Git 
+touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of '.claude/launch.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.claude/serve.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.claude/settings.local.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '00-por-finance-director.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '01-phayak-forecast-variance.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '02-thun-costing-supplychain.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of '02-thun-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '03-okat-opportunity-growth.md', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of '03-okat-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'CLAUDE.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 3 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 5 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 6 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'agent-office-sim/.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/00_COPY_THIS_PROMPT_TO_AGENT.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'agent-office-sim/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/assets/backgrounds/README.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'agent-office-sim/css/office.css', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/data/dialogues.js', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/data/employees.js', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/data/office-config.js', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'agent-office-sim/docs/CUSTOMIZE.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/README.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/_TEMPLATE.md', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'agent-office-sim/employees/okat.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/phayak.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/por.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/thun.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/js/agents.js', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'agent-office-sim/js/dialogue.js', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/js/main.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/js/world.js', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'd.htm', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/long-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/mid-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-external.csv', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak15', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/short-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/tdc-billing-methodology.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'org-chart.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'root-mail/Daily root dashboard - 5 Aug 2026.html', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'scripts/make_root_charts.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 9 Aug 2026.eml', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 9 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 9 Aug 2026.html.pre-tdcfix', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : To https://github.com/PorNitcha/PorNitcha.git
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...a/PorNitcha.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   5160279..86b3597  main -> main
+[2026-08-11 08:00:03] Backup pushed to GitHub.
+[2026-08-14 07:29:37] Starting backup...
+[2026-08-14 07:29:37] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '.claude/daily-backup.ps1', LF will be replaced by CRLF the next time Git 
+touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of '.claude/launch.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.claude/serve.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.claude/settings.local.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '00-por-finance-director.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '01-phayak-forecast-variance.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '02-thun-costing-supplychain.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of '02-thun-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '03-okat-opportunity-growth.md', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of '03-okat-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'CLAUDE.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 3 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 5 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 6 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 9 Aug 2026.eml', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 9 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 9 Aug 2026.html.pre-tdcfix', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'agent-office-sim/.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/00_COPY_THIS_PROMPT_TO_AGENT.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'agent-office-sim/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/assets/backgrounds/README.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'agent-office-sim/css/office.css', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/data/dialogues.js', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/data/employees.js', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/data/office-config.js', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'agent-office-sim/docs/CUSTOMIZE.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/README.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/_TEMPLATE.md', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'agent-office-sim/employees/okat.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/phayak.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/por.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/employees/thun.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/js/agents.js', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'agent-office-sim/js/dialogue.js', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'agent-office-sim/js/main.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agent-office-sim/js/world.js', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'd.htm', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/long-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/mid-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-external.csv', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak15', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/short-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/tdc-billing-methodology.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'org-chart.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'root-mail/Daily root dashboard - 5 Aug 2026.html', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'scripts/make_root_charts.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 10 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Daily root dashboard - 12 Aug 2026.eml', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/_entry_1706.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_newentry.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak19', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1007', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1208', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1312', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1406', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1507', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_20260813', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak3', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-08-14 07:29:37] Backup pushed to GitHub.
+[2026-08-14 08:00:03] Starting backup...
+[2026-08-14 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-08-14 08:00:03] Backup pushed to GitHub.
+[2026-08-18 07:47:45] Starting backup...
+[2026-08-18 07:47:45] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '02-thun-skill.md', LF will be replaced by CRLF the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 13 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 16 Aug 2026 (ready to send).html', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 16 August 2026 (static).html', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 16 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/02-thun-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_l.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_les_1407.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_merged_tmp.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_n.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_new_1010.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_new_1407.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_new_1708.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_run_1708.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_run_1808.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_t.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_t2.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_tmp_les.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_tmp_state.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/build-static-charts.py', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/build-static-charts.py.old', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/build_dashboard.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/build_email_charts.py', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/build_hover_charts.py', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-history.csv.bak25', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak26', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1708', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak-1607', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0818', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0912', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1020', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1108', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1407', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1507', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1615', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1708', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1708b', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1735', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1808', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1832', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-08-18 07:47:45] Backup pushed to GitHub.
+[2026-08-18 08:00:03] Starting backup...
+[2026-08-18 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-08-18 08:00:03] Backup pushed to GitHub.
+[2026-08-23 22:20:47] Starting backup...
+[2026-08-23 22:20:47] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'CLAUDE.md', LF will be replaced by CRLF the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'Daily root dashboard - 16 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/02-thun-skill.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/build_dashboard.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak20', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/short-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 17 Aug 2026 (ready to send).html', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 17 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 19 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 20 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 20 August 2026.html.bak_1710', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/_merged_1808b.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_new_1808b.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/build_dashboard.py.bak_1808', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1808_0810', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1808_0913', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1808_1112', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1808_1210', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1808_1310', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1808_1510', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-08-23 22:20:47] Backup pushed to GitHub.
+[2026-08-24 08:47:17] Starting backup...
+[2026-08-24 08:47:17] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'Daily root dashboard - 23 August 2026.html', LF will be replaced by CRLF 
+the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-08-24 08:47:17] Backup pushed to GitHub.
+[2026-08-25 10:06:51] Starting backup...
+[2026-08-25 10:06:51] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'Daily root dashboard - 23 August 2026.html', LF will be replaced by CRLF 
+the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 24 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'FBV - daily sales - 1-24 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'FBV deep dive - Aug 2026.html', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'Food BU Daily Sales 1-23 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Food BU Daily Sales 1-24 Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'Ready RTE RTC - daily sales - 1-24 Aug 2026.html', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'Ready RTE RTC deep dive - Aug 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 23 August 2026.html', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 23 August 2026.html.bak_1110', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 24 August 2026.html.bak_1010', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak31_0902', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak32_0905', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak31', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak32', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak33', LF will be replaced by CRLF the next time 
+Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+[2026-08-27 08:00:02] Starting backup...
+[2026-08-27 08:00:02] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'Daily root dashboard - 24 August 2026.html', LF will be replaced by CRLF 
+the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 25 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Food BU - Ready and FBV NIV - 1-24 Aug 2026.html', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'Food BU NIV dashboard - 1-24 Aug 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Food BU NIV dashboard - 1-26 Aug 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 24 August 2026.html.bak_1810', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 25 August 2026.html.bak_1710', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 25 August 2026.html.bak_1815', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_1505.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_1710.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak34_1112', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak35_1405', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak36_1505', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak37_1605', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak38_1710', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak39_1810', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak40_1106', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak41_1205', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak42_1318', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak43_1410', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak44_1504', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-08-27 08:00:02] Backup pushed to GitHub.
+[2026-09-09 10:23:01] Starting backup...
+[2026-09-09 10:23:01] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next 
+time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/short-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 1 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 2 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 26 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 3 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 6 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 7 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 8 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 1 September 2026.html.bak_0835', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 1 September 2026.html.bak_0910', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 1 September 2026.html.bak_1205', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 2 September 2026.html.bak_0904', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 2 September 2026.html.bak_1125', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 25 August 2026.html.bak_0810', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 26 August 2026.html.bak_1010', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 26 August 2026.html.bak_1110', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 26 August 2026.html.bak_1725', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 3 September 2026.html.bak_0907', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 3 September 2026.html.bak_1920', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 September 2026.html.bak_1010', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 September 2026.html.bak_1115', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 September 2026.html.bak_1405', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0905b', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0908c', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0909a', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0911d', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0917e', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 September 2026.html.bak_0909c', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_e_1640.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_1510.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_m_1640.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_new.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_noop_1305.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak37_0805', LF will be replaced by CRLF the next time 
+Git touches it
+[2026-09-10 08:30:38] Starting backup...
+[2026-09-10 08:30:38] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next 
+time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/short-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 1 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 2 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 26 August 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 3 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 6 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 7 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 8 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 8 September 2026.html.bak_0909e', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 9 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 1 September 2026.html.bak_0835', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 1 September 2026.html.bak_0910', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 1 September 2026.html.bak_1205', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 2 September 2026.html.bak_0904', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 2 September 2026.html.bak_1125', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 25 August 2026.html.bak_0810', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 26 August 2026.html.bak_1010', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 26 August 2026.html.bak_1110', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 26 August 2026.html.bak_1725', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 3 September 2026.html.bak_0907', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 3 September 2026.html.bak_1920', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 September 2026.html.bak_1010', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 September 2026.html.bak_1115', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 September 2026.html.bak_1405', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0905b', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0908c', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0909a', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0911d', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 September 2026.html.bak_0917e', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 September 2026.html.bak_0909c', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 September 2026.html.bak_0909d', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 September 2026.html.bak_0909f', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 September 2026.html.bak_0910a', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_e_1640.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_1510.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_m_1640.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_new.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_noop_1305.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak37_0805', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak43_1205', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak48_0907', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak53_0908', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak57_0908e', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak58_0909', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak60_0909c', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak-03sep-1505', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak031407', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak45_0905', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0908g', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1205', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1305', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_20260904_1050', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0903_1130', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0904_1405', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0904_1920', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_0845', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_1010', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_1115', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_1305', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_1430', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_1510', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_1640', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0907_1710', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0908_0815', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0908_0910', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0908_1010', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0908_1710', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0909_0855', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0909_1015', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0909_1105', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0909_1405', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0909_1505', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0909_1610', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0909_1810', LF will be replaced by CRLF the 
+next time Git touches it
+[2026-09-14 08:18:15] Starting backup...
+[2026-09-14 08:18:15] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'Daily root dashboard - 9 September 2026.html', LF will be replaced by CRLF 
+the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/_t.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 10 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 9 September 2026.html.bak_0910r5', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 10 September 2026.html.bak_0911b', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 10 September 2026.html.bak_0911c', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 10 September 2026.html.bak_0911d', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 9 September 2026.html.bak_0910b', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 9 September 2026.html.bak_0910c', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 9 September 2026.html.bak_0910d', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 9 September 2026.html.bak_0910f', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 9 September 2026.html.bak_0911a', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_e_1610.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_0911r8.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_m_1610.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak67_0910d', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak85_0911c', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0911r9', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0910r5', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0911r8', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0911r9', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0910_0910', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0910_1120', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0910_1610', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0910_1810', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0911_0810', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0911_0910', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0911_1010', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0911_1350', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-14 08:18:15] Backup pushed to GitHub.
+[2026-09-15 08:00:14] Starting backup...
+[2026-09-15 08:00:14] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 13 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0914r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0914r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0914r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0914r4', LF will be replaced by CRLF the next time 
+Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-15 08:00:14] Backup pushed to GitHub.
+[2026-09-17 07:40:18] Starting backup...
+[2026-09-17 07:40:18] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next 
+time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'Daily root dashboard - 14 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 15 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 15 September 2026.html.bak_0916twic', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 14 September 2026.html.bak_0915r26', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 15 September 2026.html.bak_0916r39', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 15 September 2026.html.bak_0916r41', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_0915r26.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak40', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak60_0915b', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0915r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0915r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak04', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak05_0916r37', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak28', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak38', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0915r26', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0915r27', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0915r29', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0915r3', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0915r32', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0916r39', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_0915_1705', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-17 07:40:18] Backup pushed to GitHub.
+[2026-09-17 08:00:03] Starting backup...
+[2026-09-17 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-17 08:00:03] Backup pushed to GitHub.
+[2026-09-18 08:00:04] Starting backup...
+[2026-09-18 08:00:04] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 16 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 16 September 2026.html.bak_0917r54', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of '_check.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 15 September 2026.html.bak_0917r42', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 16 September 2026.html.bak_0917r46', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 16 September 2026.html.bak_0917r47', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 16 September 2026.html.bak_0917r48', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_e47.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_0917r45.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_0917r50.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_0917r51.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_0917r52.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_entry_r46.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported-archive-202608_202609-14.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r42', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r45', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r47', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r48', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r49', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r50', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r51', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r52', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r53', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0917r54', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-18 08:00:04] Backup pushed to GitHub.
+[2026-09-21 08:37:12] Starting backup...
+[2026-09-21 08:37:12] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next 
+time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'Daily root dashboard - 17 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 20 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 17 September 2026.html.bak_0918r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 17 September 2026.html.bak_0918r4', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 17 September 2026.html.bak_0918r8', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0918r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0918r8', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0918r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0918r2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0918r4', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0918r8', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-21 08:37:12] Backup pushed to GitHub.
+[2026-09-23 08:00:03] Starting backup...
+[2026-09-23 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'Daily root dashboard - 20 September 2026.html', LF will be replaced by CRLF 
+the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 21 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Food BU NIV dashboard - 1-21 Sep 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 20 September 2026.html.bak_0921r13', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 20 September 2026.html.bak_0921r14', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 20 September 2026.html.bak_0921r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 21 September 2026.html.bak_0922r1', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 21 September 2026.html.bak_0922r24', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 21 September 2026.html.bak_0922r31', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0922r24', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0921r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0921r16', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0921r18', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0921r19', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0922r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0922r24', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0922r25', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0922r26', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0922r30', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0922r31', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-23 08:00:03] Backup pushed to GitHub.
+[2026-09-24 08:00:04] Starting backup...
+[2026-09-24 08:00:04] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 22 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 22 September 2026.html.bak_0923r10', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 22 September 2026.html.bak_0923r3', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 22 September 2026.html.bak_0923r4', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 22 September 2026.html.bak_0923r5', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0923r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0923r10', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0923r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0923r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0923r4', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0923r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0923r10', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0923r2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0923r3', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0923r4', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0923r5', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0923r6', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-24 08:00:04] Backup pushed to GitHub.
+[2026-09-25 08:00:04] Starting backup...
+[2026-09-25 08:00:04] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 23 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 23 September 2026.html.bak_0924r3', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 23 September 2026.html.bak_0924r6', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 23 September 2026.html.bak_0924r8', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0924r1', LF will be replaced by CRLF the next time 
+Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-25 08:00:04] Backup pushed to GitHub.
+[2026-09-28 03:21:38] Starting backup...
+[2026-09-28 03:21:38] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 24 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 24 September 2026.html.bak_0925r1a', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 24 September 2026.html.bak_0925r1b', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 24 September 2026.html.bak_0925r6a', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 24 September 2026.html.bak_0925r6b', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0925r1', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-28 03:21:38] Backup pushed to GitHub.
+[2026-09-28 08:00:03] Starting backup...
+[2026-09-28 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+[2026-09-29 08:00:03] Starting backup...
+[2026-09-29 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next 
+time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'Daily root dashboard - 27 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 27 September 2026.html.bak_0928r1', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 27 September 2026.html.bak_0928r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 27 September 2026.html.bak_0928r5', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_edit_r2.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_edit_r2b.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_new_entry_0928r2.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_tail_new.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0928r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported-archive.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0928r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0928r11', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0928r2_full', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-29 08:00:03] Backup pushed to GitHub.
+[2026-09-30 08:00:03] Starting backup...
+[2026-09-30 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 28 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 28 September 2026.html.bak_0929r7', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 28 September 2026.html.bak_0929r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 28 September 2026.html.bak_0929r4', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 28 September 2026.html.bak_0929r7', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0929r2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0929r4', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0929r7', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-09-30 08:00:03] Backup pushed to GitHub.
+[2026-10-01 08:00:03] Starting backup...
+[2026-10-01 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 29 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 29 September 2026.html.bak_0930r3', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 29 September 2026.html.bak_0930r4', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 29 September 2026.html.bak_0930r5', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 29 September 2026.html.bak_0930r10', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 29 September 2026.html.bak_0930r2a', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0930r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0930r10', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0930r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0930r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0930r4', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0930r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0930r3', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0930r4', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-01 08:00:03] Backup pushed to GitHub.
+[2026-10-02 08:54:08] Starting backup...
+[2026-10-02 08:54:08] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 30 September 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 29 September 2026.html.bak_1001r1', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 30 September 2026.html.bak_1001r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 30 September 2026.html.bak_1001r4', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 30 September 2026.html.bak_1001r5', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1001r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1001r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1001r4', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1001r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1001r4', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-02 08:54:08] Backup pushed to GitHub.
+[2026-10-05 08:00:04] Starting backup...
+[2026-10-05 08:00:04] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 1 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 1 October 2026.html.bak_1002r2', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 30 September 2026.html.bak_1002r1', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1002r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1002r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1002_1610', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-05 08:00:04] Backup pushed to GitHub.
+[2026-10-06 08:00:03] Starting backup...
+[2026-10-06 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches 
+it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/mid-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/short-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 4 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 4 October 2026.html.bak_0510r2', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 4 October 2026.html.bak_0510r3', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 4 October 2026.html.bak_0510r11', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 4 October 2026.html.bak_0510r5', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 4 October 2026.html.bak_0510r7', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 4 October 2026.html.bak_0510r8', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0510r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0510r11', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0510r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0510r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0510r7', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0510r8', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0510r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0510r2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0510r3', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0510r7', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0510r8', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-06 08:00:03] Backup pushed to GitHub.
+[2026-10-07 08:00:03] Starting backup...
+[2026-10-07 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 5 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 5 October 2026.html.bak_0610r1', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 5 October 2026.html.bak_0610r2', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 5 October 2026.html.bak_0610r3', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 5 October 2026.html.bak_0610r4', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 5 October 2026.html.bak_0610r5', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen2_0610.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_0610.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_stage1_0610.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0610r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0610r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0610r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0610r4', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0610r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0610r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0610r2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0610r4', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0610r5', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+[2026-10-08 08:00:04] Starting backup...
+[2026-10-08 08:00:04] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches 
+it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 6 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 6 October 2026.html.bak_0710r2', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 6 October 2026.html.bak_0710r7', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 6 October 2026.html.bak_0710r9', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 October 2026.html.bak_0710r3', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0710r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0710r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0710r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0710r7', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0710r9', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0710r1', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-08 08:00:04] Backup pushed to GitHub.
+[2026-10-09 08:44:55] Starting backup...
+[2026-10-09 08:44:55] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 7 October 2026.html', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 6 October 2026.html.bak_0810src', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 October 2026.html.bak_0810r2', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 October 2026.html.bak_0810r3', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 October 2026.html.bak_0810r4', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0810r1', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0810r2', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0810r4', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0810r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1008r3', LF will be replaced by CRLF the next time 
+Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-09 08:44:55] Backup pushed to GitHub.
+[2026-10-14 08:00:03] Starting backup...
+[2026-10-14 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+[2026-10-15 08:17:45] Starting backup...
+[2026-10-15 08:17:45] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches 
+it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 11 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 12 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 13 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 13 October 2026.html.bak_1014r2', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 13 October 2026.html.bak_1014r4', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 8 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 9 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'chk.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 11 October 2026.html.bak_1012r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 11 October 2026.html.bak_1012r3', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 12 October 2026.html.bak_1013r5', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 12 October 2026.html.bak_1014r1', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 13 October 2026.html.bak_1014r3', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 13 October 2026.html.bak_1014r8', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 7 October 2026.html.bak_0910src', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 October 2026.html.bak_1009r2', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 October 2026.html.bak_1009r3', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 8 October 2026.html.bak_1009r7', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1014.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1014b.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1014c.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1014d.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_0910r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1009r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1009r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1009r7', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1010r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1012r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1012r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1012r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1013r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1013r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1014r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1014r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1014r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1014r4', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_0910r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1009r2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1009r3', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1010r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1012r3', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1014r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1014_r3', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-15 08:17:45] Backup pushed to GitHub.
+[2026-10-16 11:01:23] Starting backup...
+[2026-10-16 11:01:23] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+[2026-10-20 08:00:03] Starting backup...
+[2026-10-20 08:00:03] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches 
+it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 14 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 14 October 2026.html.bak_1015r2', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 14 October 2026.html.bak_1015r3', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 14 October 2026.html.bak_1015r4', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 15 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 18 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 18 October 2026.html.bak_1019r3', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'HVA_build/ap_monthly.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HVA_build/data_actual.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HVA_build/prof1.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HVA_build/quadrant_template.html', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'HVA_build/risk3.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HVA_build/tier8.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 14 October 2026.html.bak_1015r5', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 14 October 2026.html.bak_1016r1', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 15 October 2026.html.bak_1016r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 15 October 2026.html.bak_1016r3', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 15 October 2026.html.bak_1019r1', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 18 October 2026.html.bak_1019r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 18 October 2026.html.bak_1019r5', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1015.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1015e.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1016.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1016b.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1016c.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1019.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/hva-format-profile.json', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1015r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1015r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1015r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1015r4', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1015r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1016r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1016r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1016r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1019r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1019r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1019r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1019r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1015r2', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1015_r3', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1019_r1', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1019_r2', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-20 08:00:03] Backup pushed to GitHub.
+[2026-10-21 08:00:05] Starting backup...
+[2026-10-21 08:00:05] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches 
+it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 19 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 19 October 2026.html.bak_1020r2', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 19 October 2026.html.bak_1020r3', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 19 October 2026.html.bak_1020r4', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 19 October 2026.html.bak_1020r5', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 19 October 2026.html.bak_1020r9', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'HVA_build/patch_tier9.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HVA_build/risk4.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'chk_tmp.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1020r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1020r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1020r4', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1020r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1020r9', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1020b', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1020c', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-21 08:00:05] Backup pushed to GitHub.
+[2026-10-27 08:19:26] Starting backup...
+[2026-10-27 08:19:26] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 20 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'Daily root dashboard - 20 October 2026.html.bak_1021r2', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 20 October 2026.html.bak_1021r3', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'Daily root dashboard - 20 October 2026.html.bak_1021r5', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'TWIN_build/README.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'TWIN_build/extract_tdc_sn.py', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'TWIN_build/recalc_check.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'TWIN_build/recalc_dump_sheet.ps1', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'TWIN_build/sync_format_profile.py', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1021r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1021r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1021r3', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1021r5', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1021r1', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1021_r3', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.runbak_1021_r5', LF will be replaced by CRLF the 
+next time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-27 08:19:26] Backup pushed to GitHub.
+[2026-10-28 09:05:51] Starting backup...
+[2026-10-28 09:05:51] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time 
+Git touches it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 27 October 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1028r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1028r1', LF will be replaced by CRLF the next 
+time Git touches it
+git.exe : fatal: cannot lock ref 'HEAD': Unable to create 'C:/Users/NitchaSuwongtham/OneDrive - 
+THAIWAH/Desktop/lovely/.git/HEAD.lock': File exists.
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:30 char:9
++         & $gitExe -C $repoPath commit -m "Auto backup $timestamp" 2>& ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: cannot l...': File exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Another git process seems to be running in this repository, or the lock file may be stale
+git.exe : Everything up-to-date
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:31 char:9
++         & $gitExe -C $repoPath push origin main 2>&1 | ForEach-Object ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-10-28 09:05:51] Backup pushed to GitHub.

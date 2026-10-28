@@ -30,3 +30,5 @@
 
 ---
 _เพิ่มหมวดใหม่ได้ตามความเหมาะสม แต่ต้อง confirm กับ Por ก่อนบันทึกทุกครั้ง_
+
+| Well Grow (WG) | Food BU ซื้อ/รับโอนกิจการ Well Grow ตั้งแต่ Sep-2026 — เดิมเป็น supplier ingredient ของสินค้า RTE/RTC · ในไฟล์ P&L ตั้งแต่ LE 9+3 มี sheet FoodWG, ElimF.TH และ FoodTH&WG (= FoodTH + FoodWG + ElimF.TH) | 2026-10-20 |

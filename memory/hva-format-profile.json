@@ -1,0 +1,32 @@
+{
+  "_about": "Por's manual format adjustments, captured 20-Oct-2026 from 'HVA GP tier tracker 2027 v9.xlsx' and 'HVA 2027 Q1-Q2 volume delivery risk v6.xlsx'. Applied by HVA_build/hva_format.py after every rebuild. Columns are located by header label, not by letter, so they survive layout changes. Filters (e.g. Channel = Domestic) and Excel row auto-fit are NOT format and are not stored.",
+  "tracker": {
+    "README": {"zoom": 115},
+    "Tier mapping 25-26-27": {
+      "col_widths_by_letter": {"A": 21.43, "B": 22.57}
+    }
+  },
+  "risk": {
+    "By customer GP-kg": {
+      "zoom": 85,
+      "header_rows": {"group": 2, "sub": 3},
+      "rename_group_headers": {
+        "Growth vs best 2026 quarter": "Growth vs best '26 qtr",
+        "2027 plan product GP/kg, total": "27 prod GP/kg",
+        "2027 plan GP/kg, Rayong": "27 prod GP/kg - RY",
+        "2027 plan GP/kg, TKT": "27 prod GP/kg - TKT"
+      },
+      "col_widths_by_group": {"Growth vs best '26 qtr": 10.14, "27 prod GP/kg": 9.86},
+      "collapsed_groups": [
+        {"sub_labels": ["Customer name (AP)", "Code", "AP customer type"], "within_group": "Customer / SKU"},
+        {"sub_labels": ["PIC"], "within_group": "Customer / SKU"},
+        {"sub_labels": ["Jan'27", "Feb'27", "Mar'27"], "within_group": "2027 plan, total (t)"},
+        {"whole_groups": ["2027 plan, Rayong (t)", "2027 plan, TKT (t)"]},
+        {"whole_groups": ["Actual product GP/kg"]}
+      ],
+      "highlight_sub_headers": {"Best 2026 quarter (t)": "FFFF00"},
+      "sub_header_vertical": "top",
+      "actual_forecast_line": {"first_forecast_sub_label": "Jan'27", "within_group": "2027 plan, total (t)", "draw_on": "right edge of the last actual column"}
+    }
+  }
+}

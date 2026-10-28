@@ -1,0 +1,292 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Root Price Dashboard",
+  "schemaVersion": 1,
+  "description": "สรุปราคาซื้อหัวมัน (root purchase price + volume) รายวันของ Thaiwah internal purchasing ที่ 5 โรงงาน (TKT, PM, TN, MS, TDC) อัปเดตโดย scheduled task เมื่อพบข้อมูลวันใหม่จากไฟล์ SharePoint \"Daily root purchased report\""
+}
+</script>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<script>if(!window.Chart){document.write('<scr'+'ipt src="https://unpkg.com/chart.js@4.5.0/dist/chart.umd.js"></scr'+'ipt>');}</script>
+<script>if(!window.Chart){document.write('<scr'+'ipt src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></scr'+'ipt>');}</script>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 28px 32px; font-family: 'Aptos','Calibri','Segoe UI',Arial,sans-serif; background:#fff; color:#1a1a1a; }
+  .header { display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #0b2540; padding-bottom:12px; margin-bottom:20px; }
+  .header h1 { font-size:20px; font-weight:700; color:#0b2540; margin:0; letter-spacing:0.2px; }
+  .header .sub { font-size:12.5px; color:#6b7280; margin-top:4px; }
+  .header .updated { font-size:11.5px; color:#6b7280; text-align:right; }
+  .kpi-row { display:flex; gap:14px; margin-bottom:22px; }
+  .kpi { flex:1; background:#f7f8fa; border-radius:6px; padding:12px 16px; border-left:3px solid #0b2540; }
+  .kpi .label { font-size:11px; color:#6b7280; margin-bottom:4px; }
+  .kpi .value { font-size:19px; font-weight:700; color:#0b2540; }
+  .kpi .unit { font-size:11px; color:#6b7280; font-weight:400; margin-left:3px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:8px; }
+  thead th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:#6b7280; font-weight:600; padding:8px 10px; border-bottom:1.5px solid #0b2540; }
+  thead th.num, tbody td.num { text-align:right; }
+  tbody td { padding:10px 10px; border-bottom:1px solid #e5e7eb; color:#1a1a1a; }
+  tbody tr:last-child td { border-bottom:1.5px solid #0b2540; }
+  .plant-name { font-weight:600; color:#0b2540; }
+  .plant-code { font-size:11px; color:#9ca3af; font-weight:400; }
+  .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .dot.green { background:#1a9850; } .dot.red { background:#d73027; } .dot.grey { background:#c7cbd1; }
+  .delta { font-size:11px; margin-left:6px; }
+  .delta.up { color:#d73027; } .delta.down { color:#1a9850; } .delta.flat { color:#9ca3af; }
+  .status-inactive { color:#9ca3af; font-style:italic; font-size:12px; }
+  .badge { display:inline-block; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:10px; margin-right:6px; vertical-align:middle; }
+  .badge.ok { background:#e3f4ea; color:#1a7a44; } .badge.wait { background:#fdf0d8; color:#9a6a12; } .badge.none { background:#eef0f2; color:#9ca3af; } .badge.warn { background:#fbe4e4; color:#a8201a; }
+  .status-detail { font-size:11.5px; color:#6b7280; }
+  .total-row td { font-weight:700; color:#0b2540; }
+  .footnote { margin-top:10px; font-size:11px; color:#9ca3af; line-height:1.6; }
+  .legend { display:flex; gap:18px; margin-top:14px; margin-bottom:30px; font-size:11px; color:#6b7280; flex-wrap:wrap; }
+  .legend span { display:flex; align-items:center; }
+  .section-title { font-size:15px; font-weight:700; color:#0b2540; margin:30px 0 4px 0; padding-top:18px; border-top:1px solid #e5e7eb; }
+  .section-sub { font-size:12px; color:#6b7280; margin-bottom:14px; }
+  .chart-box { background:#f7f8fa; border-radius:6px; padding:14px 16px 6px 16px; }
+  .chart-title { font-size:12px; font-weight:600; color:#0b2540; margin-bottom:6px; }
+  .chart-wrap { position:relative; height:190px; }
+  .caveat { background:#fff8ec; border-left:3px solid #e0a11f; padding:10px 14px; font-size:11.5px; color:#6b5a1e; border-radius:4px; margin-bottom:18px; line-height:1.6; }
+  .color-key { display:flex; gap:16px; margin-bottom:14px; font-size:11.5px; color:#374151; flex-wrap:wrap; align-items:center; }
+  .color-key .swatch { display:inline-block; width:12px; height:3px; border-radius:2px; margin-right:6px; vertical-align:middle; }
+  .color-key .note { color:#9ca3af; font-style:italic; }
+  .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:18px; }
+  @media (max-width:760px){ .chart-grid { grid-template-columns:1fr; } }
+  .plant-chart-title { font-size:15px; font-weight:700; color:#0b2540; margin-bottom:2px; }
+  .plant-chart-sub { font-size:11px; color:#9ca3af; margin-bottom:8px; }
+  .plant-chart-wrap { position:relative; height:360px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>สรุปราคาหัวมัน (Root Purchase) — Thaiwah Group</h1>
+    <div class="sub">ข้อมูลการซื้อหัวมันจริงของ Thaiwah (Internal) — 5 โรงงานไทย + TWIC กัมพูชา</div>
+  </div>
+  <div class="updated">
+    ข้อมูลล่าสุด (เมื่อวาน): <b>8-Oct-2026</b> (พฤหัสบดี)<br>
+    <span style="color:#9ca3af"><b style="color:#b45309">&#9888; 8-Oct: ลงปริมาณ/ราคาครบ 5 โรง &middot; ผลโม่ 8-Oct เข้าแล้ว: TKT 102.9% (CAG 16.05), TN 95.3% (CAG 16.32) + TN ย้อนหลัง 5&ndash;7-Oct ปิดครบ &middot; PM 103.0% (CAG 15.65) เข้าแล้ว &middot; ยังรอ: MS (90.0% = placeholder), TDC (ว่าง) &middot; TWIC 8-Oct ส่งแล้ว (138 ตัน)</b></span><br>
+    อัปเดตเมื่อ: 9-Oct-2026 11:10 น. (T-1 = 8-Oct: TN ผลโม่ 5&ndash;8-Oct เข้าแล้ว) (ไฟล์ Oct แก้ล่าสุด 9-Oct 10:56 น. &middot; ไฟล์ Sep แก้ล่าสุด 5-Oct 16:49 น. &middot; ทบทวน 9-Sep&ndash;8-Oct เทียบไฟล์ต้นทาง: เพิ่ม TWIC 8-Oct (อีเมล put.p ได้รับ 9-Oct 08:25 น.) &middot; ข้อมูลไทย 1&ndash;4-Oct diff = 0, TN 5&ndash;8-Oct เติมผลโม่)</div>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="label">ปริมาณซื้อโรงงานไทย (8-Oct &mdash; ซื้อครบ 5 โรง)</div><div class="value">3,865<span class="unit">ตัน &middot; <b>TN 739 &middot; TKT 968 &middot; PM 1,260 &middot; MS 651 &middot; TDC 247</b> &middot; เทียบ 7-Oct (3,028 ตัน, 5 โรง) +837, +27.6%</span></div></div>
+  <div class="kpi"><div class="label">ราคาเฉลี่ยถ่วงน้ำหนัก (8-Oct &middot; 5 โรง)</div><div class="value">3.90<span class="unit">&#3647;/กก. (3.8994) &middot; <b style="color:#d73027">+0.00 จาก 7-Oct (3.8981)</b></span></div></div>
+  <div class="kpi"><div class="label">%Starch เฉลี่ยถ่วงน้ำหนัก (8-Oct &middot; 5 โรง)</div><div class="value">24.57<span class="unit">% &middot; <b>+0.36 จุด</b> vs 7-Oct (24.21) &rarr; CBG รวม <b>15.87 (&minus;0.23)</b> vs 16.10</span></div></div>
+  <div class="kpi"><div class="label">CAG รวม (ล่าสุดที่ครบ = 6-Oct &middot; ไม่รวม MS)</div><div class="value">16.54<span class="unit">&#3647;/กก. (16.541) &middot; <b>4 โรง &middot; 2,906 ตัน</b> &middot; <b style="color:#b45309">7-Oct&ndash;8-Oct ปิดไม่ได้ &mdash; รอผลโม่ PM (8-Oct) และ TDC (7-Oct, 8-Oct)</b></span></div></div>
+</div>
+
+<div class="caveat">
+  <b style="color:#b45309">&#9888; 8-Oct: TKT ผลโม่เข้าแล้ว (102.9% &rarr; CAG 16.05) และ TN ผลโม่ 5&ndash;8-Oct เข้าครบ (8-Oct 95.3% &rarr; CAG 16.32) แต่ CAG รวมยังปิดไม่ได้ (รอ TDC) &mdash; ล่าสุดที่ครบ = 6-Oct: 16.54, 4 โรง 2,906 ตัน (5-Oct ปิดได้แล้วเช่นกัน: 17.06, 3,139 ตัน)</b> &mdash; TN 3.79 / 739 ตัน / 24.37% / %Rec 95.3% / CAG 16.32 &middot; TKT 3.95 / 968 ตัน / 23.93% / %Rec 102.9% (R1 104.9 / R2 98.6) / CAG 16.05 &middot; PM 3.73 / 1,260 ตัน / 23.14% / %Rec 103.0% / CAG 15.65 &middot; MS 4.28 / 651 ตัน / 28.59% (%Rec 90.0% = placeholder &rarr; เว้นว่าง) &middot; TDC 3.89 / 247 ตัน / 24.33% (ผลโม่ยังว่าง)
+  <br><b style="color:#374151">ผลโม่ใหม่/Backfill:</b> TKT 8-Oct เข้าแล้ว (102.9%) &middot; <b>TN ผลโม่เข้าแล้ว 4 วัน: 5-Oct 86.0% (CAG 18.21 &mdash; ต่ำผิดปกติ) &middot; 6-Oct 93.7% (16.64) &middot; 7-Oct 94.7% (16.41) &middot; 8-Oct 95.3% (16.32)</b> &middot; ตรวจย้อนหลัง 1&ndash;4-Oct เทียบไฟล์ต้นทาง diff = 0 (TDC 2/7-Oct ยังรอผลโม่)
+  <br><b style="color:#374151">ปริมาณ:</b> 8-Oct รวม 5 โรง 3,865 ตัน vs 3,028 ตัน (7-Oct) (+837, +27.6%) &mdash; TN +137 (+22.8%) &middot; TKT &minus;34 (&minus;3.4%) &middot; <b style="color:#b45309">PM +667 (+112.5%, 593 &rarr; 1,260 ตัน)</b> &middot; MS +22 (+3.5%) &middot; TDC +45 (+22.3%, 202 &rarr; 247)
+  <br><b style="color:#374151">ราคา/คุณภาพ:</b> ราคาเฉลี่ย 3.90 (+0.00 vs 7-Oct) &middot; %ST 24.57% (+0.36 จุด) &middot; CBG 15.87 &middot; MS ราคา +0.20 (4.08 &rarr; 4.28) และ %ST 28.59% สูงสุดในช่วง 30 วัน &middot; verify CBG: TN 3.79&divide;24.37% = 15.55, CAG 15.55&divide;95.3% = 16.32 &middot; TKT 3.95&divide;23.93% = 16.51 &middot; PM 3.73&divide;23.14% = 16.12 &middot; MS 4.28&divide;28.59% = 14.97 &middot; TKT 3.95&divide;23.93% = 16.51, CAG 16.51&divide;102.9% = 16.05 ✓ &middot; TDC 3.89&divide;24.33% = 15.99
+  <br><span style="color:#374151">TWIC (นิติบุคคลแยก): <b>8-Oct ส่งแล้ว</b> (อีเมล "on Oct 08, 2026" ได้รับ 9-Oct 08:25 น.): ราคา 2.75 / 138 ตัน (ปริมาณลดต่อเนื่อง &minus;27% จาก 190; 7-Oct ผู้ส่งแจ้งชาวไร่หยุดเก็บเกี่ยวชั่วคราว ลานรับซื้อพักซื้อ) / %ST 20.43% / %Rec 105.11% / CAG 12.81 &middot; ยังขาดของ 13-Sep, 24-Sep, 27-Sep</span>
+  <br><b style="color:#b45309">&#128680; ค่าผิดปกติที่ยังไม่ถูกแก้ (ในช่วง 30 วัน, %Recovery &lt;90% หรือ &gt;110%): TN 12-Sep 89.8% &middot; TN 22-Sep 89.2% &middot; TN 29-Sep 86.6% &middot; TN 5-Oct 86.0% &middot; TKT 10-Sep 85.4% &middot; TKT 19-Sep 129.5% &middot; TKT 30-Sep 127.5% &middot; TKT 2-Oct 85.3% &middot; PM 14-Sep 65.3% &middot; PM 20-Sep 82.3% &middot; MS 9-Sep 81.9% &middot; MS 14-Sep 42.1% &middot; MS 16-Sep 78.0% &middot; MS 22-Sep 84.3% &middot; MS 26-Sep 81.2% &middot; MS 30-Sep 71.3% &middot; MS 3-Oct 88.8% &middot; MS 4-Oct 89.6% &middot; MS 5-Oct 89.6% &middot; MS 6-Oct 80.1% &middot; MS 7-Oct 82.3% &mdash; TKT 2-Oct R1 93.2 / R2 46.0 (R2 ต่ำผิดปกติ ควรให้โรงงานตรวจสอบ)</b>
+  <br><b>&#128680; ค้างผลโม่ (9-Oct-2026 11:10 น.): TN 11-Sep, 27-Sep, 28-Sep &middot; TKT 20-Sep &middot; PM 27-Sep &middot; MS 11-Sep, 12-Sep, 15-Sep, 20-Sep, 21-Sep, 25-Sep, 28-Sep, 29-Sep, 8-Oct &middot; TDC 19-Sep, 23-Sep, 2-Oct, 7-Oct, 8-Oct</b>
+</div>
+
+<table>
+  <thead>
+    <tr><th>โรงงาน / พื้นที่</th><th class="num">ราคา (บาท/กก.)</th><th class="num">เทียบวันก่อน</th>
+        <th class="num">ปริมาณซื้อ (ตัน)</th><th class="num">%ST</th><th class="num">CAG (บาท/กก.)</th><th class="num">%Recovery</th><th>สถานะ</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><span class="plant-name">อ.เมือง อุดรธานี</span><br><span class="plant-code">TN</span></td>
+      <td class="num">3.79</td><td class="num"><span class="dot green"></span><span class="delta flat">0.00</span></td>
+      <td class="num">739</td><td class="num">24.37</td><td class="num">16.32</td><td class="num">95.3</td>
+      <td><span class="badge ok">ครบ 8-Oct</span><span class="status-detail">CBG 3.79&divide;24.37% = 15.55 &middot; CAG 15.55&divide;95.3% = 16.32 ✓ &middot; ผลโม่ 5&ndash;7-Oct เข้าแล้ว (86.0 / 93.7 / 94.7%) &middot; ค้างผลโม่ 11-Sep, 27-Sep, 28-Sep</span></td>
+    </tr>
+    <tr><td><span class="plant-name">ท่าคันโท กาฬสินธุ์</span><br><span class="plant-code">TKT</span></td>
+      <td class="num">3.95</td><td class="num"><span class="dot green"></span><span class="delta flat">0.00</span></td>
+      <td class="num">968</td><td class="num">23.93</td><td class="num">16.05</td><td class="num">102.90</td>
+      <td><span class="badge ok">ครบ 8-Oct</span><span class="status-detail">CBG 3.95&divide;23.93% = 16.51 &middot; CAG 16.51&divide;102.9% = 16.05 ✓ (R1 104.9 / R2 98.6) &middot; ค้างผลโม่ 20-Sep</span></td>
+    </tr>
+    <tr><td><span class="plant-name">พิมาย โคราช</span><br><span class="plant-code">PM</span></td>
+      <td class="num">3.73</td><td class="num"><span class="dot green"></span><span class="delta down">&minus;0.01</span></td>
+      <td class="num">1,260</td><td class="num">23.14</td><td class="num">15.65</td><td class="num">103.0</td>
+      <td><span class="badge ok">ครบ 8-Oct</span><span class="status-detail">CBG 3.73&divide;23.14% = 16.12 &middot; CAG 16.12&divide;103.0% = 15.65 ✓ &middot; ปริมาณ +112.5% จาก 7-Oct &middot; ค้างผลโม่ 27-Sep</span></td>
+    </tr>
+    <tr><td><span class="plant-name">แม่สอด ตาก</span><br><span class="plant-code">MS</span></td>
+      <td class="num">4.28</td><td class="num"><span class="dot red"></span><span class="delta up">+0.20</span></td>
+      <td class="num">651</td><td class="num">28.59</td><td class="num">&mdash;</td><td class="num">&mdash;</td>
+      <td><span class="badge wait">รอผลโม่</span><span class="status-detail">ยังไม่มีผลโม่ 8-Oct (%Recovery 90.0% = placeholder ซ้ำ 9-Oct) &middot; ไม่นับใน CAG รวม &middot; CBG 4.28&divide;28.59% = 14.97 ✓ &middot; ราคา/%ST สูงผิดปกติ &middot; ค้างผลโม่ 11-Sep, 12-Sep, 15-Sep, 20-Sep, 21-Sep, 25-Sep, 28-Sep, 29-Sep, 8-Oct</span></td>
+    </tr>
+    <tr><td><span class="plant-name">บ้านฉาง ระยอง</span><br><span class="plant-code">TDC</span></td>
+      <td class="num">3.89</td><td class="num"><span class="dot red"></span><span class="delta up">+0.03</span></td>
+      <td class="num">247</td><td class="num">24.33</td><td class="num">&mdash;</td><td class="num">&mdash;</td>
+      <td><span class="badge wait">รอผลโม่</span><span class="status-detail">ยังไม่มีผลโม่ 8-Oct (%Recovery ว่าง) &middot; CBG 3.89&divide;24.33% = 15.99 ✓ &middot; ค้างผลโม่ 19-Sep, 23-Sep, 2-Oct, 7-Oct, 8-Oct</span></td>
+    </tr>
+    <tr class="total-row"><td>รวมโรงงานไทย (8-Oct &mdash; ซื้อครบ 5 โรง)</td>
+      <td class="num">3.90</td><td class="num"><span class="dot red"></span><span class="delta up">+0.00</span></td>
+      <td class="num">3,865</td><td class="num">24.57</td><td class="num">&mdash;</td><td class="num">&mdash;</td>
+      <td><span class="status-detail">ราคา/%ST ถ่วงน้ำหนักทุกโรงที่ซื้อ (รวม MS) &middot; เทียบ 7-Oct (3.90 / 24.21%, 5 โรง) &middot; CBG 15.87 (&minus;0.23) &middot; <b>CAG รวมปิดไม่ได้ (รอผลโม่ TDC) &mdash; ล่าสุดที่ครบ = 6-Oct 16.54 (4 โรง 2,906 ตัน)</b></span></td>
+    </tr>
+    <tr><td><span class="plant-name">TWIC กัมพูชา</span><br><span class="plant-code">TWIC &middot; นิติบุคคลแยก</span></td>
+      <td class="num">2.75</td><td class="num"><span class="dot red"></span><span class="delta up">+0.01</span></td>
+      <td class="num">138</td><td class="num">20.43</td><td class="num">12.81</td><td class="num">105.11</td>
+      <td><span class="badge ok">ครบ 8-Oct</span><span class="status-detail">CBG 2.75&divide;20.43% = 13.46 &middot; CAG 13.46&divide;105.11% = 12.81 ✓ &middot; เทียบ 7-Oct (2.74 / 190 ตัน) ปริมาณ −27% &middot; ยังขาดของ 13-Sep, 24-Sep, 27-Sep &middot; แยกจากยอดไทย</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="legend">
+  <span><span class="dot red" style="margin-right:5px;"></span>ราคาสูงขึ้นจากวันก่อน</span>
+  <span><span class="dot green" style="margin-right:5px;"></span>ราคาลง / คงที่</span>
+  <span><span class="dot grey" style="margin-right:5px;"></span>ไม่มีการซื้อ / ยังไม่ลงข้อมูล</span>
+  <span class="note" style="color:#9ca3af;font-style:italic">MS ไม่ถูกนับในการคำนวณ CAG รวม (ไม่ส่ง %Recovery สม่ำเสมอ) · TWIC เป็นนิติบุคคลกัมพูชา (ราคาตั้งต้น KHR แปลงเป็น THB) แยกบรรทัด ไม่รวมในยอด "รวมโรงงานไทย"</span>
+</div>
+
+<div class="section-title">แนวโน้ม 30 วันย้อนหลัง (9-Sep ถึง 8-Oct-2026)</div>
+<div class="section-sub">แยกกราฟตามโรงงาน (6 แห่ง รวม TWIC กัมพูชา) — แต่ละกราฟแสดง ราคาซื้อ, ปริมาณซื้อ, %Starch, ปริมาณแป้ง (ตัน), CAG ต้นทุนหลังโม่ และ %Recovery ของโรงงานนั้นในช่วง 30 วัน — เมาส์ชี้บนกราฟเพื่อดูค่าตัวเลขแต่ละวัน</div>
+
+<div class="caveat">
+  <b>หมายเหตุเรื่องราคาตลาด external:</b> แหล่งข้อมูลทางการ (สำนักงานเศรษฐกิจการเกษตร, oae.go.th) ปิดปรับปรุงระบบ และเว็บ rakakaset.com ถูก IT บล็อก (high-risk) เว็บเดียวที่เปิดได้จริงคือ
+  <a href="https://www.nettathai.org/2012-02-06-06-49-09.html" target="_blank">nettathai.org</a> (สมาคมโรงงานผู้ผลิตมันสำปะหลัง ภาคตะวันออกเฉียงเหนือ) ซึ่งมีแค่ราคาที่ "พิมาย นครราชสีมา" (ตรงกับ PM เท่านั้น) และโพสต์ไม่สม่ำเสมอ —
+  ช่วง 30 วันนี้ (9-Sep ถึง 8-Oct) <b>ไม่พบจุดข้อมูล external เลย</b> — กราฟราคา PM จึงแสดงเฉพาะราคาซื้อจริงภายใน
+</div>
+
+<div class="color-key">
+  <span><span class="swatch" style="background:#0b2540;"></span>ราคา (บาท/กก.) — แกนซ้ายที่ 1</span>
+  <span><span class="swatch" style="background:none; height:0; width:14px; border-top:2px dashed #e0821f;"></span>%Starch — แกนซ้ายที่ 2</span>
+  <span><span class="swatch" style="background:#d6d9de; height:8px; border-radius:1px;"></span>ปริมาณซื้อ (ตัน, แท่งเทาอ่อน) — แกนขวา</span>
+  <span><span class="swatch" style="background:none; height:0; width:14px; border-top:2px dashed #1a9850;"></span>ปริมาณแป้ง (ตัน) = ปริมาณซื้อ × %Starch × %Recovery — เฉพาะวันที่มี %Recovery — แกนขวา</span>
+  <span><span class="swatch" style="background:#8e44ad;"></span>CAG ต้นทุนหลังโม่ (บาท/กก.) — แกนขวาที่ 2</span>
+  <span><span class="swatch" style="background:#0e8aa8; height:7px; width:7px; border-radius:50%;"></span>%Recovery (จุด) — แกนซ้ายที่ 3</span>
+  <span class="note">เส้น/จุดขาดช่วง = ไม่มีค่าที่มีความหมายในวันนั้น (ไม่ได้ซื้อ หรือยังไม่เดินเครื่อง) — ไม่ลากลงศูนย์ · แท่งปริมาณซื้อยังแสดง 0 ตามจริง</span>
+</div>
+
+<div class="chart-grid" id="plantChartGrid"></div>
+
+<div class="footnote">
+  ที่มา (internal): SharePoint &mdash; TWPCROOTSOURCINGTEAM / "Daily root purchased report - 10_Oct 2026" (1&ndash;8-Oct) และ "09_Sep 2026" (9&ndash;30-Sep) (อ่านไฟล์รอบ 9-Oct-2026 09:05 น.) &middot; TWIC: อีเมล put.p@thaiwah.com (ล่าสุด = ของ 8-Oct ได้รับ 9-Oct 08:25 น. &middot; ยังขาดของ 13-Sep, 24-Sep, 27-Sep) &middot; ราคาที่แสดงคือราคาที่ %Starch จริงของแต่ละวัน (ไม่ปรับเทียบ 25%) &middot;
+  ที่มา (external): nettathai.org &middot;
+  หน้านี้อัปเดตอัตโนมัติเมื่อพบข้อมูลวันใหม่ในไฟล์ต้นทาง
+</div>
+
+<script>
+const dates = ["9-Sep", "10-Sep", "11-Sep", "12-Sep", "13-Sep", "14-Sep", "15-Sep", "16-Sep", "17-Sep", "18-Sep", "19-Sep", "20-Sep", "21-Sep", "22-Sep", "23-Sep", "24-Sep", "25-Sep", "26-Sep", "27-Sep", "28-Sep", "29-Sep", "30-Sep", "1-Oct", "2-Oct", "3-Oct", "4-Oct", "5-Oct", "6-Oct", "7-Oct", "8-Oct"];
+
+// null = ไม่มีค่าที่มีความหมาย · volume 0 = ไม่ซื้อจริง, null = ยังไม่ลงข้อมูล · TWIC แยกจากยอดไทย
+const plants = {
+  TN: { label: "TN", fullName: "อ.เมือง อุดรธานี",
+    price:  [3.83, 3.88, 3.82, 3.78, 3.8, 3.82, 3.86, 3.83, 3.83, 3.86, 3.81, 3.83, 3.81, 3.84, 3.82, 3.83, 3.86, 3.88, 3.88, 3.85, 3.84, 3.84, 3.85, 3.86, 3.87, 3.88, 3.87, 3.86, 3.79, 3.79],
+    volume: [720, 514, 624, 804, 1249, 1172, 1072, 918, 585, 705, 581, 928, 929, 1098, 1001, 1106, 976, 463, 490, 756, 732, 805, 958, 971, 1265, 1142, 1049, 750, 602, 739],
+    starch: [23.72, 25.27, 23.63, 22.44, 23.35, 23.52, 24.45, 24.08, 23.98, 24.64, 23.55, 23.79, 23.18, 24.02, 23.51, 23.83, 24.67, 25.01, 24.59, 23.95, 23.73, 24.28, 24.24, 24.56, 25.01, 24.95, 24.7, 24.75, 24.39, 24.37],
+    cag:    [16.44, 14.76, null, 18.76, 16.24, 17.54, 15.35, 16.27, 17.22, 16.02, 16.94, 16.71, 16.29, 17.92, 16.67, 15.9, 15.82, 15.97, null, null, 18.68, 16.78, 16.84, 16.46, 16.78, 16.36, 18.21, 16.64, 16.41, 16.32],
+    recov:  [98.2, 104, null, 89.8, 100.2, 92.6, 102.8, 97.8, 92.8, 97.8, 95.5, 96.3, 100.9, 89.2, 97.5, 101.1, 98.9, 97.1, null, null, 86.6, 94.3, 94.3, 95.5, 92.2, 95.1, 86, 93.7, 94.7, 95.3]
+  },
+  TKT: { label: "TKT", fullName: "ท่าคันโท กาฬสินธุ์",
+    price:  [3.96, 3.95, 3.9, 4.06, 4.05, 4.13, 4.15, 4.09, 4.09, 4.1, 4.03, 4.06, 4.02, 4.03, 4.04, 4.05, 4.02, 4.08, 4.08, 4.05, 4.04, 4.02, null, 4.04, 4.01, 4.01, 3.99, 3.96, 3.95, 3.95],
+    volume: [800, 572, 333, 782, 1218, 851, 493, 442, 461, 333, 600, 806, 940, 932, 1041, 702, 954, 388, 420, 597, 599, 640, 0, 655, 786, 1183, 1032, 1115, 1002, 968],
+    starch: [23.65, 23.69, 22.83, 23.02, 22.82, 24.13, 24.27, 23.57, 23.45, 23.5, 22.54, 22.94, 22.32, 22.47, 22.64, 22.87, 23.28, 24, 24.17, 23.75, 23.49, 23.27, null, 23.56, 23.02, 23.06, 23.72, 23.24, 23.72, 23.93],
+    cag:    [16.15, 19.54, 18.34, 17.44, 17.39, 17.01, 17.1, 16.78, 16.46, 16.61, 13.8, null, 18.34, 17.4, 17.45, 17.29, 16.77, 16.65, 16.28, 17.34, 16.29, 13.55, null, 20.11, 17.36, 16.85, 16.32, 16.79, 16.3, 16.05],
+    recov:  [103.7, 85.4, 93.1, 101.1, 102.1, 100.6, 100, 103.4, 105.9, 105.1, 129.5, null, 98.2, 103.1, 102.2, 102.4, 102.9, 102.1, 103.7, 98.4, 105.6, 127.5, null, 85.3, 100.4, 103.2, 103.1, 101.5, 102.1, 102.9]
+  },
+  PM: { label: "PM", fullName: "พิมาย โคราช",
+    price:  [4.2, 4.13, 4.2, 4.16, 4.19, 4.2, 4.18, 4.17, 4.13, 4.17, 4.19, 4.17, 4.11, 4.08, 3.98, 3.97, 3.96, 3.97, 3.87, 3.9, 3.93, 3.91, 3.92, 3.91, 3.91, 3.9, 3.81, 3.79, 3.74, 3.73],
+    volume: [777, 762, 481, 997, 844, 740, 783, 730, 830, 773, 397, 821, 844, 683, 516, 1022, 581, 311, 242, 499, 437, 689, 377, 795, 1153, 736, 813, 770, 593, 1260],
+    starch: [22.86, 21.75, 22.86, 22.14, 22.83, 22.98, 22.48, 22.33, 21.32, 22.37, 22.5, 22.21, 23.13, 22.69, 22.32, 22.28, 23.1, 23.29, 21.4, 21.85, 22.64, 22.37, 21.97, 22.15, 22.1, 22.79, 22.11, 22.72, 22.54, 23.14],
+    cag:    [17.14, 17.84, 17.78, 18.39, 17.61, 28.01, 18.12, 18.52, 19.01, 18.51, 18.47, 22.81, 17.15, 17.85, 17.33, 17.68, 17.11, 16.92, null, 17.71, 17.32, 17.4, 17.77, 17.28, 17.07, 16.36, 16.46, 15.58, 15.95, 15.65],
+    recov:  [107.2, 106.5, 103.3, 102.2, 104.2, 65.3, 102.6, 100.8, 101.9, 100.7, 100.9, 82.3, 103.6, 100.7, 102.9, 100.8, 100.2, 100.8, null, 100.8, 100.2, 100.4, 100.4, 102.2, 103.7, 104.6, 104.7, 107.1, 104, 103]
+  },
+  MS: { label: "MS", fullName: "แม่สอด ตาก",
+    price:  [3.81, 3.83, 3.82, 3.82, 3.9, 3.98, 3.99, 3.93, 4.01, 4.02, 3.92, 4.11, 3.98, 4.13, 4.07, 4.21, 4.03, 4.1, 3.9, 3.89, 4.32, 4.05, 4.16, 4.17, 4.19, 4.13, 4.05, 4.16, 4.08, 4.28],
+    volume: [289, 298, 238, 205, 332, 376, 290, 423, 404, 360, 461, 254, 241, 295, 522, 517, 438, 294, 206, 139, 78, 263, 553, 650, 743, 687, 506, 593, 629, 651],
+    starch: [21.73, 23.29, 22.48, 24.16, 23.36, 24.56, 25.7, 23.67, 23.84, 24.24, 22.29, 25.92, 24.59, 26.48, 25.54, 26.01, 23.79, 25.15, 21.98, 21.51, 28.02, 23.78, 26.28, 26.2, 26.43, 25.69, 25.52, 27.49, 26.54, 28.59],
+    cag:    [21.41, 15.86, null, null, 18.4, 38.53, null, 21.28, 18.64, 15.9, 19.08, null, null, 18.5, 17.69, 16.72, null, 20.07, 18.99, null, null, 23.9, 17.49, 17.12, 17.86, 17.94, 17.72, 18.89, 18.67, null],
+    recov:  [81.9, 103.7, null, null, 90.8, 42.1, null, 78, 90.2, 104.3, 92.2, null, null, 84.3, 90.1, 96.8, null, 81.2, 93.4, null, null, 71.3, 90.5, 93, 88.8, 89.6, 89.6, 80.1, 82.3, null]
+  },
+  TDC: { label: "TDC", fullName: "บ้านฉาง ระยอง",
+    price:  [4.22, 4.2, 4.05, 4.2, 4.17, 4.17, 4.06, 4.17, 4.12, 4.24, 4.15, 4.22, 4.25, 4.27, 4.07, 4.21, 4.14, 4.21, 4.11, 4.13, 4.13, 4.16, 4.16, 4.09, 4.06, 3.99, 3.95, 3.86, 3.86, 3.89],
+    volume: [355, 298, 201, 251, 260, 233, 172, 298, 196, 208, 215, 127, 196, 272, 280, 390, 239, 318, 169, 222, 365, 330, 367, 410, 402, 433, 245, 271, 202, 247],
+    starch: [24.59, 24.22, 23.34, 24.46, 23.83, 23.73, 22.74, 23.64, 24.26, 24.39, 23.65, 23.82, 24.47, 24.7, 22.46, 23.96, 22.76, 23.67, 23.02, 22.7, 22.54, 23.14, 23.41, 23.37, 23.22, 23.59, 24.54, 22.93, 23.73, 24.33],
+    cag:    [17.07, 17.78, 18.75, 17.94, 18.54, 17.4, 17.77, 18.14, 17.11, 17.45, null, 18.79, 17.67, 17.87, null, 18.87, 19.38, 18.18, 19.09, 18.84, 19.18, 18.66, 18.8, null, 18.22, 17.6, 17.29, 17.97, null, null],
+    recov:  [100.5, 97.6, 92.6, 95.7, 94.4, 101, 100.5, 97.3, 99.2, 99.6, null, 94.3, 98.3, 96.7, null, 93.1, 93.9, 97.8, 93.5, 96.6, 95.5, 96.3, 94.5, null, 96, 96.1, 93.1, 93.7, null, null]
+  },
+  TWIC: { label: "TWIC", fullName: "TWIC กัมพูชา (Oddar Meanchey)",
+    price:  [3.27, 3.31, 3.21, 3.37, null, 3.29, 3.34, 3.36, 3.36, 3.38, 3.34, 3.27, 3.03, 3.15, 3.08, null, 3.08, 2.88, null, 2.98, 2.99, 3.01, 3.09, 2.87, 2.84, 3.01, 2.8, 2.83, 2.74, 2.75],
+    volume: [244, 192, 133, 282, null, 325, 222, 388, 490, 511, 497, 460, 304, 357, 360, null, 391, 112, null, 158, 355, 371, 512, 418, 489, 556, 402, 519, 190, 138],
+    starch: [19.58, 20.42, 19.39, 21.24, null, 20.28, 21.45, 19.8, 19.86, 20.36, 20.45, 21.12, 20.2, 20.61, 20.2, null, 21.43, 18.98, null, 20.96, 20.63, 20.44, 20.59, 20.25, 20.01, 21.18, 19.85, 20.4, 20.42, 20.43],
+    cag:    [null, 15.37, null, 15.49, null, 15.38, 15.35, 16.17, 16.1, 15.94, 15.54, 15.81, 14.97, 16.98, 14.48, null, 15.02, null, null, 13.64, 14.07, 14.21, 14.38, 13.46, 13.25, 13.41, 13.65, 13.87, 13.12, 12.81],
+    recov:  [null, 105.39, null, 102.53, null, 105.4, 101.62, 104.91, 105.17, 104.27, 105.06, 98.05, 100.28, 90.06, 105.33, null, 95.72, null, null, 104.17, 102.86, 103.82, 104.42, 105.29, 107.29, 106, 103.16, 100.02, 102.31, 105.11]
+  },
+};
+
+Object.values(plants).forEach(p => {
+  p.starchTon = p.volume.map((v, i) =>
+    (v === null || !v || p.starch[i] === null || p.recov[i] === null || p.recov[i] === undefined)
+      ? null : Math.round(v * (p.starch[i] / 100) * (p.recov[i] / 100) * 10) / 10);
+});
+
+const externalPM = dates.map(d => d === '15-Jul' ? 3.60 : null);
+
+function isolatedPt(arr, r) {
+  return (ctx) => {
+    const i = ctx.dataIndex;
+    if (arr[i] === null || arr[i] === undefined) return 0;
+    const prev = i > 0 ? arr[i-1] : null;
+    const next = i < arr.length-1 ? arr[i+1] : null;
+    return (prev === null || prev === undefined) && (next === null || next === undefined) ? (r || 3) : 0;
+  };
+}
+
+const lastDay = dates[dates.length - 1];
+function completeness(p) {
+  const i = p.volume.length - 1;
+  const vol = p.volume[i];
+  if (vol === null) return {cls:'none', label:'ยังไม่ลงข้อมูล', detail:`${lastDay}: ยังไม่มีข้อมูล`};
+  if (!vol)          return {cls:'none', label:'ไม่ซื้อ', detail:`${lastDay}: ไม่มีการซื้อ`};
+  const miss = [];
+  if (p.price[i]  == null) miss.push('ราคา');
+  if (p.starch[i] == null) miss.push('%Starch');
+  if (p.recov[i]  == null) miss.push('%Recovery');
+  if (p.cag[i]    == null) miss.push('CAG');
+  if (!miss.length) return {cls:'ok', label:'ครบ', detail:`${lastDay}: ข้อมูลครบทุกช่อง`};
+  return {cls:'wait', label:'รอผลโม่', detail:`${lastDay}: ขาด ${miss.join(' + ')}`};
+}
+
+(function boot(n){
+  if (typeof Chart === 'undefined') {
+    if (n > 100) { document.getElementById('plantChartGrid').innerHTML='<div style="padding:24px;color:#b03030;font-size:13px">โหลดไลบรารีกราฟ (Chart.js) ไม่สำเร็จ — เครือข่ายอาจบล็อก CDN</div>'; return; }
+    return setTimeout(function(){ boot(n+1); }, 100);
+  }
+const grid = document.getElementById('plantChartGrid');
+Object.entries(plants).forEach(([code, p]) => {
+  const box = document.createElement('div'); box.className='chart-box';
+  const st = completeness(p);
+  box.innerHTML = `
+    <div class="plant-chart-title">${code} — ${p.fullName}</div>
+    <div class="plant-chart-sub">ราคา, ปริมาณซื้อ, %Starch, ปริมาณแป้ง, CAG, %Recovery (30 วันย้อนหลัง)</div>
+    <div style="margin:-2px 0 8px 0"><span class="badge ${st.cls}">${st.label}</span><span class="status-detail">${st.detail}</span></div>
+    <div class="plant-chart-wrap"><canvas id="chart-${code}"></canvas></div>`;
+  grid.appendChild(box);
+  const datasets = [
+    { type:'bar', label:'ปริมาณซื้อ (ตัน)', data:p.volume, backgroundColor:'rgba(214,217,222,0.6)', borderColor:'#c7cbd1', borderWidth:1, yAxisID:'yVolume', order:3 },
+    { type:'line', label:'ราคา (บาท/กก.)', data:p.price, borderColor:'#0b2540', backgroundColor:'#0b2540', borderWidth:2.5, pointRadius:isolatedPt(p.price,3), tension:0.15, yAxisID:'yPrice', spanGaps:false, order:1 },
+    { type:'line', label:'%Starch', data:p.starch, borderColor:'#e0821f', backgroundColor:'#e0821f', borderWidth:1.5, borderDash:[4,3], pointRadius:isolatedPt(p.starch,2.5), tension:0.15, yAxisID:'yStarch', spanGaps:false, order:2 },
+    { type:'line', label:'ปริมาณแป้ง (ตัน)', data:p.starchTon, borderColor:'#1a9850', backgroundColor:'#1a9850', borderWidth:1.5, borderDash:[4,3], pointRadius:isolatedPt(p.starchTon,2.5), tension:0.15, yAxisID:'yVolume', spanGaps:false, order:2 },
+    { type:'line', label:'CAG ต้นทุนหลังโม่ (บาท/กก.)', data:p.cag, borderColor:'#8e44ad', backgroundColor:'#8e44ad', borderWidth:2, pointRadius:isolatedPt(p.cag,3), tension:0.15, yAxisID:'yCag', spanGaps:false, order:1 },
+    { type:'line', label:'%Recovery', data:p.recov, borderColor:'#0e8aa8', backgroundColor:'#0e8aa8', borderWidth:0, pointRadius:2.5, pointStyle:'circle', showLine:false, yAxisID:'yRecov', spanGaps:false, order:0 }
+  ];
+  if (code === 'PM') datasets.push({ type:'line', label:'External: พิมาย @25% (Nettathai)', data:externalPM, borderColor:'#d73027', backgroundColor:'#d73027', pointStyle:'star', pointRadius:7, showLine:false, yAxisID:'yPrice', order:0 });
+  try {
+  new Chart(document.getElementById('chart-'+code), { type:'bar', data:{ labels:dates, datasets },
+    options:{ responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{ size:10 } } }, tooltip:{ titleFont:{ size:11 }, bodyFont:{ size:11 } } },
+      scales:{
+        x:{ ticks:{ font:{ size:9 }, maxRotation:0, autoSkip:true, maxTicksLimit:8 }, grid:{ display:false } },
+        yPrice:{ position:'left', ticks:{ font:{ size:10 } }, grid:{ color:'#eceef1' }, title:{ display:true, text:'ราคา บาท/กก.', font:{ size:9 }, color:'#0b2540' } },
+        yStarch:{ position:'left', ticks:{ font:{ size:10 } }, grid:{ display:false }, title:{ display:true, text:'%Starch', font:{ size:9 }, color:'#e0821f' } },
+        yRecov:{ position:'left', ticks:{ font:{ size:10 } }, grid:{ display:false }, title:{ display:true, text:'%Recovery', font:{ size:9 }, color:'#0e8aa8' } },
+        yVolume:{ position:'right', ticks:{ font:{ size:10 } }, grid:{ display:false }, title:{ display:true, text:'ตัน', font:{ size:9 } }, beginAtZero:true },
+        yCag:{ position:'right', ticks:{ font:{ size:10 } }, grid:{ display:false }, title:{ display:true, text:'CAG บาท/กก.', font:{ size:9 }, color:'#8e44ad' } }
+      } } });
+  } catch (err) { const w=box.querySelector('.plant-chart-wrap'); if(w) w.innerHTML='<div style="padding:20px;color:#b03030;font-size:12px">โหลดกราฟไม่สำเร็จ: '+(err&&err.message?err.message:err)+'</div>'; }
+});
+})(0);
+</script>
+</body>
+</html>
