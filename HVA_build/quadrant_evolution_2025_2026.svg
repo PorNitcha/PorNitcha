@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600" font-family="Segoe UI, Arial, sans-serif" fill="#14213d">
+<rect width="1000" height="600" fill="#ffffff"/>
+<text x="24" y="34" font-size="20" font-weight="600">Volume and product GP contribution by customer role: 2025 → 2026</text>
+<text x="24" y="56" font-size="12.5" fill="#4b5563">Roles on the 2025 base (product GP/t vs floor 4,700; 2027 plan vs 2025 volume). Bars = share of the HVA book: grey 2025 FY, colour 2026 Jan–Sep.</text>
+<text x="24" y="74" font-size="12.5" fill="#4b5563">Indonesia = Indonesian accounts inside the role, on the same denominators. pp = change in share, percentage points.</text>
+<text x="350.0" y="94" text-anchor="middle" font-size="11.5" fill="#4b5563" font-weight="600">2027 PLAN FLAT OR DOWN vs 2025</text>
+<text x="760.0" y="94" text-anchor="middle" font-size="11.5" fill="#4b5563" font-weight="600">2027 PLAN GROWING vs 2025</text>
+<text transform="translate(136 199.0) rotate(-90)" text-anchor="middle" font-size="11.5" fill="#4b5563" font-weight="600">PRODUCT GP/t 2025 ≥ 4,700</text>
+<text transform="translate(136 399.0) rotate(-90)" text-anchor="middle" font-size="11.5" fill="#4b5563" font-weight="600">PRODUCT GP/t 2025 &lt; 4,700</text>
+<rect x="150" y="104" width="400" height="190" rx="6" fill="#e8f7f1" stroke="#1baf7a" stroke-opacity=".45"/>
+<text x="164" y="128" font-size="13" font-weight="700" fill="#1baf7a">PROTECT</text>
+<text x="536" y="128" text-anchor="end" font-size="11" fill="#8a8f98">10 accounts · 2027 plan 4.0 kt</text>
+<text x="164" y="159" font-size="11.5" font-weight="600">Total</text>
+<text x="242" y="159" font-size="11.5" fill="#4b5563">Vol</text>
+<rect x="276" y="148" width="14.4" height="6" fill="#c9cbc6"/>
+<rect x="276" y="156" width="11.6" height="6" fill="#1baf7a"/>
+<text x="388" y="159" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">11% → 9%</text>
+<text x="482" y="159" font-size="11" fill="#d94a2b" font-family="Consolas, Menlo, monospace">-2 pp</text>
+<text x="242" y="183" font-size="11.5" fill="#4b5563">GP</text>
+<rect x="276" y="172" width="22.1" height="6" fill="#c9cbc6"/>
+<rect x="276" y="180" width="18.3" height="6" fill="#1baf7a"/>
+<text x="388" y="183" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">17% → 14%</text>
+<text x="482" y="183" font-size="11" fill="#d94a2b" font-family="Consolas, Menlo, monospace">-3 pp</text>
+<line x1="164" x2="536" y1="202" y2="202" stroke="#1baf7a" stroke-opacity=".25"/>
+<text x="164" y="221" font-size="11.5" font-weight="600">Indonesia</text>
+<text x="276" y="221" font-size="11.5" fill="#8a8f98">no Indonesian account in this role</text>
+<rect x="560" y="104" width="400" height="190" rx="6" fill="#eaf1fb" stroke="#2a78d6" stroke-opacity=".45"/>
+<text x="574" y="128" font-size="13" font-weight="700" fill="#2a78d6">GROW WITH MARGIN</text>
+<text x="946" y="128" text-anchor="end" font-size="11" fill="#8a8f98">31 accounts · 2027 plan 19.6 kt</text>
+<text x="574" y="159" font-size="11.5" font-weight="600">Total</text>
+<text x="652" y="159" font-size="11.5" fill="#4b5563">Vol</text>
+<rect x="686" y="148" width="42.7" height="6" fill="#c9cbc6"/>
+<rect x="686" y="156" width="47.0" height="6" fill="#2a78d6"/>
+<text x="798" y="159" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">33% → 36%</text>
+<text x="892" y="159" font-size="11" fill="#1baf7a" font-family="Consolas, Menlo, monospace">+3 pp</text>
+<text x="652" y="183" font-size="11.5" fill="#4b5563">GP</text>
+<rect x="686" y="172" width="50.5" height="6" fill="#c9cbc6"/>
+<rect x="686" y="180" width="60.8" height="6" fill="#2a78d6"/>
+<text x="798" y="183" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">39% → 47%</text>
+<text x="892" y="183" font-size="11" fill="#1baf7a" font-family="Consolas, Menlo, monospace">+8 pp</text>
+<line x1="574" x2="946" y1="202" y2="202" stroke="#2a78d6" stroke-opacity=".25"/>
+<text x="574" y="221" font-size="11.5" font-weight="600">Indonesia</text>
+<text x="652" y="221" font-size="11.5" fill="#4b5563">Vol</text>
+<rect x="686" y="210" width="9.2" height="6" fill="#c9cbc6"/>
+<rect x="686" y="218" width="10.7" height="6" fill="#2a78d6"/>
+<text x="798" y="221" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">7% → 8%</text>
+<text x="892" y="221" font-size="11" fill="#1baf7a" font-family="Consolas, Menlo, monospace">+1 pp</text>
+<text x="652" y="245" font-size="11.5" fill="#4b5563">GP</text>
+<rect x="686" y="234" width="9.1" height="6" fill="#c9cbc6"/>
+<rect x="686" y="242" width="6.5" height="6" fill="#2a78d6"/>
+<text x="798" y="245" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">7% → 5%</text>
+<text x="892" y="245" font-size="11" fill="#d94a2b" font-family="Consolas, Menlo, monospace">-2 pp</text>
+<text x="686" y="264" font-size="10.5" fill="#8a8f98">1 account: Thai Wah Indonesia</text>
+<rect x="150" y="304" width="400" height="190" rx="6" fill="#f1f2f0" stroke="#8a8f98" stroke-opacity=".45"/>
+<text x="164" y="328" font-size="13" font-weight="700" fill="#8a8f98">REPRICE / EXIT</text>
+<text x="536" y="328" text-anchor="end" font-size="11" fill="#8a8f98">2 accounts · 2027 plan 3.1 kt</text>
+<text x="164" y="359" font-size="11.5" font-weight="600">Total</text>
+<text x="242" y="359" font-size="11.5" fill="#4b5563">Vol</text>
+<rect x="276" y="348" width="12.6" height="6" fill="#c9cbc6"/>
+<rect x="276" y="356" width="9.3" height="6" fill="#8a8f98"/>
+<text x="388" y="359" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">10% → 7%</text>
+<text x="482" y="359" font-size="11" fill="#d94a2b" font-family="Consolas, Menlo, monospace">-3 pp</text>
+<text x="242" y="383" font-size="11.5" fill="#4b5563">GP</text>
+<rect x="276" y="372" width="8.8" height="6" fill="#c9cbc6"/>
+<rect x="276" y="380" width="3.9" height="6" fill="#8a8f98"/>
+<text x="388" y="383" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">7% → 3%</text>
+<text x="482" y="383" font-size="11" fill="#d94a2b" font-family="Consolas, Menlo, monospace">-4 pp</text>
+<line x1="164" x2="536" y1="402" y2="402" stroke="#8a8f98" stroke-opacity=".25"/>
+<text x="164" y="421" font-size="11.5" font-weight="600">Indonesia</text>
+<text x="276" y="421" font-size="11.5" fill="#8a8f98">no Indonesian account in this role</text>
+<rect x="560" y="304" width="400" height="190" rx="6" fill="#fdf0ea" stroke="#eb6834" stroke-opacity=".45"/>
+<text x="574" y="328" font-size="13" font-weight="700" fill="#eb6834">FIX PRICE BEFORE VOLUME</text>
+<text x="946" y="328" text-anchor="end" font-size="11" fill="#8a8f98">8 accounts · 2027 plan 23.1 kt</text>
+<text x="574" y="359" font-size="11.5" font-weight="600">Total</text>
+<text x="652" y="359" font-size="11.5" fill="#4b5563">Vol</text>
+<rect x="686" y="348" width="49.4" height="6" fill="#c9cbc6"/>
+<rect x="686" y="356" width="50.4" height="6" fill="#eb6834"/>
+<text x="798" y="359" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">38% → 39%</text>
+<text x="892" y="359" font-size="11" fill="#1baf7a" font-family="Consolas, Menlo, monospace">+1 pp</text>
+<text x="652" y="383" font-size="11.5" fill="#4b5563">GP</text>
+<rect x="686" y="372" width="31.0" height="6" fill="#c9cbc6"/>
+<rect x="686" y="380" width="23.7" height="6" fill="#eb6834"/>
+<text x="798" y="383" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">24% → 18%</text>
+<text x="892" y="383" font-size="11" fill="#d94a2b" font-family="Consolas, Menlo, monospace">-6 pp</text>
+<line x1="574" x2="946" y1="402" y2="402" stroke="#eb6834" stroke-opacity=".25"/>
+<text x="574" y="421" font-size="11.5" font-weight="600">Indonesia</text>
+<text x="652" y="421" font-size="11.5" fill="#4b5563">Vol</text>
+<rect x="686" y="410" width="24.7" height="6" fill="#c9cbc6"/>
+<rect x="686" y="418" width="26.9" height="6" fill="#eb6834"/>
+<text x="798" y="421" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">19% → 21%</text>
+<text x="892" y="421" font-size="11" fill="#1baf7a" font-family="Consolas, Menlo, monospace">+2 pp</text>
+<text x="652" y="445" font-size="11.5" fill="#4b5563">GP</text>
+<rect x="686" y="434" width="17.0" height="6" fill="#c9cbc6"/>
+<rect x="686" y="442" width="10.1" height="6" fill="#eb6834"/>
+<text x="798" y="445" font-size="12" font-weight="600" font-family="Consolas, Menlo, monospace">13% → 8%</text>
+<text x="892" y="445" font-size="11" fill="#d94a2b" font-family="Consolas, Menlo, monospace">-5 pp</text>
+<text x="686" y="464" font-size="10.5" fill="#8a8f98">2 accounts: CP Indonesia, Indo Asia Tirta</text>
+<text x="24" y="520" font-size="11" fill="#4b5563">Outside the four roles: new accounts (no 2025 history) vol 0% → 4%, GP 0% → 4%  ·  2027 plan under 100 t or not in the plan: vol 8% → 5%, GP 13% → 14%</text>
+<text x="24" y="537" font-size="11" fill="#4b5563">HVA book (TDC Profitability data_Actual): 2025 FY 41.8 kt / product GP 259 MB  ·  2026 Jan–Sep 32.6 kt / 164 MB.  Product GP = net sales − Actual Cost − F&amp;I (before idle, PPA, other adj).</text>
+<text x="24" y="554" font-size="10.5" fill="#8a8f98">FP&amp;A, 28 Oct 2026 · companion to the HVA customer quadrant page (2025 base, product GP, floor 4,700, plan ≥ 100 t).</text>
+</svg>
