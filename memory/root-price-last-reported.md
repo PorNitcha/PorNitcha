@@ -1939,3 +1939,79 @@
 - State: data_updated_through 2026-10-27 · twic_latest 2026-10-27 · source_file_mtime_seen 2026-10-28T09:53:24Z · twic_email_seen on Oct 27, 2026
 ### Lesson Learned
 - ไม่มีใหม่
+
+## รอบ 29-Oct-2026 08:2x ICT (r1) — 🟢 UPDATE · วันใหม่ 28-Oct (T-1) · ไม่ส่งอีเมล
+- TZ date = 2026-10-29 08:11 → T-1 = 28-Oct · dashboard เดิม = 27 Oct (เก่ากว่า T-1) → อัปเดต
+- Gate: ไฟล์ "Daily root purchased report - 10_Oct 2026.xlsx" mtime 2026-10-28T15:10:55Z (> 09:53:24Z) · sheet "Oct —" (line 2169) · diff 19–27-Oct (5 โรงไทย) vs CSV = 0
+- 28-Oct (ไทย): TN 3.92/191/26.20 · TKT 3.94/330/24.72 · PM 3.72/419/24.56 · %Recovery ทั้งสามเป็น default/0.0 → null (TN 100.0, TKT 95/95/95, PM 0.0) · MS ไม่มีปริมาณ/ราคา → null ทั้งแถว · TDC ไม่มีปริมาณ (ราคา 4.17/%ST 24.20 เป็น forecast) → null ทั้งแถว
+- รวม 3 โรงที่ลงข้อมูล: 940 ตัน · ราคาถ่วงน้ำหนัก 3.8379 · %ST 24.95 · CBG 15.38 · CAG รวมปิดไม่ได้ · last_complete_group_cag 24-Oct = 16.41 (4 โรง 1,576 ตัน)
+- TWIC: ไม่มีอีเมล "on Oct 28, 2026" (ล่าสุด Oct 27, rcvd 28-Oct 04:28Z) → แถว 28-Oct เป็น null
+- CSV: backup .bak_1029r1 → append 28-Oct 6 แถว, roll ตัด 28-Sep → 180 แถว · cross-check CBG/CAG ผ่านทุกจุด
+- Dashboard: "Daily root dashboard - 28 October 2026.html" (สร้างจาก 27-Oct, backup memory/…27 October….bak_1029r1) · node --check ผ่าน · กราฟ vs CSV 900 จุด mismatch 0 · update_artifact/verify_artifact ไม่มีในเซสชันนี้ (legacy live artifact ค้างเดิม)
+- State: data_updated_through 2026-10-28 · twic_latest 2026-10-27 · source_file_mtime_seen 2026-10-28T15:10:55Z · twic_email_seen on Oct 27, 2026
+- รอบถัดไป gate: mtime > 2026-10-28T15:10:55Z หรืออีเมล put.p "on Oct 28, 2026"
+### Lesson Learned
+- ไฟล์ Oct ตอนนี้อยู่โฟลเดอร์หลัก "10_Oct 2026" (sheet "Oct —") · MS/TDC ที่ไม่มี volume = null ทั้งแถว ไม่ใช่ 0 · แถว 28-Oct อาจลงเพิ่มในรอบถัดไป (วันนี้ลงแค่ 3 โรง)
+
+## รอบ 29-Oct-2026 09:2x ICT (r2) — 🟢 UPDATE เล็ก · ไฟล์ Oct ขยับ (mtime 28-Oct 15:10Z → 29-Oct 02:07:44Z) → MS 28-Oct ลงข้อมูล + MS 27-Oct ผลโม่เข้า · ไม่ส่งอีเมล
+- TZ date = 2026-10-29 09:10 → T-1 = 28-Oct (dashboard ไฟล์ = 28 October อยู่แล้ว แต่มีข้อมูลใหม่ในไฟล์ต้นทาง)
+- Diff 19–28 Oct 5 โรงไทย vs CSV: MS 27-Oct rec 90.0 → 79.1% / CAG 16.18 → 18.40 (CBG 14.56÷79.1%≈18.41 ✓) · MS 28-Oct null → 4.37/462/29.22 (rec 90.0 = placeholder → null) · MS 23-Oct, 25-Oct rec 90.0 เป๊ะ → null (placeholder; ยืนยันจาก 27-Oct ที่ 90.0 ถูกแทนที่ด้วยค่าจริง) · จุดอื่น diff = 0
+- 28-Oct รวม 4 โรง (TN 191, TKT 330, PM 419, MS 462) = 1,402 ตัน · ราคาถ่วงน้ำหนัก 4.0132 · %ST 26.36 · CBG 15.23 · CAG รวมปิดไม่ได้ (รอ TN/TKT/PM + ปริมาณ TDC) · last_complete_group_cag 24-Oct = 16.41
+- TWIC: ยังไม่มีอีเมล "on Oct 28, 2026" (ล่าสุด Oct 27)
+- CSV backup .bak_1029r2 · 180 แถว · dashboard backup .bak_1029r2 · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · update/verify_artifact ไม่มีในเซสชัน (legacy live artifact ค้างเดิม)
+- State: data_updated_through 2026-10-28 · twic_latest 2026-10-27 · source_file_mtime_seen 2026-10-29T02:07:44Z · twic_email_seen on Oct 27, 2026
+- รอบถัดไป gate: mtime > 2026-10-29T02:07:44Z หรืออีเมล put.p "on Oct 28, 2026"
+### Lesson Learned
+- MS %Recovery = 90.0% เป๊ะ = placeholder (ไม่ใช่ 100.0% ตามกฎเดิม) → ถือ null · ใช้ CAG รวมไม่นับ MS อยู่แล้วจึงไม่กระทบ
+
+## รอบ 29-Oct-2026 10:3x ICT (r3) — 🟢 UPDATE เล็ก · ไฟล์ Oct ขยับ (mtime 02:07:44Z → 02:39:03Z) → TDC 28-Oct ลงข้อมูลแล้ว · ไม่ส่งอีเมล
+- TZ date = 2026-10-29 10:10 → T-1 = 28-Oct (dashboard = 28 October อยู่แล้ว) · ไฟล์ต้นทาง "10_Oct 2026.xlsx" (โฟลเดอร์หลัก, sheet "Oct —")
+- Diff 19–28 Oct 5 โรงไทย vs CSV: เปลี่ยนจุดเดียว = TDC 28-Oct null → ราคา 3.82 / 187 ตัน / %ST 24.41 (CBG 3.82÷24.41%=15.65 ✓ · %Recovery ว่าง → CAG null) · จุดอื่น diff = 0 (TN/PM/MS/TKT 28-Oct ยัง default/placeholder/0.0 → null)
+- 28-Oct รวม 5 โรง 1,589 ตัน · ราคาถ่วงน้ำหนัก 3.9905 (+0.047 vs 27-Oct 3.9433) · %ST 26.13 · CBG 15.27 · CAG รวมปิดไม่ได้ (รอ TN/TKT/PM/TDC) · last_complete_group_cag 24-Oct = 16.41
+- TWIC: ไม่มีอีเมล "on Oct 28, 2026" (ล่าสุด Oct 27, rcvd 28-Oct 04:28Z)
+- CSV backup .bak_1029r3 · 180 แถว · dashboard backup .bak_1029r3 · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · update/verify_artifact ไม่มีในเซสชัน (legacy live artifact ค้างเดิม)
+- State: data_updated_through 2026-10-28 · twic_latest 2026-10-27 · source_file_mtime_seen 2026-10-29T02:39:03Z · twic_email_seen on Oct 27, 2026
+- รอบถัดไป gate: mtime > 2026-10-29T02:39:03Z หรืออีเมล put.p "on Oct 28, 2026"
+### Lesson Learned
+- แถว 28-Oct ถูกลงทีละโรงตลอดเช้า (r1 3 โรง → r2 MS → r3 TDC) — ต้อง re-diff ทุกครั้งที่ mtime ขยับ · parse ด้วย python เขียนไฟล์ชั่วคราวใน $HOME ไม่ใช่ /tmp บน device (Permission denied)
+
+## รอบ 29-Oct-2026 11:2x ICT (r4) — 🟢 UPDATE เล็ก · ไฟล์ Oct ขยับ (mtime 02:39:03Z → 03:47:37Z) → TKT 28-Oct ผลโม่เข้า · ไม่ส่งอีเมล
+- TZ date = 2026-10-29 11:10 → T-1 = 28-Oct (dashboard = 28 October อยู่แล้ว) · sheet "Oct —" (line 2077 ของ page 2)
+- Diff 19–28 Oct 5 โรงไทย vs CSV: เปลี่ยนจุดเดียว = TKT 28-Oct recovery null → 98.4% (recTotal 98.4, R1 0.0, R2 98.4 ≠ 95 default → ค่าจริง) · CAG null → 16.19 (CBG 3.94÷24.72%=15.94 ✓ · 15.94÷98.4%=16.20≈16.19 ✓) · จุดอื่น diff = 0 (TN 100.0 / PM 0.0 / MS 90.0 / TDC ว่าง ของ 28-Oct ยัง default → null)
+- CAG รวม 28-Oct ยังปิดไม่ได้ (รอ TN, PM, TDC) · last_complete_group_cag 24-Oct = 16.41 (4 โรง 1,576 ตัน)
+- TWIC: ไม่มีอีเมล "on Oct 28, 2026" (ล่าสุด Oct 27, rcvd 28-Oct 04:28Z)
+- CSV backup .bak_1029r4 · 181 บรรทัด (180 data rows) · dashboard backup .bak_1029r4 · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · update/verify_artifact ไม่มีในเซสชัน (legacy live artifact ค้างเดิม)
+- State: data_updated_through 2026-10-28 · twic_latest 2026-10-27 · source_file_mtime_seen 2026-10-29T03:47:37Z · twic_email_seen on Oct 27, 2026
+- รอบถัดไป gate: mtime > 2026-10-29T03:47:37Z หรืออีเมล put.p "on Oct 28, 2026"
+### Lesson Learned
+- TKT recTotal ต่างจาก 95.0 (แม้ R1=0.0) = ค่าจริง · ข้อมูลโม่ลงทีละโรงตลอดเช้า — re-diff ทุกครั้งที่ mtime ขยับ
+
+## รอบ 29-Oct-2026 12:2x ICT (r5) — 🟢 UPDATE เล็ก · TWIC 28-Oct เข้า (อีเมล put.p rcvd 29-Oct 04:13Z) · ไฟล์ Oct ไม่ขยับ · ไม่ส่งอีเมล
+- TZ date = 2026-10-29 12:11 → T-1 = 28-Oct (dashboard = 28 October อยู่แล้ว) · Gate 1: ไฟล์ 10_Oct 2026.xlsx mtime 03:47:37Z เท่าเดิม (ไม่ re-parse) · Gate 2: อีเมล "on Oct 28, 2026" ใหม่
+- TWIC 28-Oct (sheet Daily serial 46323): 140 ตัน / 2.72 ฿/กก. / %ST 21.22% / Rec 101.57% / CAG 12.60 (CBG 2.7152÷21.218%=12.80 ✓ · 12.80÷101.57%=12.60 ✓) · vs 27-Oct ราคา -0.03
+- CSV backup .bak_1029r5 · 180 data rows · dashboard backup .bak_1029r5 · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · update/verify_artifact ไม่มีในเซสชัน (legacy live artifact ค้างเดิม)
+- State: data_updated_through 2026-10-28 · twic_latest 2026-10-28 · source_file_mtime_seen 2026-10-29T03:47:37Z · twic_email_seen on Oct 28, 2026
+- รอบถัดไป gate: mtime > 2026-10-29T03:47:37Z หรืออีเมล put.p "on Oct 29, 2026"
+### Lesson Learned
+- TWIC 28-Oct มาช่วงสาย (04:13Z) — เช็คอีเมลทุกรอบแม้ไฟล์ไทยไม่ขยับ
+
+## รอบ 29-Oct-2026 13:1x ICT (r6) — ⚪ NO-OP · ทั้ง 2 gate ไม่ขยับ (mtime 03:47:37Z เท่าเดิม · TWIC ล่าสุดยัง "on Oct 28, 2026") · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- State ไม่เปลี่ยนจาก r5 · รอบถัดไป gate: mtime > 2026-10-29T03:47:37Z หรืออีเมล put.p "on Oct 29, 2026"
+
+## รอบ 29-Oct-2026 14:1x ICT (r7) — ⚪ NO-OP · ไฟล์ Oct ขยับ (mtime 03:47:37Z → 06:20:14Z) แต่ diff ข้อมูล = 0 ทุกจุด (19–28 Oct, 5 โรงไทย) · TWIC ล่าสุดยัง "on Oct 28, 2026" · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- T-1 = 28-Oct (dashboard = 28 October อยู่แล้ว) · re-parse sheet "Oct —" เทียบ CSV ครบ 50 จุด (vol/price/%ST/rec/CAG) = ตรงหมด · แถว 29-Oct ในไฟล์ = forecast (ไม่มี volume จริง) ไม่นับ · TN/PM/MS/TDC 28-Oct ยัง default/placeholder/ว่าง → null เหมือนเดิม
+- State ไม่เปลี่ยนจาก r5 · source_file_mtime_seen 2026-10-29T06:20:14Z · twic_email_seen on Oct 28, 2026 · รอบถัดไป gate: mtime > 2026-10-29T06:20:14Z หรืออีเมล put.p "on Oct 29, 2026"
+### Lesson Learned
+- ไม่มี — mtime ขยับโดยตัวเลขไม่เปลี่ยน (แพทเทิร์นเดิม)
+
+## รอบ 29-Oct-2026 15:1x ICT (r8) — ⚪ NO-OP · ทั้ง 2 gate ไม่ขยับ (mtime 06:20:14Z เท่าเดิม · TWIC ล่าสุดยัง "on Oct 28, 2026") · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- T-1 = 28-Oct (dashboard = 28 October อยู่แล้ว) · State ไม่เปลี่ยนจาก r7 · รอบถัดไป gate: mtime > 2026-10-29T06:20:14Z หรืออีเมล put.p "on Oct 29, 2026"
+
+## รอบ 29-Oct-2026 16:1x ICT (r9) — 🟢 UPDATE เล็ก · ไฟล์ Oct ขยับ (mtime 06:20:14Z → 08:20:16Z) พบ TDC ผลโม่เข้า 2 จุด · TWIC ไม่มีอีเมลใหม่ · ไม่ส่งอีเมล
+- T-1 = 28-Oct (dashboard = 28 October อยู่แล้ว) · re-parse sheet "Oct —" เทียบ CSV 5 โรงไทย 19–28 Oct: เปลี่ยน 2 จุด = TDC 27-Oct rec null → 96.6% / CAG 16.44 (CBG 3.80÷23.92%=15.89 ✓ ÷96.6%=16.44 ✓) · TDC 28-Oct rec null → 91.4% / CAG 17.13 (CBG 3.82÷24.41%=15.65 ✓ ÷91.4%=17.12≈17.13 ✓) · จุดอื่น diff = 0 (TN 28-Oct 100.0 default · PM 28-Oct 0.0 · MS 28-Oct 90.0 placeholder → null เหมือนเดิม)
+- CAG รวม 28-Oct ยังปิดไม่ได้ (รอ TN, PM) · last_complete_group_cag 24-Oct = 16.41 (4 โรง 1,576 ตัน)
+- CSV backup .bak_1029r9 · 180 data rows · dashboard backup .bak_1029r9 · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · update/verify_artifact ไม่มีในเซสชัน (legacy live artifact ค้างเดิม)
+- State: data_updated_through 2026-10-28 · twic_latest 2026-10-28 · source_file_mtime_seen 2026-10-29T08:20:16Z · twic_email_seen on Oct 28, 2026
+- รอบถัดไป gate: mtime > 2026-10-29T08:20:16Z หรืออีเมล put.p "on Oct 29, 2026"
+### Lesson Learned
+- ไม่มีใหม่ — TDC ผลโม่ลงช้า 1–2 วัน แล้วเติมย้อนหลัง (แพทเทิร์นเดิม)

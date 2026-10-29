@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HVA AP2027 Quadrant by Plant</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#fbfbf9; --panel:#ffffff; --fg:#14213d; --fg-2:#4b5563; --fg-3:#8a8f98; --line:#e3e4e0;
+  --fix:#eb6834; --grow:#2a78d6; --protect:#1baf7a; --reprice:#8a8f98;
+  --fix-soft:#fdf0ea; --grow-soft:#eaf1fb; --protect-soft:#e8f7f1; --reprice-soft:#f1f2f0;
+  --b25:#d4d6d1; --b26:#9a9d98; --up:#1baf7a; --down:#d94a2b;
+  --font:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#141516; --panel:#1c1d1f; --fg:#f2f2ee; --fg-2:#c3c2b7; --fg-3:#8d8e88; --line:#33342f;
+  --fix:#d95926; --grow:#3987e5; --protect:#199e70; --reprice:#9a9b95;
+  --fix-soft:#2a1f19; --grow-soft:#192230; --protect-soft:#17261f; --reprice-soft:#232420;
+  --b25:#4a4b47; --b26:#73746f; color-scheme:dark; }}
+:root[data-theme="dark"]{
+  --bg:#141516; --panel:#1c1d1f; --fg:#f2f2ee; --fg-2:#c3c2b7; --fg-3:#8d8e88; --line:#33342f;
+  --fix:#d95926; --grow:#3987e5; --protect:#199e70; --reprice:#9a9b95;
+  --fix-soft:#2a1f19; --grow-soft:#192230; --protect-soft:#17261f; --reprice-soft:#232420;
+  --b25:#4a4b47; --b26:#73746f; color-scheme:dark; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.45}
+.wrap{max-width:1100px;margin:0 auto;padding:26px 16px 44px}
+h1{font-size:24px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--fg-2);margin:0 0 16px;max-width:90ch}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);font-weight:600}
+.controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:0 0 16px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:transparent;border:0;padding:6px 12px;font:inherit;color:var(--fg-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+button:focus-visible{outline:2px solid var(--grow);outline-offset:2px}
+label.ctl{display:inline-flex;gap:8px;align-items:center;color:var(--fg-2)}
+.axis-x{display:grid;grid-template-columns:34px 1fr 1fr;gap:0 12px;margin:0 0 6px}
+.axis-x div{text-align:center;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-2)}
+.board{display:grid;grid-template-columns:34px 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.ylab{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-2);align-self:stretch}
+.cell{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--panel);min-width:0}
+.cell.fix{background:var(--fix-soft);border-color:color-mix(in srgb,var(--fix) 45%,transparent)}
+.cell.grow{background:var(--grow-soft);border-color:color-mix(in srgb,var(--grow) 45%,transparent)}
+.cell.protect{background:var(--protect-soft);border-color:color-mix(in srgb,var(--protect) 45%,transparent)}
+.cell.reprice{background:var(--reprice-soft);border-color:color-mix(in srgb,var(--reprice) 45%,transparent)}
+.cell h2{font-size:13px;font-weight:700;margin:0 0 2px;letter-spacing:.02em}
+.cell.fix h2{color:var(--fix)} .cell.grow h2{color:var(--grow)} .cell.protect h2{color:var(--protect)} .cell.reprice h2{color:var(--reprice)}
+.cell .meta{font-size:11.5px;color:var(--fg-3);margin:0 0 10px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.grp{display:grid;grid-template-columns:72px 1fr;gap:4px 8px;align-items:start;padding:6px 0}
+.grp+.grp{border-top:1px solid color-mix(in srgb,var(--fg) 12%,transparent)}
+.grp .gname{font-weight:600;font-size:12.5px;padding-top:2px}
+.metric{display:grid;grid-template-columns:28px 1fr auto;gap:0 8px;align-items:center;margin:0 0 6px}
+.metric .ml{font-size:11.5px;color:var(--fg-2)}
+.bars{display:flex;flex-direction:column;gap:2px}
+.bars i{display:block;height:5px;border-radius:1px;background:var(--b25)}
+.bars i.b26{background:var(--b26)} .bars i.b27{height:7px}
+.cell.fix .bars i.b27{background:var(--fix)} .cell.grow .bars i.b27{background:var(--grow)} .cell.protect .bars i.b27{background:var(--protect)} .cell.reprice .bars i.b27{background:var(--reprice)}
+.nums{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap;text-align:right}
+.nums b{font-weight:600;font-size:13px}
+.nums .pp{font-size:11px;margin-left:6px}
+.pp.up{color:var(--up)} .pp.down{color:var(--down)} .pp.flat{color:var(--fg-3)}
+.none{font-size:11.5px;color:var(--fg-3);padding-top:2px}
+.names{font-size:11px;color:var(--fg-3);grid-column:2;margin-top:-2px}
+.foot{color:var(--fg-3);font-size:12px;margin-top:14px;max-width:100ch}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--fg-2);margin:12px 0 0}
+.legend span::before{content:"";display:inline-block;width:14px;height:6px;margin-right:6px;vertical-align:1px;background:var(--c)}
+.rest{font-size:12px;color:var(--fg-2);margin-top:12px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+@media (max-width:960px){.board,.axis-x{grid-template-columns:1fr}.ylab{display:none}.axis-x{display:none}.cell::before{content:attr(data-axis);display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3);margin-bottom:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">HVA modified starch &middot; AP 2027 &middot; customer analysis</div>
+  <h1>Volume and product GP contribution by customer role: 2025 &rarr; 2026 &rarr; AP2027</h1>
+  <p class="sub">Roles are fixed on the 2025 base (product GP/t vs floor 4,700; 2027 plan vs 2025 volume), the same grouping as the customer quadrant page. Each bar is the role's share of the whole HVA book in that period: 2025 full year and 2026 January&ndash;September are actuals (Rayong only), AP2027 is the plan as booked for the selected plant. Indonesia = Indonesian accounts inside the role, same denominators.</p>
+
+  <div class="controls">
+    <span class="eyebrow">AP2027 plant</span>
+    <div class="seg" role="group" aria-label="Plant">
+      <button data-pl="both" aria-pressed="true">Both plants</button>
+      <button data-pl="ry" aria-pressed="false">Rayong</button>
+      <button data-pl="tk" aria-pressed="false">TKT</button>
+    </div>
+    <span class="eyebrow">Compare with</span>
+    <div class="seg" role="group" aria-label="Reference periods">
+      <button data-ref="all" aria-pressed="true">2025 + 2026</button>
+      <button data-ref="25" aria-pressed="false">2025 only</button>
+      <button data-ref="none" aria-pressed="false">AP2027 only</button>
+    </div>
+  </div>
+
+  <div class="axis-x"><div></div><div>2027 plan flat or down vs 2025</div><div>2027 plan growing vs 2025</div></div>
+  <div class="board">
+    <div class="ylab">product GP/t 2025 &ge; 4,700</div>
+    <div class="cell protect" id="c-protect" data-axis="GP/t ≥ floor · plan flat or down"></div>
+    <div class="cell grow" id="c-grow" data-axis="GP/t ≥ floor · plan growing"></div>
+    <div class="ylab">product GP/t 2025 &lt; 4,700</div>
+    <div class="cell reprice" id="c-reprice" data-axis="GP/t < floor · plan flat or down"></div>
+    <div class="cell fix" id="c-fix" data-axis="GP/t < floor · plan growing"></div>
+  </div>
+  <div class="legend"><span style="--c:var(--b25)">2025 FY actual</span><span style="--c:var(--b26)">2026 Jan&ndash;Sep actual</span><span style="--c:var(--fg)">AP2027 plan (role colour)</span><span>pp = AP2027 share minus 2025 share</span></div>
+  <div class="rest" id="rest"></div>
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+const ROWS = [{"n":"PT.INDO ASIA TIRTA MANUNGGAL","id":1,"r":"fix","t25":5400.1,"t26":4540.0,"g25":23560636,"g26":9620260,"ry":3640.7,"ryg":14067279,"tk":2869.3,"tkg":14588028},{"n":"CHUNGHOM TRADING CO., LTD.","id":0,"r":"fix","t25":4120.0,"t26":2820.0,"g25":17472920,"g26":9455460,"ry":5262.8,"ryg":28504630,"tk":927.2,"tkg":5997990},{"n":"PT THAI WAH INDONESIA","id":1,"r":"grow","t25":2970.7,"t26":2680.3,"g25":18118299,"g26":8169554,"ry":3083.1,"ryg":12497351,"tk":1187.0,"tkg":6684455},{"n":"Huifa (Linxia) Food supply chain Technology Co., LTD","id":0,"r":"fix","t25":740.0,"t26":1000.0,"g25":-1734560,"g26":-348000,"ry":0.0,"ryg":0,"tk":4000.0,"tkg":14857328},{"n":"THAI WAH INTERNATIONAL TRADE (SHANGHAI) CO., LTD","id":0,"r":"grow","t25":2927.5,"t26":1787.9,"g25":17242975,"g26":10098059,"ry":1857.5,"ryg":6553618,"tk":1564.6,"tkg":7345349},{"n":"PT. CHAROEN POKPHAND INDONESIA","id":1,"r":"fix","t25":2560.2,"t26":2200.0,"g25":10371370,"g26":3130600,"ry":1472.5,"ryg":5085692,"tk":1622.5,"tkg":7954175},{"n":"Barentz Gida ve Kimya Tic. Ltd.Sti.","id":0,"r":"reprice","t25":3229.4,"t26":2010.2,"g25":14309471,"g26":4064624,"ry":1002.2,"ryg":2395761,"tk":1806.5,"tkg":6884528},{"n":"บริษัท ซุปเปอร์ สตาร์ช จำกัด","id":0,"r":"grow","t25":1612.9,"t26":1302.8,"g25":12595136,"g26":10608700,"ry":1250.5,"ryg":9347943,"tk":563.0,"tkg":4726386},{"n":"SUNCHINA (XIAMEN) TRADING CO., LTD","id":0,"r":"fix","t25":1720.0,"t26":1000.0,"g25":7442440,"g26":1848000,"ry":1760.0,"ryg":10475727,"tk":0.0,"tkg":0},{"n":"Inter Rung Reung Group","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":1200.0,"ryg":2640571,"tk":0.0,"tkg":0},{"n":"บริษัท เทท แอนด์ ไลล์ เทรดดิ้ง (ไทยแลนด์) จำกัด","id":0,"r":"grow","t25":1175.2,"t26":905.0,"g25":5809014,"g26":3590135,"ry":871.7,"ryg":5273102,"tk":314.9,"tkg":2422695},{"n":"ITOCHU Food Sales and Marketing Co.,Ltd.","id":0,"r":"grow","t25":719.0,"t26":630.0,"g25":6557999,"g26":4655700,"ry":1093.8,"ryg":7057367,"tk":130.2,"tkg":1304193},{"n":"บริษัท โกลเด้นฮาร์เวสท์ (ประเทศไทย) จำกัด","id":0,"r":"protect","t25":960.0,"t26":660.0,"g25":7869120,"g26":4171860,"ry":776.6,"ryg":5874527,"tk":148.4,"tkg":1304432},{"n":"Food Trend and Super starch","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":890.0,"ryg":2394307,"tk":0.0,"tkg":0},{"n":"บริษัท ศรีไทยเดลี่ฟู้ดส์ จำกัด","id":0,"r":"new","t25":0,"t26":140.0,"g25":0,"g26":595980,"ry":719.0,"ryg":5408740,"tk":121.0,"tkg":1064460},{"n":"TIPIAK EPICERIE S.A.S","id":0,"r":"fix","t25":648.0,"t26":518.4,"g25":1483272,"g26":3708634,"ry":777.6,"ryg":4673195,"tk":0.0,"tkg":0},{"n":"Health Food","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":750.0,"ryg":1921451,"tk":0.0,"tkg":0},{"n":"Krungthai Food","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":720.0,"ryg":3487602,"tk":0.0,"tkg":0},{"n":"SHINEROAD FOOD TECHNOLOGY VIETNAM CO., LTD","id":0,"r":"grow","t25":415.0,"t26":400.0,"g25":3537460,"g26":2197200,"ry":309.4,"ryg":3282244,"tk":350.6,"tkg":3194872},{"n":"F.H.DIEDRICHS & LUDWIG POST GMBH","id":0,"r":"fix","t25":632.0,"t26":544.0,"g25":2918576,"g26":2445280,"ry":644.0,"ryg":3460892,"tk":0.0,"tkg":0},{"n":"SOS MEWAH SDN. BHD.","id":0,"r":"grow","t25":480.0,"t26":420.0,"g25":4392480,"g26":3656100,"ry":557.0,"ryg":4215029,"tk":43.0,"tkg":414971},{"n":"THE ETTLINGER CORPORATION","id":0,"r":"grow","t25":467.4,"t26":314.9,"g25":4710925,"g26":4200136,"ry":475.4,"ryg":4716974,"tk":120.2,"tkg":888326},{"n":"บริษัท ไอ-เทล คอร์ปอเรชั่น จำกัด (มหาชน)","id":0,"r":"protect","t25":570.0,"t26":465.0,"g25":3519180,"g26":2523090,"ry":496.6,"ryg":3683748,"tk":73.4,"tkg":647186},{"n":"Samyang Corporation","id":0,"r":"protect","t25":645.0,"t26":405.0,"g25":5425095,"g26":3185730,"ry":570.0,"ryg":3196033,"tk":0.0,"tkg":0},{"n":"บริษัท เอ็กซ์เซลเล้นท์ ไพโอเนียร์ จำกัด","id":0,"r":"grow","t25":230.2,"t26":360.0,"g25":1662504,"g26":2437200,"ry":462.2,"ryg":3438600,"tk":107.8,"tkg":942251},{"n":"Nating ","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":500.0,"ryg":2761861,"tk":0.0,"tkg":0},{"n":"บริษัท นำชัย ฟู๊ด อินโนเวชั่น จำกัด","id":0,"r":"grow","t25":420.2,"t26":372.1,"g25":4523033,"g26":3335876,"ry":484.5,"ryg":3683934,"tk":0.0,"tkg":0},{"n":"SINCERE ORIENT COMMERCIAL CORP","id":0,"r":"grow","t25":306.0,"t26":272.0,"g25":3491460,"g26":2728160,"ry":392.5,"ryg":2901561,"tk":66.5,"tkg":579478},{"n":"SHANGHAI JIANGMEI INDUSTRIAL CO.,LTD","id":0,"r":"grow","t25":380.0,"t26":200.0,"g25":2810860,"g26":1118000,"ry":405.0,"ryg":3200779,"tk":45.0,"tkg":363195},{"n":"LUCKY KT CO. INC","id":0,"r":"protect","t25":529.5,"t26":252.0,"g25":5815498,"g26":2277072,"ry":324.0,"ryg":2546129,"tk":108.0,"tkg":1476050},{"n":"CPF Poland","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":216.0,"ryg":1599254,"tk":216.0,"tkg":1772970},{"n":"GX Global","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":60.0,"ryg":663331,"tk":360.0,"tkg":4995902},{"n":"SIPC SARL","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"UNIVERSAL CANNING INCORPORATED","id":0,"r":"protect","t25":400.0,"t26":100.0,"g25":4856800,"g26":1366500,"ry":400.0,"ryg":3245466,"tk":0.0,"tkg":0},{"n":"TG Trans Trade","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":368.8,"ryg":2136343,"tk":31.3,"tkg":222950},{"n":"Fuji Nihon (Nissin Food)","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":80.0,"ryg":884442,"tk":300.0,"tkg":4100138},{"n":"KALSANGI CORPORATION","id":0,"r":"grow","t25":88.5,"t26":145.0,"g25":724726,"g26":1566435,"ry":246.2,"ryg":1530278,"tk":128.8,"tkg":1004678},{"n":"TOKAI DENPUN CO.,LTD","id":0,"r":"grow","t25":162.0,"t26":216.0,"g25":1864134,"g26":1628208,"ry":288.0,"ryg":1762440,"tk":72.0,"tkg":618088},{"n":"Thai Nisshin Technomic","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":150.0,"ryg":1027516,"tk":210.0,"tkg":1433033},{"n":"KRS Spicy food","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":264.6,"ryg":1618112,"tk":95.4,"tkg":718672},{"n":"บริษัท บูรพาผลิตภัณฑ์ จำกัด (สำนักงานใหญ่)","id":0,"r":"protect","t25":347.1,"t26":270.6,"g25":4297098,"g26":3171432,"ry":290.5,"ryg":3493030,"tk":35.1,"tkg":214116},{"n":"MORII FOODS, INC.","id":0,"r":"grow","t25":72.8,"t26":342.0,"g25":870542,"g26":3338946,"ry":108.0,"ryg":756687,"tk":216.0,"tkg":1821095},{"n":"Japan Cornstarch Co., Ltd.","id":0,"r":"protect","t25":324.0,"t26":116.0,"g25":5237136,"g26":1472388,"ry":302.0,"ryg":3340017,"tk":0.0,"tkg":0},{"n":"BALTIC GROUP-MF LLC","id":0,"r":"grow","t25":60.0,"t26":120.0,"g25":419160,"g26":1271280,"ry":267.6,"ryg":2059491,"tk":32.4,"tkg":289787},{"n":"บริษัท ศรีรักษ์ไท เอ็นเตอร์ไพรส์ จำกัด (สำนักงานใหญ่)","id":0,"r":"protect","t25":366.1,"t26":233.8,"g25":3287944,"g26":1772672,"ry":251.5,"ryg":2115388,"tk":40.5,"tkg":355541},{"n":"BLEND SOLUTIONS","id":0,"r":"new","t25":0,"t26":25.2,"g25":0,"g26":226422,"ry":241.8,"ryg":1403388,"tk":35.4,"tkg":288539},{"n":"Purefood","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":185.0,"ryg":1449349,"tk":90.0,"tkg":823499},{"n":"บริษัท เอฟ-พลัส จำกัด","id":0,"r":"grow","t25":180.0,"t26":210.0,"g25":1244520,"g26":1845900,"ry":255.6,"ryg":1549219,"tk":14.4,"tkg":99460},{"n":"บริษัท ทัชฟู้ดส์ จำกัด (สำนักงานใหญ่)","id":0,"r":"grow","t25":30.0,"t26":165.0,"g25":249720,"g26":1749330,"ry":270.0,"ryg":3461212,"tk":0.0,"tkg":0},{"n":"DAGAL FOOD ADDITIVES LTD","id":0,"r":"grow","t25":126.0,"t26":54.0,"g25":1302462,"g26":242028,"ry":197.1,"ryg":1313282,"tk":68.9,"tkg":424062},{"n":"บริษัท ไทยฟู้ดส์ กรุ๊ป จำกัด (มหาชน) สาขาที่ 00002","id":0,"r":"reprice","t25":835.0,"t26":313.0,"g25":3279880,"g26":834145,"ry":258.0,"ryg":941987,"tk":0.0,"tkg":0},{"n":"ORANA Vietnam (Thru OMK Enterprise)","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":134.6,"ryg":904327,"tk":117.4,"tkg":975178},{"n":"Thai preeda","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":116.0,"ryg":856597,"tk":120.0,"tkg":985279},{"n":"บริษัท สยามซิตี้ เคมิคอลส์ จำกัด (สำนักงานใหญ่)","id":0,"r":"grow","t25":175.7,"t26":136.0,"g25":1505398,"g26":1184968,"ry":197.9,"ryg":1462168,"tk":35.1,"tkg":301322},{"n":"Del Monte Philippines Inc.","id":0,"r":"new","t25":0,"t26":48.0,"g25":0,"g26":498816,"ry":216.0,"ryg":2154002,"tk":0.0,"tkg":0},{"n":"Unicord","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":120.0,"ryg":946106,"tk":90.0,"tkg":823499},{"n":"DEVCO LOJİSTİK HİZMETLERİ VE TİC.LTD.ŞTİ.","id":0,"r":"new","t25":0,"t26":120.0,"g25":0,"g26":1210320,"ry":160.0,"ryg":986005,"tk":40.0,"tkg":276061},{"n":"KAWASHO (Gehl Foods ) ","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":140.7,"ryg":873099,"tk":57.3,"tkg":431203},{"n":"Trinova","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":198.0,"ryg":1507435,"tk":0.0,"tkg":0},{"n":"HAILITEN GROUP LIMITED","id":0,"r":"grow","t25":20.0,"t26":120.0,"g25":170780,"g26":1022160,"ry":180.0,"ryg":1149533,"tk":0.0,"tkg":0},{"n":"Siamruammit ","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":180.0,"ryg":1984354,"tk":0.0,"tkg":0},{"n":"Thai Flour Mill","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":135.0,"ryg":1003523,"tk":45.0,"tkg":411750},{"n":"Hop Power Pearl","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":180.0,"ryg":1722728,"tk":0.0,"tkg":0},{"n":"Pepsico","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":180.0,"ryg":3941336,"tk":0.0,"tkg":0},{"n":"UFM Food Center","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":180.0,"ryg":1819967,"tk":0.0,"tkg":0},{"n":"Nitto Fuji International (Thailand)","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":120.0,"ryg":810792,"tk":60.0,"tkg":393604},{"n":"บริษัท ชัยรุ่งเรืองกิจ จำกัด","id":0,"r":"grow","t25":56.0,"t26":84.0,"g25":490056,"g26":507612,"ry":110.1,"ryg":844927,"tk":57.9,"tkg":512787},{"n":"Redox Ltd","id":0,"r":"grow","t25":40.0,"t26":20.0,"g25":509120,"g26":224780,"ry":190.8,"ryg":1407715,"tk":0.0,"tkg":0},{"n":"Kuseng Trading Co., Ltd.","id":0,"r":"grow","t25":100.0,"t26":60.0,"g25":698200,"g26":400260,"ry":130.8,"ryg":984083,"tk":29.2,"tkg":256296},{"n":"SAM LIM CORP / WL FOOD PRODUCTS","id":0,"r":"grow","t25":112.0,"t26":128.0,"g25":1298640,"g26":1014912,"ry":160.0,"ryg":-273616,"tk":0.0,"tkg":0},{"n":"JALEX LOGISTICS","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":100.8,"ryg":1179994,"tk":50.4,"tkg":751782},{"n":"Jomyuth","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":60.0,"ryg":438521,"tk":90.0,"tkg":738738},{"n":"GALAM  LTD","id":0,"r":"grow","t25":96.0,"t26":48.0,"g25":915552,"g26":430272,"ry":144.0,"ryg":1405237,"tk":0.0,"tkg":0},{"n":"BAYFIELD FOOD INGREDIENTS PVT LTD","id":0,"r":"new","t25":0,"t26":48.0,"g25":0,"g26":383520,"ry":144.0,"ryg":475469,"tk":0.0,"tkg":0},{"n":"LLC 7 Utra","id":0,"r":"new","t25":0.9,"t26":0,"g25":8888,"g26":0,"ry":144.0,"ryg":1225360,"tk":0.0,"tkg":0},{"n":"Fuji Nihon (Sonton Food)","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":108.0,"ryg":834890,"tk":36.0,"tkg":310274},{"n":"JJ-Pun Trading Company Limited","id":0,"r":"new","t25":0,"t26":126.0,"g25":0,"g26":1119132,"ry":126.0,"ryg":977538,"tk":0.0,"tkg":0},{"n":"บริษัท ควีนโปรดักส์ จำกัด","id":0,"r":"protect","t25":126.0,"t26":83.0,"g25":1244754,"g26":742186,"ry":105.7,"ryg":792148,"tk":17.3,"tkg":152066},{"n":"บริษัท นิวลี่ เว็ดส์ ฟู้ดส์ (ประเทศไทย) จำกัด","id":0,"r":"fix","t25":80.0,"t26":0,"g25":278640,"g26":0,"ry":120.0,"ryg":860152,"tk":0.0,"tkg":0},{"n":"บริษัท ไทยแพน เทรดดิ้ง จำกัด","id":0,"r":"grow","t25":100.0,"t26":75.0,"g25":772300,"g26":701175,"ry":102.7,"ryg":772677,"tk":17.3,"tkg":152066},{"n":"BAPAS FOOD PRODUCTS SDN BHD","id":0,"r":"grow","t25":60.0,"t26":0,"g25":413280,"g26":0,"ry":77.4,"ryg":321201,"tk":42.6,"tkg":278612},{"n":"INGRELAT DE EL SALVADOR S.A. DE C.V.","id":0,"r":"grow","t25":40.0,"t26":80.0,"g25":539960,"g26":1151520,"ry":103.5,"ryg":1688254,"tk":16.5,"tkg":322475},{"n":"RAM Foods","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":120.0,"ryg":1640228,"tk":0.0,"tkg":0},{"n":"KILFINAN LIMITED","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":120.0,"ryg":1443536,"tk":0.0,"tkg":0},{"n":"Concord Korea ","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":120.0,"ryg":477441,"tk":0.0,"tkg":0},{"n":"บริษัท สุรีย์ อินเตอร์ฟู้ดส์ จำกัด (สำนักงานใหญ่)","id":0,"r":"grow","t25":90.0,"t26":90.0,"g25":1061370,"g26":855180,"ry":78.2,"ryg":570924,"tk":31.8,"tkg":276302},{"n":"Sajo CPK Ltd.","id":0,"r":"new","t25":0.2,"t26":30.0,"g25":47601,"g26":199890,"ry":110.0,"ryg":1289592,"tk":0.0,"tkg":0},{"n":"International Fruit Production-IFP","id":0,"r":"new","t25":0.5,"t26":23.0,"g25":1358,"g26":330993,"ry":90.0,"ryg":1138190,"tk":18.0,"tkg":266937},{"n":"Fuji Nihon (Montuer)","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":108.0,"ryg":626923,"tk":0.0,"tkg":0},{"n":"บริษัท ฟู้ดเทรนด์ จำกัด","id":0,"r":"protect","t25":370.4,"t26":325.1,"g25":2482791,"g26":2343646,"ry":75.3,"ryg":527421,"tk":30.6,"tkg":259348},{"n":"Food Coating International","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":40.0,"ryg":434593,"tk":62.0,"tkg":854436},{"n":"CASELAB LIMITED","id":0,"r":"grow","t25":18.2,"t26":43.2,"g25":109819,"g26":566006,"ry":75.6,"ryg":805161,"tk":25.2,"tkg":325327},{"n":"PT. JAPFA FOOD INDONESIA GEDUNG GRAHA PRABA SAMANTA","id":1,"r":"new","t25":0,"t26":600.0,"g25":0,"g26":1330800,"ry":60.0,"ryg":85305,"tk":40.0,"tkg":129810},{"n":"LLC “YUZH-REGION”","id":0,"r":"new","t25":0,"t26":0,"g25":0,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"Tropical Canning","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":63.0,"ryg":468311,"tk":21.0,"tkg":195073},{"n":"CARGILL JAPAN LLC","id":0,"r":"other","t25":40.0,"t26":60.0,"g25":392440,"g26":482040,"ry":80.0,"ryg":533212,"tk":0.0,"tkg":0},{"n":"URC","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":80.0,"ryg":709385,"tk":0.0,"tkg":0},{"n":"Hon's WunTun House","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":20.0,"ryg":221110,"tk":60.0,"tkg":820028},{"n":"Barentz Canada","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":43.0,"ryg":249742,"tk":37.0,"tkg":291237},{"n":"บริษัท โปรแพลน อุตสาหกรรม จำกัด (สำนักงานใหญ่)","id":0,"r":"other","t25":72.0,"t26":60.0,"g25":608040,"g26":454260,"ry":47.9,"ryg":349875,"tk":30.1,"tkg":251765},{"n":"บริษัท ไทยยูเนี่ยน กรุ๊ป จำกัด (มหาชน)  (สำนักงานใหญ่)","id":0,"r":"other","t25":104.9,"t26":60.0,"g25":650800,"g26":302700,"ry":58.9,"ryg":428911,"tk":16.1,"tkg":143171},{"n":"Redox","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":0.0,"ryg":0,"tk":73.2,"tkg":570882},{"n":"Mahachai thai food","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":54.0,"ryg":401409,"tk":18.0,"tkg":164700},{"n":"OMK Enterprise (Kellogg's)","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":36.0,"ryg":336192,"tk":36.0,"tkg":402037},{"n":"บริษัท พัฒน์ธน มารีน แอนด์ ฟู๊ดส์ จ","id":0,"r":"other","t25":78.0,"t26":54.0,"g25":682422,"g26":457488,"ry":55.6,"ryg":418173,"tk":10.4,"tkg":91239},{"n":"Myanmar Makro Industry Company Limited.","id":0,"r":"other","t25":162.0,"t26":65.5,"g25":3713850,"g26":1571934,"ry":64.9,"ryg":1119488,"tk":0.6,"tkg":10917},{"n":"EB FROZEN FOOD SDN. BHD.","id":0,"r":"other","t25":5.0,"t26":0,"g25":54340,"g26":0,"ry":40.0,"ryg":281248,"tk":20.0,"tkg":175363},{"n":"Excellent pioneer","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":25.0,"ryg":156087,"tk":35.0,"tkg":274195},{"n":"Virginia Foods Inc","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":0.0,"ryg":0,"tk":60.0,"tkg":496583},{"n":"Paiboon Product","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":60.0,"ryg":-363450,"tk":0.0,"tkg":0},{"n":"LLС “COMPANY CORN PRODUCT”","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":16.0,"ryg":198330,"tk":40.0,"tkg":349650},{"n":"OMK Enterprise (Agrana Nile Fruits)","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":30.1,"ryg":199293,"tk":23.9,"tkg":204258},{"n":"TURKIMPEKS GIDA VE KIMYA SANAYI VE TICAR","id":0,"r":"other","t25":0,"t26":26.0,"g25":0,"g26":73710,"ry":52.0,"ryg":-54990,"tk":0.0,"tkg":0},{"n":"New Customer - Domestic","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":28.0,"ryg":222357,"tk":24.0,"tkg":219600},{"n":"บริษัท ผลิตภัณฑ์อาหารสมบูรณ์ จำกัด (สำนักงานใหญ่)","id":0,"r":"other","t25":51.5,"t26":40.0,"g25":700194,"g26":491440,"ry":42.7,"ryg":325892,"tk":7.3,"tkg":71814},{"n":"Zenia Singapore Pte. Ltd.","id":0,"r":"other","t25":119.8,"t26":60.0,"g25":1286652,"g26":599220,"ry":24.3,"ryg":173836,"tk":15.7,"tkg":135045},{"n":"บริษัท สยามโตไก จำกัด","id":0,"r":"other","t25":63.0,"t26":0,"g25":1064826,"g26":0,"ry":20.0,"ryg":120350,"tk":0.0,"tkg":0},{"n":"บริษัท โปรแพลน อินเตอร์เนชั่นแนล จำกัด","id":0,"r":"other","t25":952.0,"t26":371.5,"g25":5871936,"g26":2364226,"ry":2.5,"ryg":30046,"tk":0.0,"tkg":0},{"n":"LLC “YUZH-REGION” Russia, 117638, Moscow,vn.ter.g.","id":0,"r":"other","t25":100.0,"t26":0,"g25":1077900,"g26":0,"ry":79.9,"ryg":609723,"tk":20.1,"tkg":175502},{"n":"บริษัท ไทยวา จำกัด (มหาชน) (สาขาที่ 00007)","id":0,"r":"other","t25":118.0,"t26":79.3,"g25":120714,"g26":74859,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"บริษัท เอ.ซี.บูรพา จำกัด (สำนักงานใหญ่)","id":0,"r":"other","t25":107.9,"t26":0,"g25":2017514,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"C.B. Andrew Philippines, Inc.","id":0,"r":"other","t25":60.0,"t26":0,"g25":1149780,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"บริษัท อินเตอร์รุ่งเรืองกรุ๊ป จำกัด","id":0,"r":"other","t25":90.0,"t26":0,"g25":236610,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"PT. SO GOOD FOOD GEDUNG GRAHA PRABA SAMANTA ","id":1,"r":"other","t25":160.0,"t26":60.0,"g25":419840,"g26":42360,"ry":20.0,"ryg":25842,"tk":20.0,"tkg":60284},{"n":"Lactokorea Co., Ltd.","id":0,"r":"other","t25":108.0,"t26":18.0,"g25":835704,"g26":131634,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"GUANGZHOU JIANKE BIOTECHNOLOGY CO.,LTD","id":0,"r":"other","t25":200.0,"t26":0,"g25":1503000,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"S.I.P.C","id":0,"r":"other","t25":88.0,"t26":0,"g25":287408,"g26":0,"ry":386.2,"ryg":2121851,"tk":14.6,"tkg":114817},{"n":"MEELUNIE B.V.","id":0,"r":"other","t25":68.0,"t26":0,"g25":1428816,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"Tate&Lyle Netherlands","id":0,"r":"other","t25":170.0,"t26":0.0,"g25":2153560,"g26":0,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"บริษัท คาร์กิลล์สยาม จำกัด (สำนักงานใหญ่)","id":0,"r":"other","t25":0,"t26":187.0,"g25":0,"g26":2025210,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"QINGDAO AISIPURUI CO., LTD.","id":0,"r":"other","t25":0,"t26":200.0,"g25":0,"g26":289400,"ry":0,"ryg":0,"tk":0,"tkg":0},{"n":"Plan lines not matched to an account","id":0,"r":"other","t25":0,"t26":0,"g25":0,"g26":0,"ry":468.4,"ryg":4305982,"tk":223.3,"tkg":2592400},{"n":"TDC accounts outside the 2027 plan","id":0,"r":"other","t25":578.3,"t26":430.7,"g25":8669492,"g26":14063746,"ry":0,"ryg":0,"tk":0,"tkg":0}];
+const NAME = {fix:'Fix price before volume', grow:'Grow with margin', protect:'Protect', reprice:'Reprice / exit'};
+const SHORT = {'PT.INDO ASIA TIRTA MANUNGGAL':'Indo Asia Tirta','PT. CHAROEN POKPHAND INDONESIA':'CP Indonesia','PT THAI WAH INDONESIA':'Thai Wah Indonesia','PT. JAPFA FOOD INDONESIA GEDUNG GRAHA PRABA SAMANTA':'Japfa','PT. SO GOOD FOOD GEDUNG GRAHA PRABA SAMANTA':'So Good Food'};
+let plant = 'both', ref = 'all';
+const sel27 = r => plant==='ry' ? [r.ry, r.ryg] : plant==='tk' ? [r.tk, r.tkg] : [r.ry+r.tk, r.ryg+r.tkg];
+const PER = {p25: r=>[r.t25, r.g25], p26: r=>[r.t26, r.g26], p27: sel27};
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const pct = (a,b) => b ? a/b*100 : 0;
+function shares(){
+  const tot = {}; for (const p in PER){ tot[p] = ROWS.reduce((a,r)=>{const v=PER[p](r); return [a[0]+v[0], a[1]+v[1]];}, [0,0]); }
+  const out = {};
+  for (const k of ['fix','grow','protect','reprice','new','other']){
+    const rr = ROWS.filter(r=>r.r===k), ii = rr.filter(r=>r.id);
+    out[k] = {n: rr.filter(r=>sel27(r)[0]>0 || r.t25>0 || r.t26>0).length, idn: ii.filter(r=>sel27(r)[0]>0).length, idnames: ii.filter(r=>sel27(r)[0]>0).map(r=>SHORT[r.n]||r.n), t27: rr.reduce((a,r)=>a+sel27(r)[0],0), g27: rr.reduce((a,r)=>a+sel27(r)[1],0)};
+    for (const p in PER){
+      const s = rr.reduce((a,r)=>{const v=PER[p](r); return [a[0]+v[0], a[1]+v[1]];}, [0,0]);
+      const si = ii.reduce((a,r)=>{const v=PER[p](r); return [a[0]+v[0], a[1]+v[1]];}, [0,0]);
+      out[k][p] = {v: pct(s[0],tot[p][0]), g: pct(s[1],tot[p][1]), iv: pct(si[0],tot[p][0]), ig: pct(si[1],tot[p][1])};
+    }
+  }
+  return {tot, out};
+}
+function ppTag(a,b){ const d=b-a; const c=Math.abs(d)<0.5?'flat':(d>0?'up':'down'); return `<span class="pp ${c}">${d>0?'+':''}${d.toFixed(0)} pp</span>`; }
+function metric(label, o, key){
+  const show25 = ref!=='none', show26 = ref==='all';
+  const v25=o.p25[key], v26=o.p26[key], v27=o.p27[key];
+  const bars = (show25?`<i style="width:${Math.min(100,v25)}%"></i>`:'') + (show26?`<i class="b26" style="width:${Math.min(100,v26)}%"></i>`:'') + `<i class="b27" style="width:${Math.min(100,v27)}%"></i>`;
+  const nums = (show25?`${v25.toFixed(0)}% → `:'') + (show26?`${v26.toFixed(0)}% → `:'') + `<b>${v27.toFixed(0)}%</b>` + (show25?ppTag(v25,v27):'');
+  return `<div class="metric"><span class="ml">${label}</span><div class="bars">${bars}</div><div class="nums">${nums}</div></div>`;
+}
+function draw(){
+  const {tot, out} = shares();
+  const plab = plant==='ry'?'Rayong':plant==='tk'?'TKT':'both plants';
+  for (const k of ['fix','grow','protect','reprice']){
+    const o = out[k];
+    let h = `<h2>${NAME[k].toUpperCase()}</h2><div class="meta">${o.n} accounts · AP2027 ${plab} ${fmt(o.t27)} t · GP ${(o.g27/1e6).toFixed(0)} MB · ${o.t27?(o.g27/o.t27/1000).toFixed(2):'–'} THB/kg</div>`;
+    h += `<div class="grp"><div class="gname">Total</div><div>${metric('Vol', o, 'v')}${metric('GP', o, 'g')}</div></div>`;
+    if (o.idn || o.p25.iv>0 || o.p26.iv>0) h += `<div class="grp"><div class="gname">Indonesia</div><div>${metric('Vol', o, 'iv')}${metric('GP', o, 'ig')}<div class="names">${o.idn} account${o.idn>1?'s':''} in the ${plab} plan: ${o.idnames.join(', ')||'none'}</div></div></div>`;
+    else h += `<div class="grp"><div class="gname">Indonesia</div><div class="none">no Indonesian account in this role</div></div>`;
+    document.getElementById('c-'+k).innerHTML = h;
+  }
+  const n=out.new, x=out.other;
+  const f3 = (o,key) => `${o.p25[key].toFixed(0)}% → ${o.p26[key].toFixed(0)}% → ${o.p27[key].toFixed(0)}%`;
+  document.getElementById('rest').innerHTML = `Outside the four roles (2025 → 2026 → AP2027 ${plab}): new accounts with no 2025 history: vol ${f3(n,'v')}, GP ${f3(n,'g')}${n.p27.iv>0.5?` (Indonesia vol ${n.p27.iv.toFixed(0)}%, GP ${n.p27.ig.toFixed(0)}%)`:''} · plan under 100 t, not in the plan, or plan lines without an account: vol ${f3(x,'v')}, GP ${f3(x,'g')}`;
+  document.getElementById('foot').innerHTML = `Denominators: 2025 FY ${fmt(tot.p25[0])} t / product GP ${(tot.p25[1]/1e6).toFixed(0)} MB · 2026 Jan–Sep ${fmt(tot.p26[0])} t / ${(tot.p26[1]/1e6).toFixed(0)} MB (TDC Profitability data_Actual, product GP = net sales − Actual Cost − F&amp;I, before idle, PPA, other adj) · AP2027 ${plab} ${fmt(tot.p27[0])} t / plan product GP ${(tot.p27[1]/1e6).toFixed(0)} MB (Top Line HVA Thailand_Oct1 Revised ASP_Final, sheet data, AP + headroom, plant as booked: TDC = Rayong, TKT). Actuals are Rayong only, so the plant filter changes the AP2027 bars; TKT has no history. Roles from the customer quadrant page (2025 base, product GP, floor 4,700, plan ≥ 100 t; base year under 5 t = no history). FP&amp;A, 29 Oct 2026.`;
+}
+document.querySelectorAll('[data-pl]').forEach(b=>b.addEventListener('click',()=>{ plant=b.dataset.pl; document.querySelectorAll('[data-pl]').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false')); draw(); }));
+document.querySelectorAll('[data-ref]').forEach(b=>b.addEventListener('click',()=>{ ref=b.dataset.ref; document.querySelectorAll('[data-ref]').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false')); draw(); }));
+draw();
+</script>
+</body>
+</html>

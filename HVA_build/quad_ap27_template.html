@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HVA AP2027 Quadrant by Plant</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#fbfbf9; --panel:#ffffff; --fg:#14213d; --fg-2:#4b5563; --fg-3:#8a8f98; --line:#e3e4e0;
+  --fix:#eb6834; --grow:#2a78d6; --protect:#1baf7a; --reprice:#8a8f98;
+  --fix-soft:#fdf0ea; --grow-soft:#eaf1fb; --protect-soft:#e8f7f1; --reprice-soft:#f1f2f0;
+  --b25:#d4d6d1; --b26:#9a9d98; --up:#1baf7a; --down:#d94a2b;
+  --font:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#141516; --panel:#1c1d1f; --fg:#f2f2ee; --fg-2:#c3c2b7; --fg-3:#8d8e88; --line:#33342f;
+  --fix:#d95926; --grow:#3987e5; --protect:#199e70; --reprice:#9a9b95;
+  --fix-soft:#2a1f19; --grow-soft:#192230; --protect-soft:#17261f; --reprice-soft:#232420;
+  --b25:#4a4b47; --b26:#73746f; color-scheme:dark; }}
+:root[data-theme="dark"]{
+  --bg:#141516; --panel:#1c1d1f; --fg:#f2f2ee; --fg-2:#c3c2b7; --fg-3:#8d8e88; --line:#33342f;
+  --fix:#d95926; --grow:#3987e5; --protect:#199e70; --reprice:#9a9b95;
+  --fix-soft:#2a1f19; --grow-soft:#192230; --protect-soft:#17261f; --reprice-soft:#232420;
+  --b25:#4a4b47; --b26:#73746f; color-scheme:dark; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.45}
+.wrap{max-width:1100px;margin:0 auto;padding:26px 16px 44px}
+h1{font-size:24px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--fg-2);margin:0 0 16px;max-width:90ch}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);font-weight:600}
+.controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:0 0 16px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:transparent;border:0;padding:6px 12px;font:inherit;color:var(--fg-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+button:focus-visible{outline:2px solid var(--grow);outline-offset:2px}
+label.ctl{display:inline-flex;gap:8px;align-items:center;color:var(--fg-2)}
+.axis-x{display:grid;grid-template-columns:34px 1fr 1fr;gap:0 12px;margin:0 0 6px}
+.axis-x div{text-align:center;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-2)}
+.board{display:grid;grid-template-columns:34px 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.ylab{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-2);align-self:stretch}
+.cell{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--panel);min-width:0}
+.cell.fix{background:var(--fix-soft);border-color:color-mix(in srgb,var(--fix) 45%,transparent)}
+.cell.grow{background:var(--grow-soft);border-color:color-mix(in srgb,var(--grow) 45%,transparent)}
+.cell.protect{background:var(--protect-soft);border-color:color-mix(in srgb,var(--protect) 45%,transparent)}
+.cell.reprice{background:var(--reprice-soft);border-color:color-mix(in srgb,var(--reprice) 45%,transparent)}
+.cell h2{font-size:13px;font-weight:700;margin:0 0 2px;letter-spacing:.02em}
+.cell.fix h2{color:var(--fix)} .cell.grow h2{color:var(--grow)} .cell.protect h2{color:var(--protect)} .cell.reprice h2{color:var(--reprice)}
+.cell .meta{font-size:11.5px;color:var(--fg-3);margin:0 0 10px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.grp{display:grid;grid-template-columns:72px 1fr;gap:4px 8px;align-items:start;padding:6px 0}
+.grp+.grp{border-top:1px solid color-mix(in srgb,var(--fg) 12%,transparent)}
+.grp .gname{font-weight:600;font-size:12.5px;padding-top:2px}
+.metric{display:grid;grid-template-columns:28px 1fr auto;gap:0 8px;align-items:center;margin:0 0 6px}
+.metric .ml{font-size:11.5px;color:var(--fg-2)}
+.bars{display:flex;flex-direction:column;gap:2px}
+.bars i{display:block;height:5px;border-radius:1px;background:var(--b25)}
+.bars i.b26{background:var(--b26)} .bars i.b27{height:7px}
+.cell.fix .bars i.b27{background:var(--fix)} .cell.grow .bars i.b27{background:var(--grow)} .cell.protect .bars i.b27{background:var(--protect)} .cell.reprice .bars i.b27{background:var(--reprice)}
+.nums{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap;text-align:right}
+.nums b{font-weight:600;font-size:13px}
+.nums .pp{font-size:11px;margin-left:6px}
+.pp.up{color:var(--up)} .pp.down{color:var(--down)} .pp.flat{color:var(--fg-3)}
+.none{font-size:11.5px;color:var(--fg-3);padding-top:2px}
+.names{font-size:11px;color:var(--fg-3);grid-column:2;margin-top:-2px}
+.foot{color:var(--fg-3);font-size:12px;margin-top:14px;max-width:100ch}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--fg-2);margin:12px 0 0}
+.legend span::before{content:"";display:inline-block;width:14px;height:6px;margin-right:6px;vertical-align:1px;background:var(--c)}
+.rest{font-size:12px;color:var(--fg-2);margin-top:12px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+@media (max-width:960px){.board,.axis-x{grid-template-columns:1fr}.ylab{display:none}.axis-x{display:none}.cell::before{content:attr(data-axis);display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3);margin-bottom:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">HVA modified starch &middot; AP 2027 &middot; customer analysis</div>
+  <h1>Volume and product GP contribution by customer role: 2025 &rarr; 2026 &rarr; AP2027</h1>
+  <p class="sub">Roles are fixed on the 2025 base (product GP/t vs floor 4,700; 2027 plan vs 2025 volume), the same grouping as the customer quadrant page. Each bar is the role's share of the whole HVA book in that period: 2025 full year and 2026 January&ndash;September are actuals (Rayong only), AP2027 is the plan as booked for the selected plant. Indonesia = Indonesian accounts inside the role, same denominators.</p>
+
+  <div class="controls">
+    <span class="eyebrow">AP2027 plant</span>
+    <div class="seg" role="group" aria-label="Plant">
+      <button data-pl="both" aria-pressed="true">Both plants</button>
+      <button data-pl="ry" aria-pressed="false">Rayong</button>
+      <button data-pl="tk" aria-pressed="false">TKT</button>
+    </div>
+    <span class="eyebrow">Compare with</span>
+    <div class="seg" role="group" aria-label="Reference periods">
+      <button data-ref="all" aria-pressed="true">2025 + 2026</button>
+      <button data-ref="25" aria-pressed="false">2025 only</button>
+      <button data-ref="none" aria-pressed="false">AP2027 only</button>
+    </div>
+  </div>
+
+  <div class="axis-x"><div></div><div>2027 plan flat or down vs 2025</div><div>2027 plan growing vs 2025</div></div>
+  <div class="board">
+    <div class="ylab">product GP/t 2025 &ge; 4,700</div>
+    <div class="cell protect" id="c-protect" data-axis="GP/t ≥ floor · plan flat or down"></div>
+    <div class="cell grow" id="c-grow" data-axis="GP/t ≥ floor · plan growing"></div>
+    <div class="ylab">product GP/t 2025 &lt; 4,700</div>
+    <div class="cell reprice" id="c-reprice" data-axis="GP/t < floor · plan flat or down"></div>
+    <div class="cell fix" id="c-fix" data-axis="GP/t < floor · plan growing"></div>
+  </div>
+  <div class="legend"><span style="--c:var(--b25)">2025 FY actual</span><span style="--c:var(--b26)">2026 Jan&ndash;Sep actual</span><span style="--c:var(--fg)">AP2027 plan (role colour)</span><span>pp = AP2027 share minus 2025 share</span></div>
+  <div class="rest" id="rest"></div>
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+const ROWS = /*ROWS*/[];
+const NAME = {fix:'Fix price before volume', grow:'Grow with margin', protect:'Protect', reprice:'Reprice / exit'};
+const SHORT = {'PT.INDO ASIA TIRTA MANUNGGAL':'Indo Asia Tirta','PT. CHAROEN POKPHAND INDONESIA':'CP Indonesia','PT THAI WAH INDONESIA':'Thai Wah Indonesia','PT. JAPFA FOOD INDONESIA GEDUNG GRAHA PRABA SAMANTA':'Japfa','PT. SO GOOD FOOD GEDUNG GRAHA PRABA SAMANTA':'So Good Food'};
+let plant = 'both', ref = 'all';
+const sel27 = r => plant==='ry' ? [r.ry, r.ryg] : plant==='tk' ? [r.tk, r.tkg] : [r.ry+r.tk, r.ryg+r.tkg];
+const PER = {p25: r=>[r.t25, r.g25], p26: r=>[r.t26, r.g26], p27: sel27};
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const pct = (a,b) => b ? a/b*100 : 0;
+function shares(){
+  const tot = {}; for (const p in PER){ tot[p] = ROWS.reduce((a,r)=>{const v=PER[p](r); return [a[0]+v[0], a[1]+v[1]];}, [0,0]); }
+  const out = {};
+  for (const k of ['fix','grow','protect','reprice','new','other']){
+    const rr = ROWS.filter(r=>r.r===k), ii = rr.filter(r=>r.id);
+    out[k] = {n: rr.filter(r=>sel27(r)[0]>0 || r.t25>0 || r.t26>0).length, idn: ii.filter(r=>sel27(r)[0]>0).length, idnames: ii.filter(r=>sel27(r)[0]>0).map(r=>SHORT[r.n]||r.n), t27: rr.reduce((a,r)=>a+sel27(r)[0],0), g27: rr.reduce((a,r)=>a+sel27(r)[1],0)};
+    for (const p in PER){
+      const s = rr.reduce((a,r)=>{const v=PER[p](r); return [a[0]+v[0], a[1]+v[1]];}, [0,0]);
+      const si = ii.reduce((a,r)=>{const v=PER[p](r); return [a[0]+v[0], a[1]+v[1]];}, [0,0]);
+      out[k][p] = {v: pct(s[0],tot[p][0]), g: pct(s[1],tot[p][1]), iv: pct(si[0],tot[p][0]), ig: pct(si[1],tot[p][1])};
+    }
+  }
+  return {tot, out};
+}
+function ppTag(a,b){ const d=b-a; const c=Math.abs(d)<0.5?'flat':(d>0?'up':'down'); return `<span class="pp ${c}">${d>0?'+':''}${d.toFixed(0)} pp</span>`; }
+function metric(label, o, key){
+  const show25 = ref!=='none', show26 = ref==='all';
+  const v25=o.p25[key], v26=o.p26[key], v27=o.p27[key];
+  const bars = (show25?`<i style="width:${Math.min(100,v25)}%"></i>`:'') + (show26?`<i class="b26" style="width:${Math.min(100,v26)}%"></i>`:'') + `<i class="b27" style="width:${Math.min(100,v27)}%"></i>`;
+  const nums = (show25?`${v25.toFixed(0)}% → `:'') + (show26?`${v26.toFixed(0)}% → `:'') + `<b>${v27.toFixed(0)}%</b>` + (show25?ppTag(v25,v27):'');
+  return `<div class="metric"><span class="ml">${label}</span><div class="bars">${bars}</div><div class="nums">${nums}</div></div>`;
+}
+function draw(){
+  const {tot, out} = shares();
+  const plab = plant==='ry'?'Rayong':plant==='tk'?'TKT':'both plants';
+  for (const k of ['fix','grow','protect','reprice']){
+    const o = out[k];
+    let h = `<h2>${NAME[k].toUpperCase()}</h2><div class="meta">${o.n} accounts · AP2027 ${plab} ${fmt(o.t27)} t · GP ${(o.g27/1e6).toFixed(0)} MB · ${o.t27?(o.g27/o.t27/1000).toFixed(2):'–'} THB/kg</div>`;
+    h += `<div class="grp"><div class="gname">Total</div><div>${metric('Vol', o, 'v')}${metric('GP', o, 'g')}</div></div>`;
+    if (o.idn || o.p25.iv>0 || o.p26.iv>0) h += `<div class="grp"><div class="gname">Indonesia</div><div>${metric('Vol', o, 'iv')}${metric('GP', o, 'ig')}<div class="names">${o.idn} account${o.idn>1?'s':''} in the ${plab} plan: ${o.idnames.join(', ')||'none'}</div></div></div>`;
+    else h += `<div class="grp"><div class="gname">Indonesia</div><div class="none">no Indonesian account in this role</div></div>`;
+    document.getElementById('c-'+k).innerHTML = h;
+  }
+  const n=out.new, x=out.other;
+  const f3 = (o,key) => `${o.p25[key].toFixed(0)}% → ${o.p26[key].toFixed(0)}% → ${o.p27[key].toFixed(0)}%`;
+  document.getElementById('rest').innerHTML = `Outside the four roles (2025 → 2026 → AP2027 ${plab}): new accounts with no 2025 history: vol ${f3(n,'v')}, GP ${f3(n,'g')}${n.p27.iv>0.5?` (Indonesia vol ${n.p27.iv.toFixed(0)}%, GP ${n.p27.ig.toFixed(0)}%)`:''} · plan under 100 t, not in the plan, or plan lines without an account: vol ${f3(x,'v')}, GP ${f3(x,'g')}`;
+  document.getElementById('foot').innerHTML = `Denominators: 2025 FY ${fmt(tot.p25[0])} t / product GP ${(tot.p25[1]/1e6).toFixed(0)} MB · 2026 Jan–Sep ${fmt(tot.p26[0])} t / ${(tot.p26[1]/1e6).toFixed(0)} MB (TDC Profitability data_Actual, product GP = net sales − Actual Cost − F&amp;I, before idle, PPA, other adj) · AP2027 ${plab} ${fmt(tot.p27[0])} t / plan product GP ${(tot.p27[1]/1e6).toFixed(0)} MB (Top Line HVA Thailand_Oct1 Revised ASP_Final, sheet data, AP + headroom, plant as booked: TDC = Rayong, TKT). Actuals are Rayong only, so the plant filter changes the AP2027 bars; TKT has no history. Roles from the customer quadrant page (2025 base, product GP, floor 4,700, plan ≥ 100 t; base year under 5 t = no history). FP&amp;A, 29 Oct 2026.`;
+}
+document.querySelectorAll('[data-pl]').forEach(b=>b.addEventListener('click',()=>{ plant=b.dataset.pl; document.querySelectorAll('[data-pl]').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false')); draw(); }));
+document.querySelectorAll('[data-ref]').forEach(b=>b.addEventListener('click',()=>{ ref=b.dataset.ref; document.querySelectorAll('[data-ref]').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false')); draw(); }));
+draw();
+</script>
+</body>
+</html>
