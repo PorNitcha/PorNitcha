@@ -1,0 +1,170 @@
+# TWIT (Thai Wah International Trade, Shanghai) HVA customer x SN table, same layout as the Indonesia table (Por 30-Oct):
+# route 1 = TDC -> China customer (direct), route 2 = TDC -> TWIT -> customer. YTD Sep-25 and YTD Sep-26 side by side, reported FX only.
+# GP = full cost on the TDC leg (as in the Indonesia table); TWIT GP = reported THB GP; combined = TDC leg + TWIT.
+# HVA only: native starch (NS), sago and premix excluded. Benchmark = TDC full GP/kg on the same SN, non-China customers.
+# Usage: python twit_table_data.py <tdc_all_rows.csv> <twit_raw.csv> <out.json>
+import sys, csv, json, collections
+TDC, TW, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
+def kg(gp, t): return gp / t / 1000 if t else None
+# ---------- TDC rows ----------
+R = []
+for r in csv.DictReader(open(TDC, encoding='utf-8')):
+    for k in ('t', 'ns', 'af', 'fi', 'idle', 'oadj', 'ppa'): r[k] = float(r[k])
+    r['y'], r['m'] = int(r['year']), int(r['m'])
+    r['gp'] = r['ns'] - r['af'] - r['fi'] - r['idle'] - r['oadj'] - r['ppa']
+    u = r['cust'].upper()
+    if u.startswith('THAI WAH INTERNATIONAL TRADE'): r['seg'] = 'TWIT'
+    elif 'THAI WAH' in u: r['seg'] = 'Related (TWIN / TW India)'
+    elif r['country'] == 'China': r['seg'] = 'China direct'
+    else: r['seg'] = 'Non-China'
+    R.append(r)
+def ytd(rows, y): return [r for r in rows if r['y'] == y and r['m'] <= 9]
+def agg(rows): t = sum(r['t'] for r in rows); gp = sum(r['gp'] for r in rows); return dict(t=t, gp=gp, kg=kg(gp, t))
+SNNAME = {}
+for r in R:
+    if r['seg'] in ('TWIT', 'China direct'): SNNAME.setdefault(r['sn'], r['trade'].split('/')[0])
+for r in R: SNNAME.setdefault(r['sn'], r['trade'].split('/')[0])
+BENCH_SEG = ('Non-China',)          # third-party non-China customers; related parties (TWIN, TW India) left out
+bcache = {}
+def bench(sn, y):
+    if (sn, y) not in bcache: bcache[(sn, y)] = agg([r for r in ytd(R, y) if r['seg'] in BENCH_SEG and r['sn'] == sn])
+    return bcache[(sn, y)]
+# reaction-group benchmark (Por 30-Oct): TDC full GP/kg of all non-China third-party sales in the SN's reaction group (PO, PO-XL, XL, ...)
+RG = {}
+for r in R:
+    if r['rg'] and not r['rg'].startswith('#'): RG.setdefault(r['sn'], r['rg'])
+rcache = {}
+def bench_rg(g, y):
+    if (g, y) not in rcache: rcache[(g, y)] = agg([r for r in ytd(R, y) if r['seg'] in BENCH_SEG and r['rg'] == g])
+    return rcache[(g, y)]
+def rx_mix(w, y):
+    """reaction benchmark on the customer's own mix: weights = customer tonnes per reaction group in year y. Returns (benchmark tonnes in those groups, GP/kg)"""
+    wr = collections.defaultdict(float)
+    for s_, t in w.items():
+        if t > 0 and s_ in RG: wr[RG[s_]] += t
+    bt = sum(bench_rg(g, y)['t'] for g in wr); cov = {g: t for g, t in wr.items() if bench_rg(g, y)['t'] > 0}
+    return bt, (sum(t * bench_rg(g, y)['kg'] for g, t in cov.items()) / sum(cov.values()) if cov else None)
+def rxcols(w25, w26, own25, own26):
+    _, b25 = rx_mix(w25, 2025); bt, b26 = rx_mix(w26, 2026)
+    return dict(rbt=bt, rb25=b25, rb26=b26, rg25=(own25 - b25 if own25 is not None and b25 is not None else None), rg26=(own26 - b26 if own26 is not None and b26 is not None else None))
+# ---------- TWIT rows (HVA) ----------
+SNMAP = {'CASSTEX 43': 'SN-115', 'CASSMAX 102': 'SN-093', 'CASSFLO 600': 'SN-344', 'CASSFLO 11': 'SN-110', 'CASSMAX 33': 'SN-495', 'CASSFLO 800': 'SN-201',
+         'CASSMAX 26': 'SN-652', 'CASSTEX 72': 'SN-527', 'CASSFLO 880': 'SN-641'}
+EXCL_RX = {'NS', 'Sago', 'Premix'}
+T, skipped = [], collections.Counter()
+for r in csv.DictReader(open(TW, encoding='utf-8')):
+    rx, tn = (r['Reaction'] or '').strip(), (r['Trade name'] or '').strip()
+    t = float(r['Sales quantity'] or 0)
+    if rx in EXCL_RX or tn.upper() == 'INDIAN GUAR': skipped[rx or tn] += t; continue
+    y, m = int(r['Month'][:4]), int(r['Month'][5:7])
+    T.append(dict(y=y, m=m, q=(m - 1) // 3 + 1, cust=' '.join(r['Customer Name'].split()), grp=r['Group'], rx=rx, trade=tn, sn=SNMAP.get(tn.upper(), ''), t=t, gpw=float(r['GP_THB'] or 0), ns=float(r['NS_THB'] or 0)))
+# TDC leg rate per kg: TDC -> TWIT on the same SN in the same quarter, then same year, then all periods; then any customer in that year
+tw = [r for r in R if r['seg'] == 'TWIT']
+def rate(sn, y, q):
+    for rows in ([r for r in tw if r['sn'] == sn and r['y'] == y and (r['m'] - 1) // 3 + 1 == q], [r for r in tw if r['sn'] == sn and r['y'] == y],
+                 [r for r in tw if r['sn'] == sn], [r for r in R if r['sn'] == sn and r['y'] == y]):
+        a = agg(rows)
+        if a['t'] > 0: return a['gp'] / a['t'] / 1000
+    return None
+nomap = collections.Counter()
+for r in T:
+    rt = rate(r['sn'], r['y'], r['q']) if r['sn'] else None
+    if rt is None: nomap[r['trade']] += r['t'] if r['m'] <= 9 else 0
+    r['gpt'] = (rt or 0) * r['t'] * 1000; r['src'] = 'TDC' if rt is not None else 'Non-TDC'
+    r['gpc'] = r['gpt'] + r['gpw']
+def tagg(rows):
+    t = sum(r['t'] for r in rows); tt = sum(r['t'] for r in rows if r['src'] == 'TDC')
+    return dict(t=t, tdc=kg(sum(r['gpt'] for r in rows), tt), twit=kg(sum(r['gpw'] for r in rows), t), comb=kg(sum(r['gpc'] for r in rows), t),
+                gpt=sum(r['gpt'] for r in rows), gpw=sum(r['gpw'] for r in rows), gpc=sum(r['gpc'] for r in rows))
+def gap(a, b): return a - b if a is not None and b is not None else None
+def bench_mix(w, y):
+    """benchmark GP/kg on the customer's own SN mix: w = {sn: customer tonnes in year y}; SNs with no non-China sales are left out of the average.
+    Returns (benchmark tonnes on these SNs in year y, mix-weighted GP/kg, share of the customer's tonnes covered)"""
+    w = {s: t for s, t in w.items() if s.startswith('SN-') and t > 0}
+    bt = sum(bench(s, y)['t'] for s in w); cov = {s: t for s, t in w.items() if bench(s, y)['t'] > 0}
+    if not cov: return bt, None, 0
+    return bt, sum(t * bench(s, y)['kg'] for s, t in cov.items()) / sum(cov.values()), sum(cov.values()) / sum(w.values())
+def mixw(rows, y, keyf=lambda r: r['sn']):
+    w = collections.defaultdict(float)
+    for r in rows:
+        if r['y'] == y and r['m'] <= 9: w[keyf(r)] += r['t']
+    return w
+MINT = 20
+# ---------- route 1: TDC -> China customer ----------
+def dname(c):
+    u = c.upper()
+    if u.startswith('HUIFA') or u.startswith('QINGDAO MIRACLE'): return 'Huifa (incl. Qingdao Miracle)'
+    return {'SUNCHINA (XIAMEN) TRADING CO., LTD': 'SunChina', 'SHANGHAI JIANGMEI INDUSTRIAL CO.,LTD': 'Shanghai Jiangmei', 'HAILITEN GROUP LIMITED': 'Hailiten',
+            'Kevin Food Co., Ltd.': 'Kevin Food', 'GUANGZHOU JIANKE BIOTECHNOLOGY CO.,LTD': 'Guangzhou Jianke'}.get(c, c.title()[:28])
+D = [r for r in R if r['seg'] == 'China direct']
+for r in D: r['dn'] = dname(r['cust'])
+def dblock(name, rows):
+    a = {y: agg(ytd(rows, y)) for y in (2025, 2026)}
+    sns = sorted(set(r['sn'] for r in ytd(rows, 2025) + ytd(rows, 2026)), key=lambda s: (-agg([r for r in ytd(rows, 2026) if r['sn'] == s])['t'], -agg([r for r in ytd(rows, 2025) if r['sn'] == s])['t']))
+    lines = []
+    for sn in sns:
+        s = {y: agg([r for r in ytd(rows, y) if r['sn'] == sn]) for y in (2025, 2026)}
+        if max(s[2025]['t'], s[2026]['t']) < MINT and len(sns) > 1: continue
+        b = {y: bench(sn, y) for y in (2025, 2026)}
+        lines.append(dict(sn=sn, name=SNNAME.get(sn, sn), rxg=RG.get(sn, ''), t25=s[2025]['t'], t26=s[2026]['t'], tdc25=s[2025]['kg'], tdc26=s[2026]['kg'], bt=b[2026]['t'], b25=b[2025]['kg'], b26=b[2026]['kg'],
+                          g25=gap(s[2025]['kg'], b[2025]['kg']), g26=gap(s[2026]['kg'], b[2026]['kg']), **rxcols({sn: 1}, {sn: 1}, s[2025]['kg'], s[2026]['kg'])))
+    _, b25, _ = bench_mix(mixw(rows, 2025), 2025); bt, b26, _ = bench_mix(mixw(rows, 2026), 2026)
+    return dict(cust=name, t25=a[2025]['t'], t26=a[2026]['t'], tdc25=a[2025]['kg'], tdc26=a[2026]['kg'], bt=bt, b25=b25, b26=b26, g25=gap(a[2025]['kg'], b25), g26=gap(a[2026]['kg'], b26), sns=lines, **rxcols(mixw(rows, 2025), mixw(rows, 2026), a[2025]['kg'], a[2026]['kg']))
+dn = sorted(set(r['dn'] for r in D), key=lambda n: (-agg(ytd([r for r in D if r['dn'] == n], 2026))['t'], -agg(ytd([r for r in D if r['dn'] == n], 2025))['t']))
+direct = [dblock(n, [r for r in D if r['dn'] == n]) for n in dn if agg(ytd([r for r in D if r['dn'] == n], 2025))['t'] + agg(ytd([r for r in D if r['dn'] == n], 2026))['t'] > 0]
+dt = {y: agg(ytd(D, y)) for y in (2025, 2026)}
+_, db25, dcv25 = bench_mix(mixw(D, 2025), 2025); dbt, db26, dcv26 = bench_mix(mixw(D, 2026), 2026)
+direct_total = dict(cov25=dcv25, cov26=dcv26, t25=dt[2025]['t'], t26=dt[2026]['t'], tdc25=dt[2025]['kg'], tdc26=dt[2026]['kg'], bt=dbt, b25=db25, b26=db26, g25=gap(dt[2025]['kg'], db25), g26=gap(dt[2026]['kg'], db26), **rxcols(mixw(D, 2025), mixw(D, 2026), dt[2025]['kg'], dt[2026]['kg']))
+# ---------- route 2: TDC -> TWIT -> customer ----------
+def ty(rows, y): return [r for r in rows if r['y'] == y and r['m'] <= 9]
+cv = collections.defaultdict(lambda: [0, 0])
+for r in T:
+    if r['m'] <= 9: cv[r['cust']][r['y'] - 2025] += r['t']
+NKEY = 6
+key = [c for c, v in sorted(cv.items(), key=lambda kv: -(kv[1][0] + kv[1][1]))[:NKEY]]
+def vblock(name, rows, label=None):
+    a = {y: tagg(ty(rows, y)) for y in (2025, 2026)}
+    sns = sorted(set(r['sn'] or r['trade'] for r in ty(rows, 2025) + ty(rows, 2026)), key=lambda s: -(tagg([r for r in ty(rows, 2026) if (r['sn'] or r['trade']) == s])['t'] + tagg([r for r in ty(rows, 2025) if (r['sn'] or r['trade']) == s])['t']))
+    lines = []
+    for sn in sns:
+        s = {y: tagg([r for r in ty(rows, y) if (r['sn'] or r['trade']) == sn]) for y in (2025, 2026)}
+        if max(s[2025]['t'], s[2026]['t']) < MINT and len(sns) > 1: continue
+        isn = sn.startswith('SN-'); b = {y: bench(sn, y) if isn else dict(t=0, kg=None) for y in (2025, 2026)}
+        tr = next(r['trade'] for r in rows if (r['sn'] or r['trade']) == sn); rx = next(r['rx'] for r in rows if (r['sn'] or r['trade']) == sn)
+        rxc = rxcols({sn: 1}, {sn: 1}, s[2025]['comb'], s[2026]['comb']) if isn else dict(rbt=0, rb25=None, rb26=None, rg25=None, rg26=None)
+        lines.append(dict(**rxc, rxg=RG.get(sn, rx), sn=sn if isn else '–', name=tr, rx=rx.replace('PO-XL', 'POXL'), t25=s[2025]['t'], t26=s[2026]['t'],
+                          tdc25=s[2025]['tdc'], tdc26=s[2026]['tdc'], tw25=s[2025]['twit'], tw26=s[2026]['twit'], c25=s[2025]['comb'], c26=s[2026]['comb'],
+                          bt=b[2026]['t'], b25=b[2025]['kg'], b26=b[2026]['kg'], g25=gap(s[2025]['comb'], b[2025]['kg']), g26=gap(s[2026]['comb'], b[2026]['kg'])))
+    _, b25, _ = bench_mix(mixw(rows, 2025), 2025); bt, b26, _ = bench_mix(mixw(rows, 2026), 2026)
+    return dict(cust=label or name, full=name, t25=a[2025]['t'], t26=a[2026]['t'], tdc25=a[2025]['tdc'], tdc26=a[2026]['tdc'], tw25=a[2025]['twit'], tw26=a[2026]['twit'],
+                c25=a[2025]['comb'], c26=a[2026]['comb'], bt=bt, b25=b25, b26=b26, g25=gap(a[2025]['comb'], b25), g26=gap(a[2026]['comb'], b26), sns=lines,
+                gpc25=a[2025]['gpc'], gpc26=a[2026]['gpc'], **rxcols(mixw(rows, 2025), mixw(rows, 2026), a[2025]['comb'], a[2026]['comb']))
+via = [vblock(c, [r for r in T if r['cust'] == c]) for c in key]
+rest = [r for r in T if r['cust'] not in key]
+nrest = len(set(r['cust'] for r in ty(rest, 2025) + ty(rest, 2026)))
+via.append(vblock('The rest of TWIT', rest, 'The rest of TWIT'))
+via[-1]['note'] = f'{nrest} smaller customers'
+vt = {y: tagg(ty(T, y)) for y in (2025, 2026)}
+vsn = sorted(set(r['sn'] for r in ty(T, 2025) + ty(T, 2026) if r['sn']))
+_, vb25, vcv25 = bench_mix(mixw(T, 2025), 2025); vbt, vb26, vcv26 = bench_mix(mixw(T, 2026), 2026)
+via_total = dict(cov25=vcv25, cov26=vcv26, t25=vt[2025]['t'], t26=vt[2026]['t'], tdc25=vt[2025]['tdc'], tdc26=vt[2026]['tdc'], tw25=vt[2025]['twit'], tw26=vt[2026]['twit'], c25=vt[2025]['comb'], c26=vt[2026]['comb'],
+                 bt=vbt, b25=vb25, b26=vb26, g25=gap(vt[2025]['comb'], vb25), g26=gap(vt[2026]['comb'], vb26), gpc25=vt[2025]['gpc'], gpc26=vt[2026]['gpc'], gpt25=vt[2025]['gpt'], gpt26=vt[2026]['gpt'], gpw25=vt[2025]['gpw'], gpw26=vt[2026]['gpw'], **rxcols(mixw(T, 2025), mixw(T, 2026), vt[2025]['comb'], vt[2026]['comb']))
+# checks
+tdc_to_twit = {y: agg(ytd(tw, y)) for y in (2025, 2026)}
+rel = {y: agg([r for r in ytd(R, y) if r['seg'] == 'Related (TWIN / TW India)' and r['sn'] in vsn]) for y in (2025, 2026)}
+alt = {y: agg([r for r in ytd(R, y) if r['seg'] in ('Non-China', 'Related (TWIN / TW India)') and r['sn'] in vsn]) for y in (2025, 2026)}
+print('bench coverage of tonnes: direct', round(dcv25, 2), round(dcv26, 2), '| via', round(vcv25, 2), round(vcv26, 2))
+json.dump(dict(direct=direct, direct_total=direct_total, via=via, via_total=via_total, excluded_t={k: round(v) for k, v in skipped.items()}, unmapped_ytd_t={k: round(v, 1) for k, v in nomap.items() if v},
+               tdc_to_twit={y: dict(t=v['t'], kg=v['kg']) for y, v in tdc_to_twit.items()}, rx_bench={g: (bench_rg(g, 2025)['kg'], bench_rg(g, 2026)['kg']) for g in ('PO', 'PO-XL', 'XL', 'Others') if bench_rg(g, 2026)['t']}, bench_with_related={y: v['kg'] for y, v in alt.items()}),
+          open(OUT, 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
+f1 = lambda v: '   –' if v is None else f'{v:5.2f}'
+print('route 1 direct', {k: (round(v) if k[0] in 'tb' and k != 'b25' and k != 'b26' else (round(v, 2) if v is not None else None)) for k, v in direct_total.items()})
+for b in direct: print('  ', b['cust'][:28].ljust(28), round(b['t25']), round(b['t26']), f1(b['tdc25']), f1(b['tdc26']), '| bench', round(b['bt']), f1(b['b25']), f1(b['b26']), '| gap', f1(b['g25']), f1(b['g26']), '|| rx bench', round(b['rbt']), f1(b['rb25']), f1(b['rb26']), 'gap', f1(b['rg25']), f1(b['rg26']))
+print('   direct total rx bench', f1(direct_total['rb25']), f1(direct_total['rb26']), 'gap', f1(direct_total['rg25']), f1(direct_total['rg26']))
+print('route 2 via TWIT', round(via_total['t25']), round(via_total['t26']), 'TDC', f1(via_total['tdc25']), f1(via_total['tdc26']), 'TWIT', f1(via_total['tw25']), f1(via_total['tw26']), 'comb', f1(via_total['c25']), f1(via_total['c26']), '| bench', f1(via_total['b25']), f1(via_total['b26']), '| gap', f1(via_total['g25']), f1(via_total['g26']))
+for b in via: print('  ', b['cust'][:34].ljust(34), round(b['t25']), round(b['t26']), 'TDC', f1(b['tdc25']), f1(b['tdc26']), 'TWIT', f1(b['tw25']), f1(b['tw26']), 'comb', f1(b['c25']), f1(b['c26']), '| bench', f1(b['b25']), f1(b['b26']), '| gap', f1(b['g25']), f1(b['g26']), '|| rx', f1(b['rb25']), f1(b['rb26']), 'gap', f1(b['rg25']), f1(b['rg26']), b.get('note', ''))
+print('   via total rx bench', round(via_total['rbt']), f1(via_total['rb25']), f1(via_total['rb26']), 'gap', f1(via_total['rg25']), f1(via_total['rg26']))
+print('   reaction benchmarks', {g: (round(bench_rg(g, 2025)['kg'] or 0, 2), round(bench_rg(g, 2026)['kg'] or 0, 2), round(bench_rg(g, 2026)['t'])) for g in sorted(set(RG.values()))})
+print('TDC shipped to TWIT (YTD, all SN):', {y: (round(v['t']), round(v['kg'], 2)) for y, v in tdc_to_twit.items()})
+print('excluded (t, all months):', {k: round(v) for k, v in skipped.items()}, '| no TDC rate (YTD t):', {k: round(v, 1) for k, v in nomap.items() if v})
+print('via bench excl related', f1(vb25), f1(vb26), '| incl related', f1(alt[2025]['kg']), f1(alt[2026]['kg']), '| related t on these SN', round(rel[2025]['t']), round(rel[2026]['t']))

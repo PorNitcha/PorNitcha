@@ -90,38 +90,45 @@ def twin_quad(base):
         rows = [r for r in T if r['grp'] == g]; c = tagg(cur(rows)); p = tagg(prev(rows))
         if c['t'] < 1 and p['t'] < 1: continue
         if c['t'] < 1: role = 'exit'
-        elif p['t'] < 1: role = 'new'
+        elif p['t'] < 1: role = 'grow' if (c['ptdc'] or 0) >= FLOOR_KG else 'fix'  # new in base year = volume growing (Por 29-Oct)
         else:
             above = (c['ptdc'] or 0) >= FLOOR_KG; growing = c['t'] > p['t']
             role = ('grow' if growing else 'protect') if above else ('fix' if growing else 'reprice')
-        out.append(dict(grp=g, role=role, t=c['t'], tprev=p['t'], tdc=c['tdc'], twin=c['twin'], comb=c['comb'], ptdc=c['ptdc'], pcomb=c['pcomb'], vshare=c['t'] / allc['t'], gshare=c['pcombgp'] / allc['pcombgp'] if allc['pcombgp'] else None, n=len(set(r['label'] for r in cur(rows)))))
+        out.append(dict(grp=g, role=role, isnew=p['t'] < 1, t=c['t'], tprev=p['t'], tdc=c['tdc'], twin=c['twin'], comb=c['comb'], ptdc=c['ptdc'], pcomb=c['pcomb'], vshare=c['t'] / allc['t'], gshare=c['pcombgp'] / allc['pcombgp'] if allc['pcombgp'] else None, n=len(set(r['label'] for r in cur(rows)))))
     return dict(base=base, total_t=allc['t'], total_tdc=allc['tdc'], total_twin=allc['twin'], total_comb=allc['comb'], total_ptdc=allc['ptdc'], total_pcomb=allc['pcomb'], groups=out)
 twinq = {25: twin_quad(25), 26: twin_quad(26)}
 # ---------- TDC 2x2 with Indonesia split ----------
-D = json.load(open(QUAD, encoding='utf-8')); FLOOR = 4700; MINT = 100
+D = json.load(open(QUAD, encoding='utf-8')); FLOOR = 4700; MINT = 0
+import os
+PROXY = json.load(open(os.path.join(os.path.dirname(QUAD), 'quad2_gp_proxy.json'), encoding='utf-8'))  # TWIN_build/quad_newacct_gp.py
+def bgp(d, base): return PROXY[d['name']][str(base)]['gpp']
+def bsrc(d, base): return PROXY[d['name']][str(base)]['src']
 def isTW(d): return 'THAI WAH INDONESIA' in d['name'].upper()
 def isID(d): return (d.get('country') or '').strip() == 'Indonesia' and not isTW(d)
 def role(d, base):
-    gp = d['gpp25'] if base == 25 else d['gpp26']; bt = d['t25'] if base == 25 else d['t26a']
-    if gp is None or not bt: return 'new'
-    g = d['t27'] - bt
+    gp = bgp(d, base); bt = (d['t25'] if base == 25 else d['t26a']) or 0
+    g = d['t27'] - bt  # no base-year volume = growing (Por 29-Oct: every account in a box)
     if gp >= FLOOR: return 'grow' if g > 0 else 'protect'
     return 'fix' if g > 0 else 'reprice'
 SHORT = {'PT.INDO ASIA TIRTA MANUNGGAL': 'Indo Asia Tirta', 'PT. CHAROEN POKPHAND INDONESIA': 'CP Indonesia', 'PT THAI WAH INDONESIA': 'TWIN (interco)', 'PT. JAPFA FOOD INDONESIA GEDUNG GRAHA PRABA SAMANTA': 'Japfa'}
 TWIN_KG = {25: 2.98, 26: 1.79}
 def tdc_quad(base):
-    rows = [d for d in D if d['t27'] >= MINT]
-    gpv = lambda d: ((d['gpp25'] if base == 25 else d['gpp26']) or 0) * d['t27']
+    rows = [d for d in D if d['t27'] > MINT]
+    gpv = lambda d: bgp(d, base) * d['t27']
     totV = sum(d['t27'] for d in rows); totG = sum(gpv(d) for d in rows); out = {}
     for r in ('grow', 'protect', 'fix', 'reprice', 'new'):
         rs = [d for d in rows if role(d, base) == r]
         def part(sel):
             x = [d for d in rs if sel(d)]; tv = sum(d['t27'] for d in x); tg = sum(gpv(d) for d in x)
-            return dict(v=tv / totV, g=tg / totG, kg=tg / tv / 1000 if tv else None, names=[SHORT.get(d['name'].strip(), d['name'].strip()[:16]) for d in x])
+            # GP/kg shown = ACTUAL base-year product GP at ACTUAL base-year tonnes, accounts with own base-year sales only (Por 29-Oct)
+            tk, gk = ('t25', 'gpp25') if base == 25 else ('t26', 'gpp26')
+            xa = [d for d in x if d[tk] and d[gk] is not None and bsrc(d, base) == 'own']; ta = sum(d[tk] for d in xa)
+            return dict(v=tv / totV, g=tg / totG, kg=(sum(d[tk] * d[gk] for d in xa) / ta / 1000) if ta else None, kg_plan=tg / tv / 1000 if tv else None, t_act=ta, names=[SHORT.get(d['name'].strip(), d['name'].strip()[:16]) for d in x])
         tot = part(lambda d: True); di = part(isID); tw = part(isTW)
         tw['twin_kg'] = TWIN_KG[base] if tw['v'] else None
         tw['comb_kg'] = (tw['kg'] + TWIN_KG[base]) if tw['v'] else None
-        out[r] = dict(n=len(rs), total=tot, direct=di, twin=tw)
+        px = [d for d in rs if bsrc(d, base) != 'own']
+        out[r] = dict(n=len(rs), total=tot, direct=di, twin=tw, nproxy=len(px), vproxy=sum(d['t27'] for d in px) / totV)
     return dict(base=base, totV=totV, totG=totG / 1e6, roles=out)
 tdcq = {25: tdc_quad(25), 26: tdc_quad(26)}
 json.dump(dict(direct=direct, direct_total=direct_total, via=via, via_total=via_total, twinq=twinq, tdcq=tdcq, floor_kg=FLOOR_KG), open(OUT, 'w', encoding='utf-8'), indent=1, ensure_ascii=False)

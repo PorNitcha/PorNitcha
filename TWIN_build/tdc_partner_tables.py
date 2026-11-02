@@ -1,0 +1,281 @@
+# TDC customer x SN tables, 3 sheets in one workbook (Por 30-Oct):
+#   1) TWIT      : TDC -> China customer (direct) vs TDC -> TWIT -> customer
+#   2) Indonesia : TDC -> Indonesia customer (direct) vs TDC -> TWIN -> customer
+#   3) Rest of TDC: every other TDC customer, by country then customer, plus a reconciliation of TDC total by route
+# Periods FY2025, YTD Sep-25, YTD Sep-26; reported FX only; TDC GP = full cost (net sales - actual cost - F&I - idle - PPA - other adj.).
+# Benchmarks: same SN and same reaction group, TDC third-party customers outside the market (related parties TWIN / TWIT / TW India left out),
+# weighted by each customer's own mix. Rest of TDC: benchmark = all TDC third-party customers on the same mix.
+# Usage: python tdc_partner_tables.py <tdc_all_rows.csv> <twit_raw.csv> <model.json> <out.xlsx>
+import sys, csv, json, re, collections
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+TDC, TWR, MODEL, XL = sys.argv[1:5]
+PER = ('f25', 'y25', 'y26'); PLAB = {'f25': 'FY 25', 'y25': 'YTD 25', 'y26': 'YTD 26'}
+def inp(y, m, p): return y == 2025 if p == 'f25' else (y == 2025 and m <= 9) if p == 'y25' else (y == 2026 and m <= 9)
+def kg(gp, t): return gp / t / 1000 if t else None
+def gap(a, b): return a - b if a is not None and b is not None else None
+MINT = 20
+MINB = 20   # a benchmark needs at least 20 t of comparable sales in the period (SN-198 had 0.2 t at 37.9 THB/kg in 2025)
+# ---------- TDC rows ----------
+R = []
+for r in csv.DictReader(open(TDC, encoding='utf-8')):
+    t = float(r['t']); gp = float(r['ns']) - sum(float(r[k]) for k in ('af', 'fi', 'idle', 'oadj', 'ppa'))
+    u = r['cust'].upper()
+    R.append(dict(y=int(r['year']), m=int(r['m']), t=t, gp=gp, sn=r['sn'], trade=r['trade'], rg=r['rg'], cust=r['cust'].strip(), country=r['country'],
+                  rel=bool(re.search(r'THAI ?WAH|ไทยวา', u)), partner='TWIN' if u == 'PT THAI WAH INDONESIA' else 'TWIT' if u.startswith('THAI WAH INTERNATIONAL TRADE') else ''))
+RG, SNNAME = {}, {}
+for r in R:
+    if r['rg'] and not r['rg'].startswith('#') and r['rg'] != 'กากสด': RG.setdefault(r['sn'], r['rg'])
+    SNNAME.setdefault(r['sn'], r['trade'].split('/')[0].strip())
+POPS = {'nonID': lambda r: not r['rel'] and r['country'] != 'Indonesia', 'nonCN': lambda r: not r['rel'] and r['country'] != 'China', 'all3p': lambda r: not r['rel'], 'total': lambda r: True}
+BS = {pop: {p: collections.defaultdict(lambda: [0.0, 0.0]) for p in PER} for pop in POPS}; BR = {pop: {p: collections.defaultdict(lambda: [0.0, 0.0]) for p in PER} for pop in POPS}
+for r in R:
+    for pop, ok in POPS.items():
+        if not ok(r): continue
+        for p in PER:
+            if inp(r['y'], r['m'], p):
+                BS[pop][p][r['sn']][0] += r['t']; BS[pop][p][r['sn']][1] += r['gp']
+                if r['sn'] in RG: BR[pop][p][RG[r['sn']]][0] += r['t']; BR[pop][p][RG[r['sn']]][1] += r['gp']
+def bmix(w, pop, p, level):
+    """benchmark on the customer's own mix. w = {sn: tonnes}; level 'sn' or 'rg'. Returns (benchmark tonnes, GP/kg, share of tonnes covered)"""
+    src = BS[pop][p] if level == 'sn' else BR[pop][p]
+    wk = collections.defaultdict(float)
+    for s, t in w.items():
+        k = s if level == 'sn' else RG.get(s)
+        if k and t > 0: wk[k] += t
+    if not wk: return 0, None, 0
+    cov = {k: t for k, t in wk.items() if k in src and src[k][0] >= MINB}; bt = sum(src[k][0] for k in cov)
+    if not cov: return bt, None, 0
+    return bt, sum(t * kg(src[k][1], src[k][0]) for k, t in cov.items()) / sum(cov.values()), sum(cov.values()) / sum(wk.values())
+# ---------- partner rows as items: y, m, t, tdc (TDC-leg GP THB), prt (partner GP THB), sn, trade ----------
+def stats(items, via, pop, rpop='total'):
+    d = {}
+    for p in PER:
+        x = [r for r in items if inp(r['y'], r['m'], p)]
+        t = sum(r['t'] for r in x); tt = sum(r['t'] for r in x if r.get('known', True))
+        w = collections.defaultdict(float)
+        for r in x:
+            if r['sn'].startswith('SN-'): w[r['sn']] += r['t']
+        tdc = kg(sum(r['tdc'] for r in x), tt); prt = kg(sum(r['prt'] for r in x), t) if via else None
+        comb = kg(sum(r['tdc'] + r['prt'] for r in x), t) if via else None
+        own = comb if via else tdc
+        bt, bsn, cov = bmix(w, pop, p, 'sn'); rbt, brx, _ = bmix(w, rpop, p, 'rg')
+        d[p] = dict(t=t, tdc=tdc, prt=prt, comb=comb, bt=bt, bsn=bsn, gsn=gap(own, bsn), rbt=rbt, brx=brx, grx=gap(own, brx), cov=cov, gpc=sum(r['tdc'] + r['prt'] for r in x))
+    return d
+def vals(a, b, c, dd, d, via):
+    v = [a, b, c, dd] + [d[p]['t'] for p in PER] + [d[p]['tdc'] for p in PER]
+    v += [d[p]['prt'] for p in PER] + [d[p]['comb'] for p in PER]   # empty on direct rows, but always present so columns line up
+    v += [d['y26']['bt'] or None] + [d[p]['bsn'] for p in PER] + [d[p]['gsn'] for p in PER] + [d['y26']['rbt'] or None] + [d[p]['brx'] for p in PER] + [d[p]['grx'] for p in PER]
+    return v
+def customer_block(rows_out, name, note, items, via, pop):
+    d = stats(items, via, pop); rows_out.append(('cust', vals(name, None, note, None, d, via)))
+    keyf = lambda r: r['sn'] if r['sn'].startswith('SN-') else r['trade']
+    tot = collections.defaultdict(float)
+    for r in items:
+        if inp(r['y'], r['m'], 'y26') or inp(r['y'], r['m'], 'f25'): tot[keyf(r)] += r['t']
+    ks = sorted(tot, key=lambda k: -tot[k])
+    for k in ks:
+        sub = [r for r in items if keyf(r) == k]; ds = stats(sub, via, pop)
+        if max(ds[p]['t'] for p in PER) < MINT and len(ks) > 1: continue
+        isn = k.startswith('SN-')
+        rows_out.append(('sn', vals(None, k if isn else '–', SNNAME.get(k, k) if isn else k, RG.get(k, '').replace('PO-XL', 'POXL') if isn else '', ds, via)))
+    return d
+# ---------- TWIT ----------
+SNMAP = {'CASSTEX 43': 'SN-115', 'CASSMAX 102': 'SN-093', 'CASSFLO 600': 'SN-344', 'CASSFLO 11': 'SN-110', 'CASSMAX 33': 'SN-495', 'CASSFLO 800': 'SN-201',
+         'CASSMAX 26': 'SN-652', 'CASSTEX 72': 'SN-527', 'CASSFLO 880': 'SN-641'}
+twr = [r for r in R if r['partner'] == 'TWIT']
+def rate(sn, y, q):
+    for rows in ([r for r in twr if r['sn'] == sn and r['y'] == y and (r['m'] - 1) // 3 + 1 == q], [r for r in twr if r['sn'] == sn and r['y'] == y],
+                 [r for r in twr if r['sn'] == sn], [r for r in R if r['sn'] == sn and r['y'] == y]):
+        t = sum(r['t'] for r in rows)
+        if t > 0: return sum(r['gp'] for r in rows) / t / 1000
+    return None
+TW, tw_skip = [], collections.Counter()
+for r in csv.DictReader(open(TWR, encoding='utf-8')):
+    rx, tn = (r['Reaction'] or '').strip(), (r['Trade name'] or '').strip(); t = float(r['Sales quantity'] or 0)
+    if rx in ('NS', 'Sago', 'Premix') or tn.upper() == 'INDIAN GUAR': tw_skip[rx or tn] += t; continue
+    y, m = int(r['Month'][:4]), int(r['Month'][5:7]); sn = SNMAP.get(tn.upper(), '')
+    rt = rate(sn, y, (m - 1) // 3 + 1) if sn else None
+    TW.append(dict(y=y, m=m, t=t, sn=sn, trade=tn, cust=' '.join(r['Customer Name'].split()), prt=float(r['GP_THB'] or 0), tdc=(rt or 0) * t * 1000, known=rt is not None))
+# ---------- TWIN (model.json, TDC products) ----------
+M = json.load(open(MODEL, encoding='utf-8'))
+def twin_grp(r):
+    l = r['label'].upper()
+    if r['country'] in ('Heinz', 'Wings'): return r['country']
+    if l.startswith('BUMI TIRTA'): return 'Bumi Tirta'
+    return 'The rest of TWIN'
+TN = [dict(y=int(r['y']), m=int(r['month'][5:7]), t=r['t'], sn=r['sn'], trade=r['prod'], cust=r['label'], grp=twin_grp(r), prt=r['gp'], tdc=r['tdc_fgp']) for r in M['rows'] if r['src'] == 'TDC']
+# ---------- market sheets ----------
+def direct_items(country):
+    return [dict(y=r['y'], m=r['m'], t=r['t'], sn=r['sn'], trade=r['trade'], cust=r['cust'], tdc=r['gp'], prt=0.0) for r in R if r['country'] == country and not r['rel']]
+def ord_by(items, keyf):
+    v = collections.defaultdict(float)
+    for r in items:
+        if inp(r['y'], r['m'], 'y26') or inp(r['y'], r['m'], 'f25'): v[keyf(r)] += r['t']
+    return sorted(v, key=lambda k: -v[k])
+SHORT = {'PT.INDO ASIA TIRTA MANUNGGAL': 'Indo Asia Tirta', 'PT. CHAROEN POKPHAND INDONESIA': 'CP Indonesia', 'PT. JAPFA FOOD INDONESIA GEDUNG GRAHA PRABA SAMANTA': 'Japfa',
+         'PT. SO GOOD FOOD GEDUNG GRAHA PRABA SAMANTA': 'So Good Food', 'SUNCHINA (XIAMEN) TRADING CO., LTD': 'SunChina', 'SHANGHAI JIANGMEI INDUSTRIAL CO.,LTD': 'Shanghai Jiangmei',
+         'HAILITEN GROUP LIMITED': 'Hailiten', 'Kevin Food Co., Ltd.': 'Kevin Food', 'GUANGZHOU JIANKE BIOTECHNOLOGY CO.,LTD': 'Guangzhou Jianke',
+         'Guangdong Jinkai Food Technology Co., Ltd.': 'Guangdong Jinkai', 'Shanghai Wujia Trading Co., Ltd.': 'Shanghai Wujia', 'Shanghai Suihang International Trade Co., Ltd.': 'Shanghai Suihang',
+         'Guangzhou Xiangda Food Co.,Ltd': 'Guangzhou Xiangda', 'ThaiWah Food (Zhejiang) Co., Ltd': 'ThaiWah Food Zhejiang', 'TOYAR CHEMICALS CO., LIMITED': 'Toyar Chemicals'}
+def short(c):
+    u = c.upper()
+    if u.startswith('HUIFA') or u.startswith('QINGDAO MIRACLE'): return 'Huifa (incl. Qingdao Miracle)'
+    return SHORT.get(c, c if len(c) <= 30 else c[:30])
+def market(country, pname, pitems, pgroups, pop):
+    rows = []; out = {}
+    rows.append(('sec', [f'1  Route to market: TDC → {country} customer (direct)']))
+    D = direct_items(country)
+    for r in D: r['dn'] = short(r['cust'])
+    for n in ord_by(D, lambda r: r['dn']): customer_block(rows, n, None, [r for r in D if r['dn'] == n], None, pop)
+    out['direct'] = stats(D, None, pop); rows.append(('sub', vals(f'Subtotal — TDC direct {country}', None, 'all direct accounts', None, out['direct'], None)))
+    rows.append(('sec', [f'2  Route to market: TDC → {pname} → customer']))
+    for g, note, items in pgroups: customer_block(rows, g, note, items, True, pop)
+    out['via'] = stats(pitems, True, pop); rows.append(('sub', vals(f'Subtotal — via {pname}', None, 'HVA, TDC products', None, out['via'], True)))
+    return rows, out
+# TWIT groups: top 6 customers + rest
+kt = ord_by(TW, lambda r: r['cust'])[:6]
+rest = [r for r in TW if r['cust'] not in kt]
+twit_groups = [(short(c), 'related party' if 'THAIWAH' in c.upper().replace(' ', '') else None, [r for r in TW if r['cust'] == c]) for c in kt] + \
+              [('The rest of TWIT', f"{len(set(r['cust'] for r in rest))} smaller customers", rest)]
+twin_groups = []
+for g in ('Heinz', 'Wings', 'Bumi Tirta', 'The rest of TWIN'):
+    it = [r for r in TN if r['grp'] == g]
+    note = 'Glico, Karunia, Prakarsa' if g == 'Wings' else (f"{len(set(r['cust'] for r in it))} smaller customers" if g.startswith('The rest') else None)
+    twin_groups.append((g, note, it))
+rows_cn, out_cn = market('China', 'TWIT', TW, twit_groups, 'nonCN')
+rows_id, out_id = market('Indonesia', 'TWIN', TN, twin_groups, 'nonID')
+# ---------- rest of TDC ----------
+RT = [dict(y=r['y'], m=r['m'], t=r['t'], sn=r['sn'], trade=r['trade'], cust=r['cust'], country=r['country'] or '(blank)', rel=r['rel'], tdc=r['gp'], prt=0.0)
+      for r in R if r['country'] not in ('Indonesia', 'China')]
+def rvals(a, b, d, sn=None, prod=None, rx=None):
+    return [a, b, sn, prod, rx] + [d[p]['t'] for p in PER] + [d[p]['tdc'] for p in PER] + [d[p]['brx'] for p in PER] + [d[p]['grx'] for p in PER]
+rows_rt = [('sec', ['A  TDC total by route to market (TDC books, all HVA)'])]
+segs = [('Indonesia direct', [r for r in R if r['country'] == 'Indonesia' and not r['rel']]), ('TDC → TWIN (intercompany sales)', [r for r in R if r['partner'] == 'TWIN']),
+        ('China direct', [r for r in R if r['country'] == 'China' and not r['rel']]), ('TDC → TWIT (intercompany sales)', [r for r in R if r['partner'] == 'TWIT']),
+        ('Rest of TDC (all other countries)', [r for r in R if r['country'] not in ('Indonesia', 'China')])]
+recon = {}
+for lab, x in segs:
+    it = [dict(y=r['y'], m=r['m'], t=r['t'], sn=r['sn'], trade=r['trade'], tdc=r['gp'], prt=0.0) for r in x]
+    d = stats(it, None, 'all3p'); recon[lab] = d; rows_rt.append(('sn', rvals(lab, None, d)))
+allit = [dict(y=r['y'], m=r['m'], t=r['t'], sn=r['sn'], trade=r['trade'], tdc=r['gp'], prt=0.0) for r in R]
+recon['Total TDC'] = stats(allit, None, 'all3p'); rows_rt.append(('sub', rvals('Total TDC', None, recon['Total TDC'])))
+rows_rt.append(('blank', []))
+rows_rt.append(('sec', ['B  Rest of TDC by country and customer']))
+for c in ord_by(RT, lambda r: r['country']):
+    cx = [r for r in RT if r['country'] == c]; custs = ord_by(cx, lambda r: r['cust'])
+    rows_rt.append(('country', rvals(c, f'{len(custs)} customer' + ('s' if len(custs) != 1 else ''), stats(cx, None, 'all3p'))))
+    small = []
+    for cu in custs:
+        it = [r for r in cx if r['cust'] == cu]; d = stats(it, None, 'all3p')
+        if max(d[p]['t'] for p in PER) < MINT: small += it; continue
+        rows_rt.append(('cust', rvals(None, cu + (' (related party)' if it[0]['rel'] else ''), d)))
+        sns = ord_by(it, lambda r: r['sn'])
+        for sn in sns:
+            ds = stats([r for r in it if r['sn'] == sn], None, 'all3p')
+            if max(ds[p]['t'] for p in PER) < MINT and len(sns) > 1: continue
+            rows_rt.append(('sn', rvals(None, None, ds, sn, SNNAME.get(sn, sn), RG.get(sn, '').replace('PO-XL', 'POXL'))))
+    if small: rows_rt.append(('cust', rvals(None, f"Other customers ({len(set(r['cust'] for r in small))}, under {MINT} t)", stats(small, None, 'all3p'))))
+d_rt = stats(RT, None, 'all3p'); rows_rt.append(('sub', rvals('Subtotal — rest of TDC', None, d_rt)))
+# ---------- Excel ----------
+GREY, DARK, GREEN, RED = '595959', '262626', '00A651', 'C00000'
+thin = Side(style='thin', color='808080'); hair = Side(style='hair', color='BFBFBF')
+F_SEC, F_CUST, F_SUB = PatternFill('solid', fgColor='D9D9D9'), PatternFill('solid', fgColor='F2F2F2'), PatternFill('solid', fgColor='E7E6E6')
+P3 = [PLAB[p] for p in PER]
+def write(ws, title, lead, groups, rows, notes, widths, gapcols, volcols, gsn26):
+    nc = len(lead) + sum(len(g[1]) for g in groups)
+    ws.cell(1, 1, title).font = Font(name='Arial', size=11, bold=True, color=DARK)
+    c0 = len(lead) + 1; starts = []
+    for gname, sub in groups:
+        c1, c2 = c0, c0 + len(sub) - 1; starts.append(c1)
+        ws.cell(3, c1, gname); ws.merge_cells(start_row=3, start_column=c1, end_row=3, end_column=c2)
+        for c in range(c1, c2 + 1): ws.cell(3, c).border = Border(bottom=thin)
+        ws.cell(3, c1).font = Font(name='Arial', size=9, bold=True, color=GREY); ws.cell(3, c1).alignment = Alignment(horizontal='center', wrap_text=True)
+        for i, h in enumerate(sub): ws.cell(4, c1 + i, h)
+        c0 = c2 + 1
+    for i, h in enumerate(lead, 1): ws.cell(4, i, h)
+    for i in range(1, nc + 1):
+        c = ws.cell(4, i); c.font = Font(name='Arial', size=8.5, bold=True, color=GREY); c.border = Border(bottom=thin)
+        c.alignment = Alignment(horizontal='left' if i <= len(lead) else 'right', vertical='bottom', wrap_text=True)
+    ws.row_dimensions[3].height = 24; ws.row_dimensions[4].height = 26
+    r = 5
+    for kind, v in rows:
+        if kind == 'blank': r += 1; continue
+        if kind == 'sec':
+            for i in range(1, nc + 1): ws.cell(r, i).fill = F_SEC
+            ws.cell(r, 1, v[0]).font = Font(name='Arial', size=9, bold=True, color=DARK); r += 1; continue
+        assert len(v) == nc, (title[:20], kind, len(v), nc, v[:3])
+        g = v[gsn26 - 1]; good = False   # Por 30-Oct: no green; only negative gaps vs benchmark in red
+        for i, x in enumerate(v, 1):
+            c = ws.cell(r, i, x)
+            bold = kind in ('cust', 'sub', 'country'); color = GREEN if good else (GREY if kind == 'sn' else DARK)
+            if i in gapcols and isinstance(x, (int, float)) and x < 0: color = RED
+            c.font = Font(name='Arial', size=9, bold=bold, color=color)
+            if i > len(lead): c.number_format = '#,##0' if i in volcols else '0.00;-0.00'; c.alignment = Alignment(horizontal='right')
+            if kind == 'cust': c.fill = F_CUST
+            elif kind == 'country': c.fill = F_SUB
+            elif kind == 'sub': c.fill = F_SUB; c.border = Border(top=thin, bottom=thin)
+            if i in starts: c.border = Border(left=hair, top=c.border.top, bottom=c.border.bottom)
+        r += 1
+    last = r - 1
+    for i, t in enumerate(notes): ws.cell(r + 1 + i, 1, t).font = Font(name='Arial', size=8, color=GREY)
+    for i, w in enumerate(widths, 1): ws.column_dimensions[ws.cell(4, i).column_letter].width = w
+    ws.freeze_panes = ws.cell(5, len(lead) + 1).coordinate; ws.sheet_view.showGridLines = False
+    return last
+med = Side(style='medium', color='000000')
+def por_layout(ws, groups_at, box, last):
+    """Por's v4 touches: FY 25 + YTD 25 columns grouped (outline level 1, open) in each block; medium box around the benchmark block"""
+    from openpyxl.utils import get_column_letter as L
+    for c1 in groups_at: ws.column_dimensions.group(L(c1), L(c1 + 1), outline_level=1, hidden=False)
+    c1, c2 = box
+    for r in range(3, last + 1):
+        for c in range(c1, c2 + 1):
+            x = ws.cell(r, c); b = x.border
+            x.border = Border(left=med if c == c1 else b.left, right=med if c == c2 else b.right, top=med if r == 3 else b.top, bottom=med if r == last else b.bottom)
+def market_groups(pname, popname):
+    return [('Vol (t)', P3), ('TDC GP/kg (1)', P3), (f'{pname} GP/kg (2)', P3), ('Combined (1) + (2)', P3),
+            (f'Benchmark by SN: TDC – {popname}', ['Bench vol\nYTD 26 (t)'] + P3), ('Gap vs SN bench', P3),
+            ('Benchmark by reaction: total TDC', ['Bench vol\nYTD 26 (t)'] + P3), ('Gap vs reaction bench', P3)]
+LEAD = ['Customer', 'SN', 'Product', 'Reaction']
+# column indexes (1-based) in market sheets: vol 5-7, TDC 8-10, partner 11-13, comb 14-16, bench vol 17, SN bench 18-20, SN gap 21-23, rx vol 24, rx bench 25-27, rx gap 28-30
+MGAP, MVOL, MW = (21, 22, 23, 28, 29, 30), (5, 6, 7, 17, 24), [30, 8, 20, 8] + [8] * 12 + [10, 8, 8, 8, 8, 8, 8, 10, 8, 8, 8, 8, 8, 8]
+def rxnote(pop):
+    g = {k: (kg(*BR[pop][p][k][::-1]) if BR[pop][p][k][0] else None) for p in PER for k in ()}
+    parts = []
+    for k in ('PO', 'PO-XL', 'XL', 'Others'):
+        v = [kg(BR[pop][p][k][1], BR[pop][p][k][0]) for p in PER]
+        if all(x is not None for x in v): parts.append(f"{k} {v[0]:.2f} / {v[1]:.2f} / {v[2]:.2f}")
+    return ', '.join(parts)
+def mnotes(pname, country, pop, out, src):
+    return [f"(1) TDC GP/kg = full-cost GP (net sales − actual cost − F&I − idle − PPA − other adj.), TDC Profitability data_Actual. On the {pname} rows it is TDC's own GP on its sales to {pname} of the same SN in the same quarter, applied to {pname}'s tonnes.",
+            f"(2) {pname} GP/kg = {pname} reported GP in THB ({src}, monthly reported FX). Combined = (1) + (2) = what the group keeps per kg sold to the end customer.",
+            f"Benchmark by SN = TDC full-cost GP/kg on the same SN to third-party customers outside {country} (related parties TWIN, TWIT, TW India and Thai Wah PCL left out), weighted by each customer's own SN mix in that period. Bench vol = those customers' tonnes YTD Sep-26.",
+            f"Benchmark by reaction = total TDC (all customers, every country, incl. intercompany) in the same TDC reaction group, weighted by the customer's own reaction mix; covers every SN. Bench vol = total TDC tonnes YTD Sep-26 in those groups. FY 25 / YTD 25 / YTD 26: {rxnote('total')}.",
+            f"An SN benchmark needs at least {MINB} t of same-SN sales outside {country} in the period; otherwise only the reaction benchmark applies. SN benchmark coverage (share of tonnes), FY 25 / YTD 25 / YTD 26: direct {' / '.join(f'{out['direct'][p]['cov']:.0%}' for p in PER)}, via {pname} {' / '.join(f'{out['via'][p]['cov']:.0%}' for p in PER)}.",
+            f"Gap: direct rows = TDC GP/kg − benchmark; {pname} rows = combined GP/kg − benchmark. Negative gap in red.",
+            f"HVA only (TDC products): native starch, sago, tapioca coarse / pearl and premix excluded. SN lines under {MINT} t in every period are not shown but are in the customer totals. FY = January–December 2025; YTD = January–September."]
+wb = Workbook()
+ws = wb.active; ws.title = 'TWIT (China)'
+write(ws, 'TWIT HVA — TDC direct China vs TDC → TWIT → customer, FY 2025 / YTD Sep-25 / YTD Sep-26 (reported FX, THB/kg)', LEAD, market_groups('TWIT', 'non-China'), rows_cn,
+      mnotes('TWIT', 'China', 'nonCN', out_cn, 'TWIN customer breakdown.xlsx, sheet TWIT Raw data'), MW, MGAP, MVOL, 23)
+ws = wb.create_sheet('Indonesia (TWIN)')
+write(ws, 'Indonesia HVA — TDC direct Indonesia vs TDC → TWIN → customer, FY 2025 / YTD Sep-25 / YTD Sep-26 (reported FX, THB/kg)', LEAD, market_groups('TWIN', 'non-Indonesia'), rows_id,
+      mnotes('TWIN', 'Indonesia', 'nonID', out_id, 'TWIN customer breakdown.xlsx, sheets TWIN RAWww / TWIN Raw data') + ['Wings = Glico Wings, Karunia Alam Segar, Prakarsa Alam Segar (one group). Harum Sari and other non-TDC products are outside this table.'],
+      MW, MGAP, MVOL, 23)
+ws = wb.create_sheet('Rest of TDC')
+RGROUPS = [('Vol (t)', P3), ('TDC GP/kg', P3), ('Benchmark by reaction: total TDC', P3), ('Gap vs reaction bench', P3)]
+last_rt = write(ws, 'Rest of TDC — HVA customers outside Indonesia and China, by country, customer and SN, FY 2025 / YTD Sep-25 / YTD Sep-26 (reported FX, THB/kg)', ['Country / route', 'Customer', 'SN', 'Product', 'Reaction'], RGROUPS, rows_rt,
+      ['TDC GP/kg = full-cost GP (net sales − actual cost − F&I − idle − PPA − other adj.), TDC Profitability data_Actual, reported FX.',
+       'Part A reconciles TDC total: intercompany lines are TDC\'s own sales to TWIN / TWIT (TDC books), which differ in timing from the tonnes TWIN / TWIT resell in the other two sheets.',
+       f"Benchmark by reaction = total TDC full-cost GP/kg (all customers, every country, incl. intercompany) in the same TDC reaction group, weighted by the row's own reaction mix. FY 25 / YTD 25 / YTD 26: {rxnote('total')}. Gap = TDC GP/kg − benchmark. Negative gap in red.",
+       f'SN lines under {MINT} t in every period are not shown but are in the customer totals. Customers under {MINT} t in every period are grouped per country. Related parties outside Indonesia / China (TW India, Thai Wah PCL) are shown under their country and marked. FY = January–December 2025; YTD = January–September.'],
+      [30, 44, 8, 18, 8] + [8] * 12, (15, 16, 17), (6, 7, 8), 17)
+por_layout(ws, (6, 9, 12, 15), (12, 17), last_rt)
+wb.save(XL)
+# ---------- checks ----------
+f2 = lambda v: '   –' if v is None else f'{v:5.2f}'
+for nm, o in (('China', out_cn), ('Indonesia', out_id)):
+    for k in ('direct', 'via'):
+        print(nm, k.ljust(6), ' | '.join(f"{p} {o[k][p]['t']:7,.0f}t TDC {f2(o[k][p]['tdc'])} prt {f2(o[k][p]['prt'])} comb {f2(o[k][p]['comb'])} bSN {f2(o[k][p]['bsn'])} bRX {f2(o[k][p]['brx'])}" for p in PER))
+for k, d in recon.items(): print('recon', k.ljust(36), ' | '.join(f"{p} {d[p]['t']:8,.0f}t {f2(d[p]['tdc'])}" for p in PER))
+print('rows', len(rows_cn), len(rows_id), len(rows_rt), '| TWIT excluded', dict(tw_skip))

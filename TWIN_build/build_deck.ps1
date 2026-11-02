@@ -5,7 +5,7 @@
 param([string]$Json, [string]$Out, [string]$PngDir)
 $D = Get-Content -LiteralPath $Json -Encoding UTF8 -Raw | ConvertFrom-Json
 function RGB($hex) { $r = [Convert]::ToInt32($hex.Substring(0,2),16); $g = [Convert]::ToInt32($hex.Substring(2,2),16); $b = [Convert]::ToInt32($hex.Substring(4,2),16); return $r + $g*256 + $b*65536 }
-$DARK = RGB '14213d'; $LINE = RGB '6b7280'; $INDO = RGB 'e4572e'; $GREY = RGB '9ca3af'; $RED = RGB 'c00000'; $WHITE = RGB 'ffffff'; $SEP = RGB 'a6a6a6'
+$DARK = RGB '14213d'; $LINE = RGB '6b7280'; $INDO = RGB '156082'; $GREY = RGB '9ca3af'; $RED = RGB 'c00000'; $WHITE = RGB 'ffffff'; $SEP = RGB 'a6a6a6'
 $FILL = @{ protect = (RGB 'e2efda'); grow = (RGB 'ddebf7'); fix = (RGB 'f6dcd4'); reprice = (RGB 'ececec') }
 $TCOL = @{ protect = (RGB '2a7d4f'); grow = (RGB '1f5f9f'); fix = (RGB 'c0392b'); reprice = (RGB '6b7280') }
 $TITLE = @{ protect = 'PROTECT'; grow = 'GROW WITH MARGIN'; fix = 'FIX PRICE BEFORE VOLUME'; reprice = 'REPRICE / EXIT' }
@@ -14,6 +14,8 @@ function Fmt($x, $d) { if ($null -eq $x) { return [string][char]0x2013 }; return
 function Pct($x) { if ($null -eq $x -or [double]$x -lt 0.005) { return [string][char]0x2013 }; return ('{0:N0}%' -f ([double]$x * 100)) }
 function GapColor($g) { if ($null -eq $g) { return $LINE }; if ([double]$g -lt 0) { return $RED }; return $DARK }
 
+$wasRunning = [bool](Get-Process POWERPNT -ErrorAction SilentlyContinue)  # never quit a PowerPoint the user already has open
+if ($wasRunning -and -not $env:DECK_ALLOW_RUNNING_PPT) { Write-Output 'STOP: PowerPoint is open. Close it (or set DECK_ALLOW_RUNNING_PPT=1) before building, so the build never touches your open decks.'; exit 2 }
 $app = New-Object -ComObject PowerPoint.Application
 $pres = $app.Presentations.Add(0)
 $pres.PageSetup.SlideWidth = [single]960; $pres.PageSetup.SlideHeight = [single]540
@@ -135,7 +137,7 @@ Add-Text $s1 20 500 920 28 ('YTD Jan' + [char]0x2013 + 'Sep 2026 ' + [char]0x00B
 $RH = 10
 function Draw-Box($slide, $x0, $y0, $w, $h, $label, $cellFn) {
   $sc = $script:SC
-  Add-Text $slide $x0 ($y0 - 15 * $sc) $w (13 * $sc) $label (9 * $sc) $DARK $false 'c' | Out-Null
+  Add-Text $slide $x0 ($y0 - 16 * $sc) $w (14 * $sc) $label ([math]::Min(9 * $sc, 10)) $DARK $true 'c' | Out-Null
   $cw = $w / 2; $ch = $h / 2; $g = 4
   $cells = @{ protect = @($x0, $y0); grow = @(($x0 + $cw), $y0); reprice = @($x0, ($y0 + $ch)); fix = @(($x0 + $cw), ($y0 + $ch)) }
   foreach ($k in 'protect','grow','reprice','fix') {
@@ -153,33 +155,39 @@ function Fit-Widths($base, $avail) { $sum = 0; foreach ($x in $base) { $sum += $
 $cellFn2 = {
   param($slide, $k, $cx, $cy, $cw, $ch)
   $sc = $script:SC; $rh = $RH * $sc; $q = $script:Q; $v = $q.roles.$k
-  Add-Text $slide ($cx + 8) ($cy + 5) ($cw - 16) (12 * $sc) ("$($v.n) accounts") (6.5 * $sc) $LINE $false 'r' | Out-Null
-  $tw = Fit-Widths @(64, 40, 40, 40) ($cw - 16); $ts = New-Table $slide ($cx + 8) ($cy + 18 * $sc) 4 4 $tw $rh; $tt = $ts.Table
-  Mini-Header $tt @('', 'Vol share', 'GP share', 'GP/kg') (6.5 * $sc)
+  $cnt = $(if ($v.nproxy -gt 0) { "$($v.n) accts " + [char]0x00B7 + " $($v.nproxy) new" } else { "$($v.n) accounts" })
+  $tw = Fit-Widths @(74, 42, 42, 36) ($cw - 16); $ts = New-Table $slide ($cx + 8) ($cy + 18 * $sc) 4 4 $tw $rh; $tt = $ts.Table
+  Mini-Header $tt @($cnt, 'Vol share', 'GP share', 'GP/kg') (6.5 * $sc)
   $rowsDef = @(@('Total', $v.total, $DARK), @('Indonesia direct', $v.direct, $INDO), @('via TWIN', $v.twin, $INDO))
   for ($i = 0; $i -lt 3; $i++) {
     $lab = $rowsDef[$i][0]; $p = $rowsDef[$i][1]; $col = $rowsDef[$i][2]
     if ($i -gt 0 -and [double]$p.v -lt 0.005) { $col = $GREY }
     Set-Cell $tt ($i+2) 1 $lab (7 * $sc) $col 'l' $null $false; Set-Cell $tt ($i+2) 2 (Pct $p.v) (7 * $sc) $col 'r' $null $false; Set-Cell $tt ($i+2) 3 (Pct $p.g) (7 * $sc) $col 'r' $null $false; Set-Cell $tt ($i+2) 4 (Fmt $p.kg 1) (7 * $sc) $col 'r' $null $false
   }
-  $names = @(); $names += $v.direct.names; $names += $v.twin.names; $y = $cy + 18 * $sc + $rh * 4 + 2
+  $names = @(); if ([double]$v.direct.v -ge 0.005 -and [double]$v.twin.v -lt 0.005) { $names += $v.direct.names }; $y = $ts.Top + $ts.Height + 2
   if ($names.Count -gt 0) { Add-Text $slide ($cx + 8) $y ($cw - 16) (10 * $sc) ($names -join ', ') (6.5 * $sc) $INDO $false 'l' | Out-Null; $y += 9 * $sc }
-  if ($null -ne $v.twin.twin_kg) { Add-Text $slide ($cx + 8) $y ($cw - 16) (10 * $sc) ('via TWIN GP/kg: TDC ' + (Fmt $v.twin.kg 1) + ' + TWIN ' + (Fmt $v.twin.twin_kg 1) + ' = ' + (Fmt $v.twin.comb_kg 1) + ' combined') (6.5 * $sc) $DARK $false 'l' | Out-Null }
+  if ($null -ne $v.twin.twin_kg) { Add-Text $slide ($cx + 8) $y ($cw - 16) (10 * $sc) ('via TWIN GP/kg: TDC ' + (Fmt $v.twin.kg 1) + ' + TWIN ' + (Fmt $v.twin.twin_kg 1) + ' = ' + (Fmt $v.twin.comb_kg 1) + ' combined') (6.5 * $sc) $INDO $false 'l' | Out-Null }
 }
 $cellFn3 = {
   param($slide, $k, $cx, $cy, $cw, $ch)
   $sc = $script:SC; $rh = $RH * $sc; $q = $script:Q; $gs = @($q.groups | Where-Object { $_.role -eq $k })
-  Add-Text $slide ($cx + 8) ($cy + 5) ($cw - 16) (12 * $sc) ("$($gs.Count) group(s)") (6.5 * $sc) $LINE $false 'r' | Out-Null
+  $cnt = "$($gs.Count) group(s)"
   if ($gs.Count -eq 0) { Add-Text $slide ($cx + 8) ($cy + 22 * $sc) ($cw - 16) (10 * $sc) ([string][char]0x2013) (7 * $sc) $GREY $false 'l' | Out-Null; return }
-  $tw = Fit-Widths @(44, 32, 32, 24, 26, 26) ($cw - 16); $ts = New-Table $slide ($cx + 8) ($cy + 18 * $sc) ($gs.Count + 1) 6 $tw $rh; $tt = $ts.Table
-  Mini-Header $tt @('', 'Vol %', 'GP %', 'TDC', 'TWIN', 'Comb') (6.5 * $sc)
+  $tw = Fit-Widths @(52, 30, 30, 26, 28, 28) ($cw - 16); $ts = New-Table $slide ($cx + 8) ($cy + 18 * $sc) ($gs.Count + 1) 6 $tw $rh; $tt = $ts.Table
+  Mini-Header $tt @($cnt, 'Vol %', 'GP %', 'TDC', 'TWIN', 'Comb') (6.5 * $sc)
   for ($i = 0; $i -lt $gs.Count; $i++) {
-    $g = $gs[$i]; $col = $(if ($g.grp -eq 'The rest') { $DARK } else { $INDO })
-    Set-Cell $tt ($i+2) 1 $g.grp (7 * $sc) $col 'l' $null $false; Set-Cell $tt ($i+2) 2 (Pct $g.vshare) (7 * $sc) $col 'r' $null $false; Set-Cell $tt ($i+2) 3 (Pct $g.gshare) (7 * $sc) $col 'r' $null $false
+    $g = $gs[$i]; $col = $(if ($g.grp -eq 'The rest') { $DARK } else { 0 })  # black (Por 29-Oct)
+    Set-Cell $tt ($i+2) 1 $(if ($g.isnew) { $g.grp + ' (new)' } else { $g.grp }) (7 * $sc) $col 'l' $null $false; Set-Cell $tt ($i+2) 2 (Pct $g.vshare) (7 * $sc) $col 'r' $null $false; Set-Cell $tt ($i+2) 3 (Pct $g.gshare) (7 * $sc) $col 'r' $null $false
     Set-Cell $tt ($i+2) 4 (Fmt $g.ptdc 1) (7 * $sc) $col 'r' $null $false; Set-Cell $tt ($i+2) 5 (Fmt $g.twin 1) (7 * $sc) $col 'r' $null $false; Set-Cell $tt ($i+2) 6 (Fmt $g.pcomb 1) (7 * $sc) $col 'r' $null $false
   }
-  $tl = @(); foreach ($g in $gs) { $tl += ($g.grp + ' ' + (Fmt $g.t 0) + ' t, prev ' + (Fmt $g.tprev 0)) }
-  Add-Text $slide ($cx + 8) ($cy + 18 * $sc + $rh * ($gs.Count + 1) + 3) ($cw - 16) (10 * $sc) ($tl -join [string]([char]0x00B7 + ' ')) (6.5 * $sc) $LINE $false 'l' | Out-Null
+  if ($sc -le 1) { return }
+  $tl = @(); foreach ($g in $gs) { $tl += ($g.grp + ' ' + (Fmt $g.t 0) + ' t (' + $(if ($g.isnew) { 'new' } else { 'prev ' + (Fmt $g.tprev 0) }) + ')') }
+  Add-Text $slide ($cx + 8) ($ts.Top + $ts.Height + 3) ($cw - 16) (10 * $sc) ($tl -join [string]([char]0x00B7 + ' ')) (6.5 * $sc) $LINE $false 'l' | Out-Null
+}
+function Section-Bar($slide, $y, $text) {
+  $b = $slide.Shapes.AddShape(1, 37, $y, 903, 24); $b.Fill.ForeColor.RGB = 0; $b.Fill.Solid(); $b.Line.Visible = 0; $b.Shadow.Visible = 0
+  $tr = $b.TextFrame.TextRange; $tr.Text = $text; $tr.Font.Name = $FONT; $tr.Font.Size = [single]18; $tr.Font.Color.RGB = $WHITE; $tr.Font.Bold = 0; $tr.ParagraphFormat.Alignment = 2
+  $b.TextFrame.VerticalAnchor = 3; $b.TextFrame.MarginTop = [single]0; $b.TextFrame.MarginBottom = [single]0
 }
 function Read-Box($slide, $y, $text, $size) {
   $mb = Add-Text $slide 70 $y 860 40 $text $size $DARK $false 'l'
@@ -191,11 +199,12 @@ $t25 = $D.twinq.'25'; $t26 = $D.twinq.'26'
 $heinz25 = $t25.groups | Where-Object { $_.grp -eq 'Heinz' }; $heinz26 = $t26.groups | Where-Object { $_.grp -eq 'Heinz' }; $wings26 = $t26.groups | Where-Object { $_.grp -eq 'Wings' }; $bumi26 = $t26.groups | Where-Object { $_.grp -eq 'Bumi Tirta' }
 $n25 = $D.tdcq.'25'.roles.new; $n26 = $D.tdcq.'26'.roles.new
 $nt = @(); foreach ($g in @($t26.groups | Where-Object { $_.role -eq 'new' })) { $nt += ($g.grp + ' ' + (Fmt $g.t 0) + ' t at TDC ' + (Fmt $g.ptdc 1) + ' + TWIN ' + (Fmt $g.twin 1) + ' = ' + (Fmt $g.pcomb 1) + ' THB/kg') }
-$tdcNote = 'Not in the four quadrants: base 2025 ' + $n25.n + ' accounts with no 2025 history = ' + (Pct $n25.total.v) + ' of plan volume (Indonesia: ' + (($n25.direct.names + $n25.twin.names) -join ', ') + ') ' + [char]0x00B7 + ' base 2026 ' + $n26.n + ' accounts = ' + (Pct $n26.total.v)
-$twinNote = '2025: Wings and Harum Sari had no volume ' + [char]0x00B7 + ' 2026, new and not in the quadrants: ' + ($nt -join '; ') + ' ' + [char]0x00B7 + ' Harum Sari 208 t is a non-TDC product, outside this view'
+$np25 = 0; $vp25 = 0; $np26 = 0; $vp26 = 0; foreach ($k in 'grow','protect','fix','reprice') { $np25 += $D.tdcq.'25'.roles.$k.nproxy; $vp25 += [double]$D.tdcq.'25'.roles.$k.vproxy; $np26 += $D.tdcq.'26'.roles.$k.nproxy; $vp26 += [double]$D.tdcq.'26'.roles.$k.vproxy }
+$tdcNote = 'All 2027-plan accounts included (adds to 100%) ' + [char]0x00B7 + ' new = no base-year GP (2025: ' + $np25 + ' accounts, ' + (Pct $vp25) + ' of volume; 2026: ' + $np26 + ', ' + (Pct $vp26) + '): placed as growing, using own other-year or planned-SKU average GP/kg for shares only; excluded from the GP/kg column'
+$twinNote = '2025: Wings and Harum Sari had no volume ' + [char]0x00B7 + ' 2026: Wings is new (no YTD Sep-25 volume), counted as volume growing and placed by its TDC GP/kg ' + [char]0x00B7 + ' Harum Sari 208 t is a non-TDC product, outside this view'
 $twinLabel25 = 'Base 2025: FY2025 vs FY2024 ' + [char]0x00B7 + ' ' + (Fmt $t25.total_t 0) + ' t ' + [char]0x00B7 + ' GP/kg TDC ' + (Fmt $t25.total_ptdc 1) + ' + TWIN ' + (Fmt $t25.total_twin 1) + ' = ' + (Fmt $t25.total_pcomb 1)
 $twinLabel26 = 'Base 2026: YTD Sep-26 vs YTD Sep-25 ' + [char]0x00B7 + ' ' + (Fmt $t26.total_t 0) + ' t ' + [char]0x00B7 + ' GP/kg TDC ' + (Fmt $t26.total_ptdc 1) + ' + TWIN ' + (Fmt $t26.total_twin 1) + ' = ' + (Fmt $t26.total_pcomb 1)
-$readTdc = 'On the 2026 base every Indonesian account with history sits in "Fix price before volume" (direct ' + (Pct $f26.direct.v) + ' of the 2027 plan volume for ' + (Pct $f26.direct.g) + ' of GP at ' + (Fmt $f26.direct.kg 1) + ' THB/kg; via TWIN ' + (Pct $f26.twin.v) + ' for ' + (Pct $f26.twin.g) + ' at ' + (Fmt $f26.twin.kg 1) + ' on the TDC leg).'
+$readTdc = 'On the 2026 base every Indonesian account except Japfa (2027 plan cut to 100 t, Reprice / Exit) sits in "Fix price before volume" (direct ' + (Pct $f26.direct.v) + ' of the 2027 plan volume for ' + (Pct $f26.direct.g) + ' of GP at ' + (Fmt $f26.direct.kg 1) + ' THB/kg; via TWIN ' + (Pct $f26.twin.v) + ' for ' + (Pct $f26.twin.g) + ' at ' + (Fmt $f26.twin.kg 1) + ' on the TDC leg).'
 $readTwin = 'Inside TWIN, Heinz fell from Grow to Fix and the new Wings tonnes came in below floor with a negative TWIN margin: together ' + (Pct ([double]$heinz26.vshare + [double]$wings26.vshare)) + ' of TWIN' + [char]0x2019 + 's volume for ' + (Pct ([double]$heinz26.gshare + [double]$wings26.gshare)) + ' of its GP, while Bumi Tirta (' + (Pct $bumi26.vshare) + ' of volume, ' + (Pct $bumi26.gshare) + ' of GP) and the tail earn 10+ THB/kg combined.'
 $readRole = 'Role for Indonesia = fill otherwise-idle capacity at a floor price: a volume cap on the fix-price book (no growth until price is fixed), growth tonnes only in the Grow quadrant (' + (Pct $D.tdcq.'26'.roles.grow.total.v) + ' of volume, ' + (Pct $D.tdcq.'26'.roles.grow.total.g) + ' of GP). TWIN grows only where the combined margin clears the floor; Heinz and Wings are re-priced in IDR with FX pass-through before any further volume.'
 
@@ -203,30 +212,30 @@ $readRole = 'Role for Indonesia = fill otherwise-idle capacity at a floor price:
 $script:SC = 1.0
 $s2 = $pres.Slides.AddSlide(2, $blank)
 Add-Text $s2 20 10 920 24 ('Indonesia' + [char]0x2019 + 's role is to leverage fixed cost: control its fix-price volume; inside TWIN only Bumi Tirta grows with margin') 14 $DARK $false 'l' | Out-Null
-Add-Text $s2 20 34 920 22 ('Vol share / GP share = share of the book shown in each box ' + [char]0x00B7 + ' GP/kg = base-year product GP in THB/kg at TDC level (floor 4.7); via TWIN and TWIN customers also show TDC + TWIN trading margin = combined' + "`r" + 'Top: TDC customers, share of the 2027 plan (GP = plan tonnes ' + [char]0x00D7 + ' base-year GP/t), accounts with a plan ' + [char]0x2265 + ' 100 t ' + [char]0x00B7 + ' Bottom: TWIN customers buying TDC products, share of the TWIN book; volume axis = actual vs prior year because no 2027 plan exists by TWIN customer') 7 $LINE $false 'l' | Out-Null
-$bw = 400; $bh = 160
-Add-Text $s2 20 68 920 12 'TDC customers (HVA AP 2027 quadrant)' 8.5 $DARK $false 'l' | Out-Null
-$by = 96
+Add-Text $s2 20 34 920 22 ('Vol share / GP share = share of the book shown in each box ' + [char]0x00B7 + ' GP/kg = actual product GP in THB/kg at actual tonnes of each year, TDC level (floor 4.7); via TWIN and TWIN customers also show TDC + TWIN trading margin = combined' + "`r" + 'Top: TDC customers, share of the 2027 plan (GP = plan tonnes ' + [char]0x00D7 + ' base-year GP/t), all accounts with a 2027 plan ' + [char]0x00B7 + ' Bottom: TWIN customers buying TDC products, share of the TWIN book; volume axis = actual vs prior year because no 2027 plan exists by TWIN customer') 7 $LINE $false 'l' | Out-Null
+$bw = 400; $bh = 150
+Section-Bar $s2 58 'TDC Portfolio I 2025 - YTD 26'
+$by = 102
 $script:Q = $D.tdcq.'25'; Draw-Box $s2 70 $by $bw $bh 'Base 2025 actual (FY)' $cellFn2
 $script:Q = $D.tdcq.'26'; Draw-Box $s2 530 $by $bw $bh 'Base 2026 YTD-Sep, annualised' $cellFn2
 Add-Text $s2 70 ($by + $bh + 11) 860 10 $tdcNote 6.5 $LINE $false 'l' | Out-Null
-Add-Text $s2 20 ($by + $bh + 24) 920 12 'TWIN customers (TDC products only)' 8.5 $DARK $false 'l' | Out-Null
-$by2 = $by + $bh + 52
+Section-Bar $s2 ($by + $bh + 26) 'TWIN Portfolio I 2025 - YTD 26'
+$by2 = $by + $bh + 70
 $script:Q = $t25; Draw-Box $s2 70 $by2 $bw $bh $twinLabel25 $cellFn3
 $script:Q = $t26; Draw-Box $s2 530 $by2 $bw $bh $twinLabel26 $cellFn3
 Add-Text $s2 70 ($by2 + $bh + 11) 860 10 $twinNote 6.5 $LINE $false 'l' | Out-Null
-Read-Box $s2 ($by2 + $bh + 24) ('Read: ' + $readTdc + ' ' + $readTwin + "`r" + $readRole) 7.5
+Read-Box $s2 ($by2 + $bh + 22) ('Read: ' + $readTdc + ' ' + $readTwin + "`r" + $readRole) 7.5
 
 # ================= Slide 3: TDC customers 2025 vs 2026 =================
-$script:SC = 1.3
+$script:SC = 1.15
 $s3 = $pres.Slides.AddSlide(3, $blank)
 Add-Text $s3 20 10 920 24 'TDC customers: Indonesia moved from Grow + Fix in 2025 to Fix only in 2026' 14 $DARK $false 'l' | Out-Null
-Add-Text $s3 20 34 920 22 ('Share of the 2027 plan (volume = plan tonnes, GP = plan tonnes ' + [char]0x00D7 + ' base-year product GP/t) ' + [char]0x00B7 + ' floor 4,700 THB/t product GP ' + [char]0x00B7 + ' accounts with a 2027 plan ' + [char]0x2265 + ' 100 t ' + [char]0x00B7 + ' same data and rules as the HVA AP 2027 customer quadrant' + "`r" + 'Indonesia split into direct export accounts and PT Thai Wah Indonesia (via TWIN) ' + [char]0x00B7 + ' GP/kg = base-year product GP in THB/kg at TDC level; via TWIN also shown as TDC + TWIN trading margin = combined') 7.5 $LINE $false 'l' | Out-Null
+Add-Text $s3 20 34 920 22 ('Share of the 2027 plan (volume = plan tonnes, GP = plan tonnes ' + [char]0x00D7 + ' base-year product GP/t) ' + [char]0x00B7 + ' floor 4,700 THB/t product GP ' + [char]0x00B7 + ' all accounts with a 2027 plan ' + [char]0x00B7 + ' same data and rules as the HVA AP 2027 customer quadrant' + "`r" + 'Indonesia split into direct export accounts and PT Thai Wah Indonesia (via TWIN) ' + [char]0x00B7 + ' GP/kg = actual base-year product GP in THB/kg at actual base-year tonnes, TDC level; via TWIN also shown as TDC + TWIN trading margin = combined') 7.5 $LINE $false 'l' | Out-Null
 $bw3 = 420; $bh3 = 310; $by3 = 100
 $script:Q = $D.tdcq.'25'; Draw-Box $s3 60 $by3 $bw3 $bh3 'Base 2025 actual (FY)' $cellFn2
 $script:Q = $D.tdcq.'26'; Draw-Box $s3 520 $by3 $bw3 $bh3 'Base 2026 YTD-Sep, annualised' $cellFn2
 Add-Text $s3 60 ($by3 + $bh3 + 16) 880 10 $tdcNote 7 $LINE $false 'l' | Out-Null
-$read3 = 'Read: on the 2025 base Indonesia direct already sat in Fix (' + (Pct $f25.direct.v) + ' of plan volume at ' + (Fmt $f25.direct.kg 1) + ' THB/kg) while via TWIN was in Grow at ' + (Fmt $g25.twin.kg 1) + ' THB/kg (' + (Fmt $g25.twin.comb_kg 1) + ' combined). ' + $readTdc + ' Japfa moved to Reprice / Exit (' + (Fmt $rp26.direct.kg 1) + ' THB/kg) with its 2027 plan cut to 100 t.' + "`r" + $readRole
+$read3 = 'Read: on the 2025 base Indonesia direct already sat in Fix (' + (Pct $f25.direct.v) + ' of plan volume at ' + (Fmt $f25.direct.kg 1) + ' THB/kg) while via TWIN was in Grow at ' + (Fmt $g25.twin.kg 1) + ' THB/kg (' + (Fmt $g25.twin.comb_kg 1) + ' combined). ' + $readTdc + '' + "`r" + $readRole
 Read-Box $s3 ($by3 + $bh3 + 32) $read3 8
 
 # ================= Slide 4: TWIN customers 2025 vs 2026 =================
@@ -241,6 +250,6 @@ Read-Box $s4 ($by3 + $bh3 + 32) $read4 8
 
 $pres.SaveAs($Out)
 foreach ($i in 1..4) { $pres.Slides.Item($i).Export((Join-Path $PngDir ("slide$i.png")), 'PNG', 1920, 1080) }
-$pres.Close(); $app.Quit()
+$pres.Close(); if (-not $wasRunning) { $app.Quit() }
 [System.Runtime.InteropServices.Marshal]::ReleaseComObject($app) | Out-Null
 Write-Output "saved $Out"
