@@ -1,0 +1,73 @@
+﻿---- unexpected mismatches: 0
+---- changes: 62
+  s4 NBGBU AP28 Volume (kt)                   3.4 -> 2.2
+  s4 ConsoAll AP28 Volume (kt)              500.9 -> 499.8
+  s4 NBGBU AP28 % Vol growth               +83.6% -> +21.0%
+  s4 ConsoAll AP28 % Vol growth             +9.9% -> +9.6%
+  s4 NBGBU AP28 Net sales                     279 -> 183
+  s4 ConsoAll AP28 Net sales               14,120 -> 14,024
+  s4 NBGBU AP27 Cost of sales (total)        (138) -> (144)
+  s4 NBGBU AP28 Cost of sales (total)        (239) -> (157)
+  s4 ConsoAll AP28 Cost of sales (total)     (11,403) -> (11,321)
+  s4 NBGBU AP27 Gross profit                   19 -> 14
+  s4 NBGBU AP28 Gross profit                   41 -> 26
+  s4 ConsoAll AP28 Gross profit             2,717 -> 2,703
+  s4 NBGBU AP27 %GM                         12.1% -> 8.6%
+  s4 NBGBU AP28 %GM                         14.5% -> 14.4%
+  s4 ConsoAll AP28 %GM                      19.2% -> 19.3%
+  s4 NBGBU AP28 DC                            (3) -> (2)
+  s4 ConsoAll AP28 DC                       (826) -> (824)
+  s4 NBGBU AP28 Total selling                (27) -> (26)
+  s4 ConsoAll AP28 Total selling          (1,343) -> (1,342)
+  s4 NBGBU AP27 % selling                  -14.1% -> -13.9%
+  s4 NBGBU AP28 % selling                   -9.8% -> -14.3%
+  s4 ConsoAll AP28 % selling                -9.5% -> -9.6%
+  s4 NBGBU AP27 OP before admin               (3) -> (8)
+  s4 NBGBU AP28 OP before admin                13 -> –
+  s4 ConsoAll AP28 OP before admin          1,374 -> 1,361
+  s4 NBGBU AP27 %OPBA                       -2.0% -> -5.3%
+  s4 NBGBU AP28 %OPBA                        4.7% -> 0.2%
+  s4 ConsoAll AP27 Operating profit           379 -> 380
+  s4 ConsoAll AP28 Operating profit           650 -> 637
+  s4 ConsoAll AP28 CIT (incl. PPA)          (185) -> (182)
+  s4 ConsoAll AP28 Net profit                 362 -> 352
+  s4 NBGBU AP27 of which: idle cost          (24) -> (16)
+  s4 ConsoAll AP27 of which: idle cost        (283) -> (275)
+  s4 NBGBU AP28 of which: idle cost          (24) -> (12)
+  s4 ConsoAll AP28 of which: idle cost        (262) -> (250)
+  s10 NBGBU AP27 Cost of sales (total)        (138) -> (144)
+  s10 NBGBU AP27 Gross profit                  19 -> 14
+  s10 NBGBU AP27 %GM                        12.1% -> 8.6%
+  s10 NBGBU AP27 % selling                 -14.1% -> -13.9%
+  s10 NBGBU AP27 OP before admin              (3) -> (8)
+  s10 NBGBU AP27 %OPBA                      -2.0% -> -5.3%
+  s10 ConsoAll AP27 Operating profit          379 -> 380
+  s10 NBGBU AP27 of which: idle cost         (24) -> (16)
+  s10 ConsoAll AP27 of which: idle cost        (283) -> (275)
+  s2 table ConsoAll AP28 Volume (kt)          501 -> 500
+  s2 table ConsoAll AP28 % Vol growth        +9.9% -> +9.6%
+  s2 table ConsoAll AP28 Net sales (MB)       14,120 -> 14,024
+  s2 table ConsoAll AP28 Gross profit (MB)        2,717 -> 2,703
+  s2 table ConsoAll AP28 %GM                19.2% -> 19.3%
+  s2 table ConsoAll AP28 OPBA (MB)          1,374 -> 1,361
+  s2 table ConsoAll AP28 Net profit (MB)          362 -> 352
+  s2 bar total AP28                         1,374 -> 1,361
+  s2 other bar R24: NBG+Corp+Elim -22.7 -> -22.7 MB; bar h 2.0 -> 2.3
+  s2 other bar 2025: NBG+Corp+Elim -39.7 -> -39.7 MB; bar h 4.9 -> 4.1
+  s2 other bar AP27: NBG+Corp+Elim -10.2 -> -9.9 MB; bar h 1.0 -> 1.0
+  s2 other bar LE26: NBG+Corp+Elim -28.4 -> -28.4 MB; bar h 3.0 -> 2.9
+  s2 other bar AP28: NBG+Corp+Elim 1.0 -> -11.9 MB; bar h none -> 1.2
+  s2 title                           AP2027: OPBA +24% to 1,065 MB, but net profit only +20 MB to 215 MB -> AP2027: OPBA +25% to 1,065 MB, but net profit only +20 MB to 215 MB
+  s2 oval                              +24% vs LE -> +25% vs LE
+  s2 mix total AP28                      1,374 MB -> 1,361 MB
+  s2 commit +OPBA                            +209 -> +210
+  s2 mix 2025: Food 54% HVA 14% Starch 32% (unchanged by this update unless logged above)
+  s2 mix LE26: Food 66% HVA 11% Starch 23% (unchanged by this update unless logged above)
+  s2 mix AP27: Food 60% HVA 15% Starch 25% (unchanged by this update unless logged above)
+  s2 mix AP28: Food 54% HVA 21% Starch 26% (unchanged by this update unless logged above)
+  s3 NBG BU AP27                              (3) -> (8)
+  s3 NBG BU delta                             +34 -> +29
+  s3 Bioplastic AP27                          (3) -> (8)
+  s3 Bioplastic delta                         +34 -> +29
+  s3 TWPC total delta                        +209 -> +210
+  s3 insight Bioplastic                (37) → (3) -> (37) → (8)

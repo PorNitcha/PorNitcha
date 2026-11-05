@@ -18,7 +18,8 @@
 ### Branding / CI
 | หัวข้อ | รายละเอียด | Confirm เมื่อ |
 |---|---|---|
-| _สีองค์กร (primary/secondary)_ | _รอ Por ยืนยัน_ | |
+| สีองค์กร (primary/secondary) | navy #19226D / cyan #00A6DC (จาก template TW ที่ Por สั่งใช้) | 2026-11-02 |
+| Template PPT มาตรฐาน (TW) | design '6_Office Theme' ใน deck BU review: ปก '2_Title Slide' (cube logo ขวา), เนื้อหา 'Custom Layout' (title บน, footer bar navy/cyan + โลโก้ THAI WAH + tagline "Creating Innovation and Sustainability from Farm to Shelf") · ใช้กับ deck ทุกฉบับที่ส่ง CEO | 2026-11-02 |
 | _Logo usage guideline_ | _รอ Por ยืนยัน_ | |
 | _Tone of voice / brand tone_ | _รอ Por ยืนยัน_ | |
 | _Font มาตรฐานเอกสาร_ | _รอ Por ยืนยัน_ | |
