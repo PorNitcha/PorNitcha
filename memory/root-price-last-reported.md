@@ -2349,3 +2349,21 @@
 - รอบถัดไป gate: Nov mtime > 2026-11-05T03:43:30Z หรืออีเมล put.p "on Nov 05, 2026"
 ### Lesson Learned
 - _gen_1105c.py = ต้นแบบล่าสุด · อย่ารันสคริปต์ generator ซ้ำเพื่อ grep (มันทับ .bak) · temp ของ node ใช้ $HOME ไม่ใช่ /tmp
+
+## รอบ 5-Nov-2026 12:3x ICT (r5) — ⚪ NO-OP · T-1 = 4-Nov, dashboard/CSV ถึง 4-Nov แล้ว · Nov mtime เท่าเดิม 2026-11-05T03:43:30Z · TWIC ล่าสุดยัง "on Nov 04, 2026" · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- รอบถัดไป gate: Nov mtime > 2026-11-05T03:43:30Z หรืออีเมล put.p "on Nov 05, 2026"
+
+## รอบ 5-Nov-2026 13:1x ICT (r6) — ⚪ NO-OP · T-1 = 4-Nov, dashboard/CSV ถึง 4-Nov แล้ว · Nov mtime เท่าเดิม 2026-11-05T03:43:30Z · TWIC ล่าสุดยัง "on Nov 04, 2026" · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล ·
+- รอบถัดไป gate: Nov mtime > 2026-11-05T03:43:30Z หรืออีเมล put.p "on Nov 05, 2026"
+
+## รอบ 5-Nov-2026 16:1x ICT (r7) — ⚪ NO-OP · T-1 = 4-Nov, dashboard/CSV ถึง 4-Nov แล้ว · Nov file mtime ขยับเป็น 2026-11-05T08:42:39Z (> 03:43:30Z) → re-parse sheet "Nov —" แล้ว diff 1–4 Nov ทั้ง 5 โรงไทย = 0 (volume/price/%ST/%Rec ตรง CSV; PM 4-Nov rec 100.0% = default, TDC 4-Nov rec ว่าง, MS rec 92.0% คงที่ = ยังไม่ส่งผลโม่จริง → null เหมือนเดิม) · มีแค่คอลัมน์ 5-Nov (forecast) ซึ่งไม่ใช้ · TWIC ไม่มีอีเมล "on Nov 05, 2026" · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- รอบถัดไป gate: Nov mtime > 2026-11-05T08:42:39Z หรืออีเมล put.p "on Nov 05, 2026"
+
+## รอบ 5-Nov-2026 17:1x ICT (r8) — 🟢 UPDATE · T-1 = 4-Nov เท่าเดิม · Nov file mtime 2026-11-05T09:53:41Z (> 08:42:39Z) → TDC 4-Nov ผลโม่ใหม่ %Rec 92.0 / CAG 17.47 (CBG 16.07÷0.92 ✓) · ไม่ส่งอีเมล
+- 1–4 Nov ที่เหลือทุกโรง diff vs CSV = 0 · PM 4-Nov rec 100.0 default → null · MS 92.0 placeholder → null · ⚠️ TDC 92.0% เป็นเลขกลมเท่า MS placeholder — ผ่านกฎ C (ไม่ใช่ 100.0) จึงใช้ แต่ควรให้ Por/ทีมยืนยัน
+- TWIC ล่าสุดยัง "on Nov 04, 2026" ไม่มี Nov 05 · CSV 180 แถว backup .bak_1105r4 · Dashboard regenerate ด้วย _gen_1105d.py · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · ไม่มี artifact root-price-dashboard ในเซสชัน
+- CAG รวม 4-Nov ยังปิดไม่ได้ (รอ PM) · last_complete_group_cag = 3-Nov 16.99
+- State: data_updated_through 2026-11-04 · twic_latest 2026-11-04 · source_file_mtime_seen (Nov) 2026-11-05T09:53:41Z
+- รอบถัดไป gate: Nov mtime > 2026-11-05T09:53:41Z หรืออีเมล put.p "on Nov 05, 2026"
+### Lesson Learned
+- _gen_1105d.py = ต้นแบบล่าสุด
