@@ -270,3 +270,10 @@
 - Update 04-Nov (2): Por confirm leave slide 2 as is (admin bullet keeps 03-Nov TH/Inter definition); deck v2 (admin p7-8) final - รอ feedback หลังนำเสนอ 5-Nov
 - Update 04-Nov (3): v3 (admin p7-9) ส่งแล้ว — TWIC ย้ายไป Inter ตาม Por; หน้า 2 bullet admin ยังเป็นเลขนิยามเก่า (Inter 14 / TH excl 11; นิยามใหม่ 13 / 10) Por เคยบอก leave slide 2
 - Update 04-Nov (4): Por: หน้า 2 (exec summary) ไม่ได้ใช้นำเสนอ → ไม่ต้องแก้/ไม่ต้องเตือนเรื่องหน้า 2 อีก; v3 (admin p7-9) = final สำหรับ 5-Nov
+
+### 2026-11-06 — ออกแบบ monthly update process ของ FC web app — เสนอ Por แล้ว รอตัดสินใจ
+- สถานะ: ส่งข้อเสนอ (โครง source/, naming, archive, flash actual, precheck, year rollover) รอ Por เลือกว่าจะให้ทำข้อไหนก่อน
+- ต้องทำอะไรต่อ: ถ้า Por OK → (1) regex scenario ทั่วไป LE<yyyy> (<n>+<m>) + FILE_SCOPE ตาม round (2) โฟลเดอร์ source/_archive + rebuild log + diff_prev.py + precheck.py (3) ถาม format ไฟล์ topline/cost WD2-5 เพื่อทำ "Flash actual" (4) ตรวจ hardcode 2026 ก่อน Jan-2027
+- ติดตามภายในวันที่: 2026-11-13
+- (09-Nov) TDC deep dive มี actual Oct-26 แล้ว (artifact v54) แต่ P&L overall ยังเป็น LE9+3 ปิด Sep → รอไฟล์ P&L รอบ WD8-9 (Oct actual) แล้วรัน pipeline เต็มเพื่อให้ Oct ของ TDC มี pnl_adj และ Food deep dive (ยังถึง Sep) ตามมา · Working Sheet FC9+3 แก้ 09-Nov 11:31 แต่ยอด FC Oct-Dec ไม่เปลี่ยน
+

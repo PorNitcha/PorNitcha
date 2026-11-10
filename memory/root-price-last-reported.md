@@ -2367,3 +2367,109 @@
 - รอบถัดไป gate: Nov mtime > 2026-11-05T09:53:41Z หรืออีเมล put.p "on Nov 05, 2026"
 ### Lesson Learned
 - _gen_1105d.py = ต้นแบบล่าสุด
+
+## รอบ 6-Nov-2026 10:3x ICT (r1) — 🟢 UPDATE · T-1 = 5-Nov (dashboard เดิมถึง 4-Nov) · เพิ่มวัน 5-Nov ครบ 5 โรงไทย + TWIC · ไม่ส่งอีเมล
+- TZ Bangkok = 2026-11-06 10:10 → T-1 = 2026-11-05 · Nov file "11_Nov 2026.xlsx" mtime 2026-11-06T02:27:16Z · sheet "Nov —" (startPage 3)
+- 5-Nov ไทย: TN 4.00/391/25.27 · TKT 4.01/365/23.46 · PM 3.93/247/24.78 · MS 4.41/314/28.98 · TDC 3.96/257/24.79 (รวม 1,574 ตัน; ราคาถ่วง 4.07 / %ST 25.44 / CBG 15.99)
+- %Recovery 5-Nov: TN 100.0, PM 100.0, TKT 95.0 (R1=R2=95.0), MS 92.0 = default/placeholder; TDC ว่าง → null ทั้งหมด · 1–4 Nov diff vs CSV = 0 ไม่มีผลโม่ใหม่
+- TWIC 5-Nov (อีเมล put.p 6-Nov 08:14 + xlsx sheet Daily serial 46331): 218 ตัน / 2.88 / %ST 21.47 / CAG 13.47 (CBG 13.41 ÷ 99.53%) ✓ — ปริมาณลด −57% vs 4-Nov (512)
+- CAG รวมกลุ่ม (ไม่รวม MS): 4-Nov และ 5-Nov ปิดไม่ได้ · last_complete = 3-Nov 16.99
+- CSV 180 แถว (roll 7-Oct→5-Nov) backup .bak_1106r1 · dashboard "Daily root dashboard - 5 November 2026.html" สร้างด้วย _gen_1106.py · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · ไม่มี artifact root-price-dashboard/verify_artifact ในเซสชัน (ข้าม)
+- State: data_updated_through 2026-11-05 · twic_latest 2026-11-05 · source_file_mtime_seen (Nov) 2026-11-06T02:27:16Z · twic_email_seen on Nov 05, 2026
+- รอบถัดไป gate: T-1 = 5-Nov เท่าเดิม → เช็ค Nov mtime > 2026-11-06T02:27:16Z (ผลโม่ใหม่) หรืออีเมล put.p "on Nov 06, 2026" เมื่อวันเปลี่ยน
+### Lesson Learned
+- _gen_1106.py = ต้นแบบล่าสุด (อ่าน dashboard 4-Nov เป็น base → เขียนไฟล์ 5-Nov) · ถ้าเขียน heredoc ที่มี ''' ซ้อน ให้ใช้ delimiter """ ด้านนอก
+
+## รอบ 6-Nov-2026 11:2x ICT (r2) — 🟢 UPDATE · T-1 = 5-Nov เท่าเดิม · Nov file mtime ขยับ 2026-11-06T03:31:32Z (> 02:27:16Z) → ผลโม่ 5-Nov เข้า 2 โรง · ไม่ส่งอีเมล
+- TKT 5-Nov: recTotal 87.9 / R1 91.1 / R2 82.2 (ไม่ใช่ default) → %Rec 87.9 / CAG 19.44 (CBG 4.01÷23.46%=17.09, ÷87.9% ✓) ⚠️ Recovery ต่ำ <90%
+- PM 5-Nov: %Rec 100.6 (≠100.0) → CAG 15.76 (CBG 15.86 ÷ 1.006 = 15.77 ปัดต่างจากไฟล์ 0.01 → ใช้ค่าไฟล์)
+- TN 5-Nov 100.0 = default · MS 92.0 = placeholder · TDC ว่าง → null · 1–4 Nov diff vs CSV = 0
+- CAG รวม (ไม่รวม MS): 4-Nov (PM 0.0%) และ 5-Nov (TN ยังรอ) ปิดไม่ได้ · last_complete = 3-Nov 16.99
+- CSV 180 แถว backup .bak_1106r2/.bak_1106r3 · dashboard "Daily root dashboard - 5 November 2026.html" regenerate ด้วย _gen_1106b.py · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · ไม่มี artifact root-price-dashboard (ข้าม update/verify)
+- State: data_updated_through 2026-11-05 · twic_latest 2026-11-05 · source_file_mtime_seen (Nov) 2026-11-06T03:31:32Z · twic_email_seen on Nov 05, 2026
+- รอบถัดไป gate: Nov mtime > 2026-11-06T03:31:32Z หรืออีเมล put.p "on Nov 06, 2026" เมื่อวันเปลี่ยน
+### Lesson Learned
+- _gen_1106b.py = ต้นแบบล่าสุด (base = dashboard 5-Nov เอง) · ข้อความที่ฝังใน % format string ต้องเขียน %% · สคริปต์ copy CSV ทับ .bak ของ BK ที่ใช้ ให้ใช้ BK ใหม่ทุกครั้ง
+
+## รอบ 6-Nov-2026 13:2x ICT (r3) — ⚪ NO-OP · T-1 = 5-Nov, dashboard/CSV ถึง 5-Nov แล้ว · Nov file mtime เท่าเดิม 2026-11-06T03:31:32Z · TWIC 5-Nov มีครบแล้ว · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- รอบถัดไป gate: Nov mtime > 2026-11-06T03:31:32Z หรือเมื่อวันเปลี่ยน (T-1 = 6-Nov) อีเมล put.p "on Nov 06, 2026"
+
+## รอบ 6-Nov-2026 14:1x ICT (r4) — ⚪ NO-OP · T-1 = 5-Nov, dashboard/CSV ถึง 5-Nov แล้ว · Nov file mtime เท่าเดิม 2026-11-06T03:31:32Z · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- รอบถัดไป gate: Nov mtime > 2026-11-06T03:31:32Z หรือเมื่อวันเปลี่ยน (T-1 = 6-Nov) อีเมล put.p "on Nov 06, 2026"
+
+## รอบ 6-Nov-2026 15:1x ICT (r5) — ⚪ NO-OP · T-1 = 5-Nov, dashboard/CSV ถึง 5-Nov แล้ว · Nov file mtime เท่าเดิม 2026-11-06T03:31:32Z · TWIC ล่าสุด = "on Nov 05, 2026" (มีครบแล้ว) · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- รอบถัดไป gate: Nov mtime > 2026-11-06T03:31:32Z หรือเมื่อวันเปลี่ยน (T-1 = 6-Nov) อีเมล put.p "on Nov 06, 2026"
+
+## รอบ 6-Nov-2026 16:1x ICT (r6) — ⚪ NO-OP · T-1 = 5-Nov, dashboard/CSV ถึง 5-Nov แล้ว · Nov file mtime เท่าเดิม 2026-11-06T03:31:32Z · TWIC ล่าสุด = "on Nov 05, 2026" · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- รอบถัดไป gate: Nov mtime > 2026-11-06T03:31:32Z หรือเมื่อวันเปลี่ยน (T-1 = 6-Nov) อีเมล put.p "on Nov 06, 2026"
+
+## รอบ 9-Nov-2026 09:3x ICT (r1) — 🟢 UPDATE · T-1 = 8-Nov (dashboard เดิมค้างที่ 5-Nov) → เพิ่มวันที่ 6, 7, 8-Nov · ไม่ส่งอีเมล
+- TZ=Asia/Bangkok = 2026-11-09 09:10 → T-1 = 2026-11-08 · ไฟล์ Nov = "Daily root purchased report - 11_Nov 2026.xlsx" (โฟลเดอร์หลัก, mtime 2026-11-09T01:42:42Z) · sheet "Nov —" บรรทัด 2168 (7+วันที่)
+- Thai 6–8 Nov ครบ 5 โรง (8-Nov รวม 2,005 ตัน, ราคาเฉลี่ย 4.08, %ST 25.28, CBG 16.15) · ผลโม่ใหม่: 6-Nov TKT 86.1 / PM 100.5 / MS 87.1 / TDC 93.3 · 7-Nov TKT 115.8 (R1 113.6 R2 119.2) · 7-Nov PM/TN 100.0, MS 92.0, TDC ว่าง = default/placeholder → null · 8-Nov ทุกโรง default → null
+- backfill: MS 1-Nov 87.2 (CAG 17.62), 2-Nov 66.1 (22.15), 4-Nov 85.7 (17.47), 5-Nov 87.5 (17.39) · TDC 5-Nov 91.0 (17.56) · จุดอื่น 1–5 Nov diff = 0
+- TWIC: อีเมล "on Nov 06" + "on Nov 07" (ล่าสุด rcvd 8-Nov 02:27Z) → 6-Nov 448 ตัน/2.95/20.84/CAG 13.73/103.22 · 7-Nov 515/3.18/22.49/13.65/103.54 · 8-Nov ยังไม่ส่ง (null)
+- CAG รวม (ไม่รวม MS): 4–8 Nov ปิดไม่ได้ · last_complete = 3-Nov 16.99 (4 โรง 2,104 ตัน)
+- CBG/CAG cross-check ผ่านทุกจุด · CSV 180 แถว (10-Oct–8-Nov) backup .bak_1109r1 · dashboard "Daily root dashboard - 8 November 2026.html" (gen จาก /tmp ใช้ base = 5-Nov) · node --check OK · กราฟ vs CSV 900 จุด mismatch 0 · artifact root-price-dashboard: ไม่มี update/verify tool ในเซสชันนี้ (ข้าม)
+- ⚠️ ผิดปกติ: TKT %Rec 5-Nov 87.9 / 6-Nov 86.1 ต่ำ แล้ว 7-Nov 115.8 สูง · MS 2-Nov 66.1 · ปริมาณ TKT 6-Nov 174 ตัน แล้ว 632/643 · TN ค้างผลโม่ตั้งแต่ 5-Nov (100.0 default)
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-07 · source_file_mtime_seen (Nov) 2026-11-09T01:42:42Z · twic_email_seen on Nov 07, 2026
+- รอบถัดไป gate: Nov mtime > 2026-11-09T01:42:42Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 08, 2026"
+### Lesson Learned
+- ถ้าไม่มีรอบ 7–8 Nov (เสาร์-อาทิตย์) dashboard จะค้าง → ต้องไล่เติมหลายวันในรอบเดียว · MS ส่งผลโม่จริงได้ (ไม่ใช่ default ทุกวัน) ให้เช็คทุกวัน · อย่าใช้ `cat >/dev/null` ใน bash (ค้างรอ stdin)
+
+## รอบ 9-Nov-2026 10:5x ICT (r2) — 🟢 UPDATE · T-1 = 8-Nov (dashboard ถึง 8-Nov อยู่แล้ว แต่ gate ขยับ) · ไม่ส่งอีเมล
+- Gate 1: ไฟล์ Nov mtime 2026-11-09T03:49:18Z (เดิม 01:42:42Z) → re-parse sheet "Nov —" → TN 7-Nov %Rec 87.0 (CAG 18.19), TN 8-Nov 105.7 (CAG 15.21) เป็นค่าจริงใหม่ (เดิม null) · TKT 8-Nov 95.0/PM 7,8-Nov 100.0/MS 3,7,8-Nov 92.0/TDC 7,8-Nov ว่าง = default/placeholder คง null · จุดอื่น 1–8 Nov diff = 0
+- Gate 2: TWIC อีเมล "on Nov 08, 2026" (rcvd 9-Nov 02:22Z) → 8-Nov 629 ตัน / 3.21 / %ST 22.62 / CAG 14.38 / Rec 98.58 (CBG 14.17 ✓)
+- CAG รวม (ไม่รวม MS): 7–8-Nov ยังปิดไม่ได้ (PM/TDC/TKT ขาด) · last_complete = 3-Nov 16.99
+- CSV backup .bak_1109r2 · 180 แถว · dashboard 8-Nov แก้ in-place (backup .bak_1109r2) · node OK · กราฟ vs CSV 900 จุด mismatch 0 · ไม่มี artifact (ข้าม)
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T03:49:18Z · twic_email_seen on Nov 08, 2026
+- รอบถัดไป gate: Nov mtime > 2026-11-09T03:49:18Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
+### Lesson Learned
+- ไฟล์ Nov ต้องค้นด้วย query "Daily root purchased report Nov 2026 xlsx 2026 Daily root report" (query ชื่อไฟล์ตรงๆ ไม่เจอ) · ไฟล์ read_resource ต้องเรียกแบบไม่ใส่ page แล้วหา '## Sheet: Nov —' ในไฟล์ที่เซฟ
+
+## รอบ 9-Nov-2026 11:1x ICT (r3) — ⚪ NO-OP · T-1 = 8-Nov, dashboard/CSV ถึง 8-Nov แล้ว · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- Gate 1: ไฟล์ Nov (ชื่อ "Daily root purchased report - 11_Nov 2026.xlsx") mtime 2026-11-09T03:52:46Z (เดิม 03:49:18Z) → re-parse sheet "Nov —" 1–8 Nov เทียบ CSV: ตัวเลขเท่าเดิม (diff แค่ rounding CAG ±0.01 · MS 92.0% = placeholder คง null) → ไม่แก้ CSV/dashboard
+- Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026"
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T03:52:46Z
+- รอบถัดไป gate: Nov mtime > 2026-11-09T03:52:46Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
+### Lesson Learned
+- ชื่อไฟล์ Nov ปัจจุบันคือ "11_Nov 2026.xlsx" · ถ้า mtime ขยับแต่ diff = 0 ให้จบเงียบ
+
+## รอบ 9-Nov-2026 12:1x ICT (r4) — ⚪ NO-OP · T-1 = 8-Nov, dashboard/CSV ถึง 8-Nov แล้ว · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- Gate 1: ไฟล์ Nov mtime 2026-11-09T04:13:09Z (เดิม 03:52:46Z) → re-parse sheet "Nov —" 1–8 Nov เทียบ CSV: diff = 0 (default/placeholder TN/PM/TKT/MS/TDC คง null) → ไม่แก้ CSV/dashboard
+- Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026"
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T04:13:09Z
+- รอบถัดไป gate: Nov mtime > 2026-11-09T04:13:09Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
+### Lesson Learned
+- mtime ขยับแต่ diff = 0 → จบเงียบ (ซ้ำกับ r3)
+
+## รอบ 9-Nov-2026 13:1x ICT (r5) — ⚪ NO-OP · T-1 = 8-Nov, dashboard/CSV ถึง 8-Nov แล้ว · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- Gate 1: ไฟล์ "11_Nov 2026.xlsx" mtime 2026-11-09T05:53:41Z (เดิม 04:13:09Z) → re-parse sheet "Nov —" 6–8 Nov เทียบ CSV: diff = 0 (TN 7/8-Nov, TKT 7-Nov, MS 6-Nov ตรง · PM 100.0/TKT 95.0/MS 92.0/TDC ว่าง = default/placeholder คง null) · แถว 9-Nov เป็น forecast ไม่นับ
+- Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026"
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T05:53:41Z
+- รอบถัดไป gate: Nov mtime > 2026-11-09T05:53:41Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
+### Lesson Learned
+- mtime ขยับแต่ diff = 0 → จบเงียบ (ซ้ำ r3/r4)
+
+## รอบ 9-Nov-2026 14:2x ICT (r6) — 🟢 UPDATE · T-1 = 8-Nov · PM ผลโม่เข้า 7-Nov/8-Nov · ไม่ส่งอีเมล
+- Gate 1: ไฟล์ "11_Nov 2026.xlsx" mtime 2026-11-09T06:41:29Z (เดิม 05:53:41Z) → re-parse sheet "Nov —": PM 7-Nov %Rec 100.0→95.6 (CAG 16.97 ✓ CBG 16.22÷95.6%) · PM 8-Nov null→100.8 (CAG 15.83) · จุดอื่น 1–8 Nov diff = 0 (TKT 8-Nov 95.0×3 / MS 92.0 / TDC ว่าง = default/placeholder คง null)
+- Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026"
+- CAG รวม (ไม่รวม MS): 7–8-Nov ยังปิดไม่ได้ (TDC ขาด 7,8 · TKT ขาด 8) · last_complete = 3-Nov 16.99
+- CSV 181 บรรทัด (180 แถว+header) · backup .bak_1109r6 · dashboard 8-Nov แก้ in-place (backup .bak_1109r6) · node OK · กราฟ vs CSV 900 จุด mismatch 0 · ไม่มี artifact (ข้าม)
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T06:41:29Z
+- รอบถัดไป gate: Nov mtime > 2026-11-09T06:41:29Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
+### Lesson Learned
+- ค่า 100.0% ที่เคยถือเป็น default อาจถูกแก้เป็นค่าจริงทีหลัง (PM 7-Nov) → re-parse ย้อนหลังทุกรอบที่ mtime ขยับ ไม่ใช่เฉพาะแถวที่ null
+
+## รอบ 9-Nov-2026 15:1x ICT (r7) — ⚪ NO-OP · T-1 = 8-Nov, dashboard/CSV ถึง 8-Nov แล้ว · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- Gate 1: ไฟล์ "11_Nov 2026.xlsx" mtime 2026-11-09T07:33:31Z (เดิม 06:41:29Z) → re-parse sheet "Nov —" 1–8 Nov เทียบ CSV: diff = 0 (default/placeholder คง null) → ไม่แก้ CSV/dashboard
+- Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026"
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T07:33:31Z
+- รอบถัดไป gate: Nov mtime > 2026-11-09T07:33:31Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
+### Lesson Learned
+- mtime ขยับแต่ diff = 0 → จบเงียบ (ซ้ำ r3–r5)
+
+## รอบ 9-Nov-2026 16:1x ICT (r8) — ⚪ NO-OP · T-1 = 8-Nov, dashboard/CSV ถึง 8-Nov แล้ว · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-09T07:33:31Z เท่าเดิม (ไม่ขยับ) → ไม่ re-parse
+- Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026"
+- State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T07:33:31Z
+- รอบถัดไป gate: Nov mtime > 2026-11-09T07:33:31Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
