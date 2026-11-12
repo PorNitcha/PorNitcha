@@ -2473,3 +2473,159 @@
 - Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026"
 - State: data_updated_through 2026-11-08 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T07:33:31Z
 - รอบถัดไป gate: Nov mtime > 2026-11-09T07:33:31Z หรือวันเปลี่ยน (T-1 = 9-Nov) / อีเมล put.p "on Nov 09, 2026"
+
+## รอบ 10-Nov-2026 08:3x ICT (r1) — 🟢 UPDATE · T-1 = 9-Nov · เพิ่มวัน 9-Nov (TN/TKT/MS) · ไม่ส่งอีเมล
+- date = 2026-11-10 08:12 ICT → T-1 = 9-Nov (dashboard เดิม = 8-Nov → ต้องอัปเดต)
+- Gate 1: ไฟล์ "11_Nov 2026.xlsx" mtime 2026-11-09T23:33:43Z → parse sheet "Nov —": 1–8 Nov diff = 0 vs CSV · 9-Nov: TN 205/3.98/24.79 (rec 100.0=default→null) · TKT 645/4.14/24.89 (95.0×3=default→null) · MS 157/4.36/29.18 (92.0=placeholder→null) · PM/TDC 9-Nov ไม่มีปริมาณ (forecast) → null ทั้งแถว
+- Gate 2: ไม่พบอีเมล put.p "on Nov 09, 2026" (ล่าสุด Nov 08) → TWIC 9-Nov แถวว่าง
+- รวม 9-Nov (3 โรง): 1,007 ตัน · ราคา 4.1417 · %ST 25.54 · CBG 16.22 · CAG รวมปิดไม่ได้ (last complete = 3-Nov 16.993)
+- CSV backup .bak_1110r1 · 180 แถว (11-Oct..9-Nov) · dashboard "Daily root dashboard - 9 November 2026.html" · node --check OK · กราฟ vs CSV 900 จุด mismatch 0
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-09 · twic_latest 2026-11-08 · source_file_mtime_seen (Nov) 2026-11-09T23:33:43Z
+- รอบถัดไป gate: Nov mtime > 2026-11-09T23:33:43Z หรือ อีเมล put.p "on Nov 09, 2026"
+### Lesson Learned
+- ไฟล์ Nov แถว 9-Nov: PM/TDC ไม่มี volume = forecast ต้อง null ทั้งแถว
+
+## รอบ 10-Nov-2026 09:3x ICT (r2) — 🟢 UPDATE · T-1 = 9-Nov · เพิ่ม TWIC 9-Nov · ไม่ส่งอีเมล
+- date = 2026-11-10 09:10 ICT → T-1 = 9-Nov (dashboard = 9-Nov อยู่แล้ว แต่ TWIC 9-Nov ยังว่าง → เติม)
+- Gate 1: ไฟล์ "11_Nov 2026.xlsx" mtime 2026-11-10T01:47:55Z (> 2026-11-09T23:33:43Z) → re-parse sheet "Nov —": 1–9 Nov ไทย 5 โรง diff = 0 vs CSV (ไม่มีผลโม่ใหม่)
+- Gate 2: อีเมล put.p "on Nov 09, 2026" (rcvd 2026-11-10T01:49Z) → sheet Daily serial 46335: TWIC 9-Nov = 565 ตัน / 3.09 / %ST 21.75 / CBG 14.19 / %Rec 102.11 / CAG 13.90 (verify 14.19÷1.0211=13.90 ✓) → upsert CSV (.bak_1110r2) 180 แถว
+- Dashboard 9 November 2026.html (.bak_1110r2): TWIC arrays + แถวตาราง + banner/caveat/source · node --check OK · กราฟ vs CSV 900 จุด mismatch 0
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-09 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-10T01:47:55Z
+- รอบถัดไป gate: Nov mtime > 2026-11-10T01:47:55Z หรือ อีเมล put.p "on Nov 10, 2026"
+### Lesson Learned
+- TWIC ของวัน T-1 มักมาถึงหลัง 08:30 ICT (ราว 08:49) → รอบเช้าต้องเช็คอีเมลซ้ำ
+
+## รอบ 10-Nov-2026 10:1x ICT (r3) — 🟢 UPDATE · T-1 = 9-Nov · PM 9-Nov ลงข้อมูลใหม่ · ไม่ส่งอีเมล
+- date = 2026-11-10 10:10 ICT → T-1 = 9-Nov (dashboard = 9-Nov อยู่แล้ว แต่ข้อมูล PM เปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-10T03:04:27Z (> 01:47:55Z) → re-parse sheet "Nov —": 1–8 Nov ทุกโรง diff = 0 vs CSV · 9-Nov PM เดิม null (forecast) → ตอนนี้ vol 312 / price 3.75 / %ST 24.50 / rec 100.0 = default → CAG null (CBG 15.31 ✓) · TDC 9-Nov ยังไม่มี volume (price 4.05/ST 25.00 = forecast) → null
+- Gate 2: ไม่พบอีเมล put.p "on Nov 10, 2026" (ล่าสุด Nov 09) → TWIC ไม่เปลี่ยน
+- รวม 9-Nov (4 โรง): 1,319 ตัน · ราคา 4.0491 (−0.03 vs 8-Nov) · %ST 25.29 · CBG 16.01 · CAG รวมปิดไม่ได้ (last complete = 3-Nov 16.993)
+- CSV .bak_1110r3 · 180 แถว · dashboard .bak_1110r3 · กราฟ vs CSV 900 จุด mismatch 0 · node syntax OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-09 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-10T03:04:27Z
+- รอบถัดไป gate: Nov mtime > 2026-11-10T03:04:27Z หรือ อีเมล put.p "on Nov 10, 2026"
+### Lesson Learned
+- วัน T-1 ที่ PM/TDC เคยเป็น forecast อาจถูกลงปริมาณทีหลังในไฟล์ → re-parse แถว T-1 ทุกครั้งที่ mtime ขยับ ไม่ใช่เฉพาะย้อนหลัง
+
+## รอบ 10-Nov-2026 11:1x ICT (r4) — 🟢 UPDATE · T-1 = 9-Nov · TDC 9-Nov ลงปริมาณ + ผลโม่ TDC 7/8-Nov เข้า · ไม่ส่งอีเมล
+- date = 2026-11-10 11:10 ICT → T-1 = 9-Nov (dashboard = 9-Nov อยู่แล้ว แต่ข้อมูลเปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-10T03:26:50Z (> 03:04:27Z) → re-parse sheet "Nov —" 1–9 Nov: เปลี่ยน 3 จุด (TDC เท่านั้น): 7-Nov rec 95.1 / CAG 17.10 · 8-Nov rec 93.5 / CAG 17.33 · 9-Nov vol 162 / 3.84 / %ST 24.14 (เดิม forecast; rec ว่าง→null) · จุดอื่น diff = 0 (MS 92.0 = placeholder→null คงเดิม)
+- Gate 2: ไม่พบอีเมล put.p "on Nov 10, 2026" (ล่าสุด Nov 09) → TWIC ไม่เปลี่ยน
+- รวม 9-Nov (5 โรง): 1,481 ตัน · ราคา 4.0262 (−0.06 vs 8-Nov) · %ST 25.17 · CBG 16.00 · CAG รวมปิดไม่ได้ (last complete = 7-Nov 16.208, 4 โรง 1,727 ตัน)
+- CSV .bak_1110r4 · 180 แถว · dashboard .bak_1110r4 · กราฟ vs CSV 900 จุด mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-09 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-10T03:26:50Z
+- รอบถัดไป gate: Nov mtime > 2026-11-10T03:26:50Z หรือ อีเมล put.p "on Nov 10, 2026"
+### Lesson Learned
+- ผลโม่ย้อนหลัง TDC (7-8 Nov) มาช้า 2-3 วัน → re-parse 5 วันล่าสุดทุกครั้งที่ mtime ขยับ (ทำถูกแล้ว) · last complete CAG ขยับจาก 3-Nov → 7-Nov เพราะ TDC ปิด
+
+## รอบ 10-Nov-2026 13:2x ICT (r5) — 🟢 UPDATE · T-1 = 9-Nov · TKT 9-Nov ผลโม่เข้า · ไม่ส่งอีเมล
+- date = 2026-11-10 13:15 ICT → T-1 = 9-Nov (dashboard = 9-Nov อยู่แล้ว แต่ข้อมูลเปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-10T04:44:34Z (> 03:26:50Z) → re-parse sheet "Nov —" 1–9 Nov: เปลี่ยน 1 จุด = TKT 9-Nov rec Total 97.3 / R1 99.0 / R2 91.9 (ไม่ใช่ default 95.0) → CAG 17.09 (CBG 4.14÷24.89%=16.63 ✓ ÷97.3%=17.09 ✓) · จุดอื่น diff = 0 (TN/PM 100.0 = default, MS 92.0 = placeholder, TDC ว่าง → null คงเดิม)
+- Gate 2: TWIC ล่าสุดยังเป็น "on Nov 09, 2026" (ไม่มี Nov 10) → ไม่เปลี่ยน
+- CAG รวม 9-Nov ยังปิดไม่ได้ (รอ TN, PM, TDC) · last complete = 7-Nov 16.208 (4 โรง 1,727 ตัน)
+- CSV .bak_1110r5 · 180 แถว · dashboard .bak_1110r5 · กราฟ vs CSV mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-09 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-10T04:44:34Z
+- รอบถัดไป gate: Nov mtime > 2026-11-10T04:44:34Z หรือ อีเมล put.p "on Nov 10, 2026"
+### Lesson Learned
+- TKT ผลโม่มาไว (วันเดียวกับลงปริมาณ) · เช็ค R1≠R2 ≠ 95.0 = ค่าจริง ทำถูกแล้ว
+
+## รอบ 10-Nov-2026 14:2x ICT (r6) — 🟢 UPDATE · T-1 = 9-Nov · MS 7/8-Nov ผลโม่เข้า · ไม่ส่งอีเมล
+- date = 2026-11-10 14:20 ICT → T-1 = 9-Nov (dashboard = 9-Nov อยู่แล้ว แต่ข้อมูลเปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-10T06:59:12Z (> 04:44:34Z) → re-parse sheet "Nov —": เปลี่ยน 2 จุด = MS 7-Nov rec 90.2 / CAG 16.65 · MS 8-Nov rec 75.8 / CAG 19.94 (CBG÷rec ✓) · จุดอื่น diff = 0 (MS 9-Nov 92.0 = placeholder→null, TN/PM 100.0 default, TKT 8-Nov 0.0 → null, TDC 9-Nov ว่าง)
+- Gate 2: TWIC ล่าสุด "on Nov 09, 2026" (ไม่มี Nov 10) → ไม่เปลี่ยน
+- CAG รวม 9-Nov ปิดไม่ได้ · last complete = 7-Nov 16.208 (TN,TKT,PM,TDC · 1,727 ตัน) · MS ไม่นับ CAG
+- CSV .bak_1110r6 · 180 แถว · dashboard .bak_1110r6 · กราฟ vs CSV mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-09 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-10T06:59:12Z
+- รอบถัดไป gate: Nov mtime > 2026-11-10T06:59:12Z หรือ อีเมล put.p "on Nov 10, 2026"
+### Lesson Learned
+- MS ส่งผลโม่จริงบางวัน (7/8-Nov) แม้โดยปกติเป็น placeholder → re-parse MS ด้วยทุกรอบ
+
+## รอบ 10-Nov-2026 15:1x ICT (r7) — ⚪ NO-OP · T-1 = 9-Nov (dashboard = 9-Nov แล้ว) · Gate 1: Nov mtime 2026-11-10T06:59:12Z เท่า r6 · Gate 2: TWIC ล่าสุด "on Nov 09, 2026" เท่าเดิม · ไม่แตะ CSV/dashboard · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- รอบถัดไป gate: Nov mtime > 2026-11-10T06:59:12Z หรือ อีเมล put.p "on Nov 10, 2026"
+
+## รอบ 10-Nov-2026 17:1x ICT (r8) — ⚪ NO-OP · T-1 = 9-Nov (dashboard = 9-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-10T09:12:18Z (> 06:59:12Z) → re-parse sheet "Nov —" 5–9 Nov: diff vs CSV = 0 (TN/PM 100.0 default, TKT 8-Nov 0.0, MS 9-Nov 92.0 = placeholder [10-Nov แถว MS ก็ 92.0 ทั้งที่ไม่มีปริมาณ = carry], PM/TDC 9-Nov ไม่มีผลโม่) · ที่เปลี่ยนคือแถว 10-Nov (T วันนี้: PM 580 ตัน ฯลฯ) ซึ่งอยู่นอก T-1 → ไม่แตะ
+- Gate 2: TWIC ล่าสุด "on Nov 09, 2026" เท่าเดิม
+- ไม่แตะ CSV/dashboard
+- State: data_updated_through 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-10T09:12:18Z
+- รอบถัดไป gate: Nov mtime > 2026-11-10T09:12:18Z หรือ อีเมล put.p "on Nov 10, 2026"
+
+## รอบ 10-Nov-2026 18:2x ICT (r9) — 🟢 UPDATE · T-1 = 9-Nov · TDC 9-Nov ผลโม่เข้า · ไม่ส่งอีเมล
+- date = 2026-11-10 18:13 ICT → T-1 = 9-Nov (dashboard = 9-Nov อยู่แล้ว แต่ข้อมูลเปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-10T10:48:28Z (> 09:12:18Z) → re-parse sheet "Nov —" 1–9 Nov: เปลี่ยน 1 จุด = TDC 9-Nov rec 95.0% (≠ default 100.0) → CAG 16.75 (CBG 3.84÷24.14%=15.91 ✓ ÷95.0%=16.75 ✓) · จุดอื่น diff = 0 (TN 100.0 default, PM 0.0 → null, MS 92.0 placeholder)
+- Gate 2: TWIC ล่าสุด "on Nov 09, 2026" (ไม่มี Nov 10) → ไม่เปลี่ยน
+- CAG รวม 9-Nov ยังปิดไม่ได้ (รอ TN, PM) · last complete = 7-Nov 16.208 (TN,TKT,PM,TDC · 1,727 ตัน) · MS ไม่นับ
+- CSV .bak_1110r7 · 180 แถว · dashboard .bak_1110r7 · กราฟ vs CSV 900 จุด mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-09 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-10T10:48:28Z
+- รอบถัดไป gate: Nov mtime > 2026-11-10T10:48:28Z หรือ อีเมล put.p "on Nov 10, 2026"
+### Lesson Learned
+- TDC ส่งผลโม่ 9-Nov ภายในวันเดียวกัน (95.0% ไม่ใช่ default) · re-parse ทุกครั้งที่ mtime ขยับ ทำถูกแล้ว · หมายเหตุ: .bak_1110r7 ของ dashboard ต้องสร้างก่อนรัน gen (script ทำให้ถ้ายังไม่มี)
+
+## รอบ 11-Nov-2026 08:2x ICT (r1) — 🟢 UPDATE · T-1 = 10-Nov · เพิ่มวัน 10-Nov (5 โรงไทย) · TWIC 10-Nov ยังไม่ส่ง · ไม่ส่งอีเมล · แจ้ง Por (push)
+- date = 2026-11-11 08:10 ICT → T-1 = 10-Nov (dashboard เดิม = 9-Nov → ต้องอัปเดต)
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-11T00:59:08Z → parse sheet "Nov —" (บรรทัด 2205 ของไฟล์ที่ระบบเซฟ) 4–11 Nov · CBG=price÷%ST ผ่านทุกจุด
+  - 10-Nov ใหม่: TN 4.00/285/25.45 · TKT 4.13/523/24.80 · PM 4.03/580/24.83 · MS 4.37/218/29.33 · TDC 3.88/251/23.50 · %Recovery ทุกโรง = default/placeholder (TN 100.0, TKT 95.0=R1=R2, PM 100.0, MS 92.0, TDC ว่าง) → rec/CAG = null
+  - ย้อนหลัง 5–9 Nov diff vs CSV = 0 (ไม่มีผลโม่ย้อนหลังเข้าเพิ่ม)
+- Gate 2: put.p ล่าสุดยังเป็น "on Nov 09, 2026" → TWIC 10-Nov เว้น null
+- รวม 10-Nov (5 โรง): 1,857 ตัน (+25.4% vs 9-Nov 1,481) · ราคา 4.0732 (+0.05) · %ST 25.27 · CBG 16.12 · CAG รวมปิดไม่ได้ (8/9/10-Nov) · last complete = 7-Nov 16.208 (TN,TKT,PM,TDC 1,727 ตัน)
+- CSV .bak_1111r1 · 180 แถว (12-Oct ถึง 10-Nov; ตัด 11-Oct) · dashboard ใหม่ "Daily root dashboard - 10 November 2026.html" (gen: memory/_gen_1111.py — สถานะ/badge คำนวณจากข้อมูล ไม่ hardcode) · กราฟ vs CSV 900 จุด mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (ToolSearch ยืนยัน) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-10 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-11T00:59:08Z · twic_email_seen on Nov 09, 2026
+- รอบถัดไป gate: Nov mtime > 2026-11-11T00:59:08Z หรือ อีเมล put.p "on Nov 10, 2026"
+### Lesson Learned
+- gen รอบก่อน (_gen_1110c.py) hardcode badge → แถว TKT 9-Nov ขึ้น "รอผลโม่" ทั้งที่ผลโม่เข้าแล้ว (ตัวเลขถูก แต่ป้ายผิด) → ตั้งแต่ _gen_1111.py ให้ badge/คำอธิบายคำนวณจากข้อมูลเสมอ · node --check ต้องข้าม <script type="application/json">
+
+## รอบ 11-Nov-2026 09:1x ICT (r2) — ⚪ NO-OP · T-1 = 10-Nov (dashboard = 10-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-11T01:38:40Z (> 00:59:08Z) → re-parse sheet "Nov —" (บรรทัด 2205 ของไฟล์ที่ระบบเซฟ) 4–10 Nov ทั้ง 5 โรงไทย: diff vs CSV = 0 (10-Nov ยัง default/placeholder ทุกโรง: TN 100.0, TKT 95.0=R1=R2, PM 100.0, MS 92.0, TDC ว่าง · TN 5/6/9-Nov 100.0 default · PM 4/9-Nov 0.0 · TKT 8-Nov 0.0 · MS 9-Nov 92.0) · แถว 11-Nov เป็น forecast (ไม่มี volume) → ไม่แตะ
+- Gate 2: put.p ล่าสุดยังเป็น "on Nov 09, 2026" (rcvd 2026-11-10T01:49Z) → TWIC 10-Nov ยังไม่ส่ง
+- ไม่แตะ CSV/dashboard
+- State: data_updated_through 2026-11-10 · twic_latest 2026-11-09 · source_file_mtime_seen (Nov) 2026-11-11T01:38:40Z · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-11T01:38:40Z หรือ อีเมล put.p "on Nov 10, 2026"
+
+## รอบ 11-Nov-2026 10:1x ICT (r3) — 🟢 UPDATE · T-1 = 10-Nov · TWIC 10-Nov เข้าแล้ว · ไม่ส่งอีเมล · แจ้ง Por (push)
+- date = 2026-11-11 10:11 ICT → T-1 = 10-Nov (dashboard = 10-Nov อยู่แล้ว แต่ข้อมูล TWIC เปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-11T02:57:16Z (> 01:38:40Z) → re-parse sheet "Nov —" (บรรทัด 2205) 4–10 Nov ทั้ง 5 โรงไทย: diff vs CSV = 0 (10-Nov ยัง default/placeholder: TN 100.0, TKT 95.0=R1=R2, PM 100.0, MS 92.0, TDC ว่าง) · 11-Nov = forecast → ไม่แตะ
+- Gate 2: อีเมล put.p "on Nov 10, 2026" เข้า 2026-11-11T02:45Z (09:45 ICT) → sheet "Daily" serial 46336 = 10-Nov: 575.459 ตัน / 3.1454 THB / %ST 22.098 / CBG 14.234 / rec 98.48% / CAG 14.4537 (3.14537÷0.220976=14.234 ✓ ÷0.9848=14.454 ✓) → CSV: 3.15,575,22.1,14.45,98.48 · แถว 9-Nov (46335) ตรงกับ CSV เดิม ✓
+- ยอดไทย 10-Nov ไม่เปลี่ยน: 1,857 ตัน · ราคา 4.0732 · %ST 25.27 · CBG 16.12 · CAG รวมปิดไม่ได้ (8/9/10-Nov) · last complete = 7-Nov 16.208 (TN,TKT,PM,TDC 1,727 ตัน)
+- CSV .bak_1111r3 · 180 แถว · dashboard "Daily root dashboard - 10 November 2026.html" (.bak_1111r3; gen: memory/_gen_1111b.py = _gen_1111.py + แถว TWIC แบบมีข้อมูล) · กราฟ vs CSV 900 จุด mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-10 · twic_latest 2026-11-10 · source_file_mtime_seen (Nov) 2026-11-11T02:57:16Z · twic_email_seen on Nov 10, 2026 · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-11T02:57:16Z หรือ อีเมล put.p "on Nov 11, 2026"
+
+## รอบ 11-Nov-2026 11:1x ICT (r4) — ⚪ NO-OP · T-1 = 10-Nov (dashboard = 10-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- date = 2026-11-11 11:11 ICT → T-1 = 10-Nov
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-11T02:57:16Z เท่า r3 เป๊ะ → ไม่เปิดไฟล์ต้นทาง
+- Gate 2: put.p ล่าสุด "on Nov 10, 2026" (rcvd 2026-11-11T02:45Z) เท่าเดิม
+- ไม่แตะ CSV/dashboard
+- State (ไม่เปลี่ยน): data_updated_through 2026-11-10 · twic_latest 2026-11-10 · source_file_mtime_seen (Nov) 2026-11-11T02:57:16Z · twic_email_seen on Nov 10, 2026 · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-11T02:57:16Z หรือ อีเมล put.p "on Nov 11, 2026"
+
+## รอบ 11-Nov-2026 12:1x ICT (r5) — ⚪ NO-OP · T-1 = 10-Nov (dashboard = 10-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- date = 2026-11-11 12:10 ICT → T-1 = 10-Nov
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-11T02:57:16Z เท่า r3/r4 เป๊ะ → ไม่เปิดไฟล์ต้นทาง
+- Gate 2: put.p ล่าสุด "on Nov 10, 2026" (rcvd 2026-11-11T02:45Z) เท่าเดิม
+- ไม่แตะ CSV/dashboard
+- State (ไม่เปลี่ยน): data_updated_through 2026-11-10 · twic_latest 2026-11-10 · source_file_mtime_seen (Nov) 2026-11-11T02:57:16Z · twic_email_seen on Nov 10, 2026 · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-11T02:57:16Z หรือ อีเมล put.p "on Nov 11, 2026"
+
+## รอบ 11-Nov-2026 13:1x ICT (r6) — ⚪ NO-OP · T-1 = 10-Nov (dashboard = 10-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- date = 2026-11-11 13:10 ICT → T-1 = 10-Nov
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-11T02:57:16Z เท่า r3–r5 เป๊ะ · (ไฟล์ถูกอ่านมาแล้วรอบนี้ จึงเทียบ sheet "Nov —" 4–10 Nov ทั้ง 5 โรงไทย กับ CSV ซ้ำ: diff = 0 · 10-Nov ยัง default/placeholder: TN 100.0, TKT 95.0=R1=R2, PM 100.0, MS 92.0, TDC ว่าง · 11-Nov = forecast)
+- Gate 2: put.p ล่าสุด "on Nov 10, 2026" (rcvd 2026-11-11T02:45Z) เท่าเดิม
+- ไม่แตะ CSV/dashboard
+- State (ไม่เปลี่ยน): data_updated_through 2026-11-10 · twic_latest 2026-11-10 · source_file_mtime_seen (Nov) 2026-11-11T02:57:16Z · twic_email_seen on Nov 10, 2026 · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-11T02:57:16Z หรือ อีเมล put.p "on Nov 11, 2026"
+
+## รอบ 11-Nov-2026 14:1x ICT (r7) — ⚪ NO-OP · T-1 = 10-Nov (dashboard = 10-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- date = 2026-11-11 14:10 ICT → T-1 = 10-Nov
+- Gate 1: "11_Nov 2026.xlsx" mtime 2026-11-11T02:57:16Z เท่า r3–r6 เป๊ะ → ไม่เปิดไฟล์ต้นทาง
+- Gate 2: put.p ล่าสุด "on Nov 10, 2026" (rcvd 2026-11-11T02:45Z) เท่าเดิม
+- ไม่แตะ CSV/dashboard (CSV 180 แถว ไม่เปลี่ยน)
+- State (ไม่เปลี่ยน): data_updated_through 2026-11-10 · twic_latest 2026-11-10 · source_file_mtime_seen (Nov) 2026-11-11T02:57:16Z · twic_email_seen on Nov 10, 2026 · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-11T02:57:16Z หรือ อีเมล put.p "on Nov 11, 2026"
