@@ -2629,3 +2629,118 @@
 - ไม่แตะ CSV/dashboard (CSV 180 แถว ไม่เปลี่ยน)
 - State (ไม่เปลี่ยน): data_updated_through 2026-11-10 · twic_latest 2026-11-10 · source_file_mtime_seen (Nov) 2026-11-11T02:57:16Z · twic_email_seen on Nov 10, 2026 · last_complete_group_cag 7-Nov 16.208
 - รอบถัดไป gate: Nov mtime > 2026-11-11T02:57:16Z หรือ อีเมล put.p "on Nov 11, 2026"
+
+## รอบ 12-Nov-2026 08:1x ICT (r1) — 🟢 UPDATE · T-1 = 11-Nov · เพิ่มวัน 11-Nov + ผลโม่ย้อนหลัง 10-Nov 3 โรง · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-12 08:11 ICT → T-1 = 11-Nov (dashboard เดิม = 10-Nov → ต้องอัปเดต)
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก ไม่ใช่ _simulate) mtime 2026-11-12T01:04:01Z → parse sheet "Nov —" (บรรทัด 2205 ของไฟล์ที่ระบบเซฟ) 4–11 Nov · CBG=price÷%ST ผ่านทุกจุด
+  - 11-Nov ใหม่: TN 4.00/348/25.55 · TKT 4.17/547/25.36 · PM 4.11/439/25.81 · MS 4.40/283/29.73 · TDC 3.86/281/23.40 · %Recovery ทุกโรง = default/placeholder (TN 100.0, TKT 95.0=R1=R2, PM 100.0, MS 92.0, TDC ว่าง) → rec/CAG = null
+  - ผลโม่ย้อนหลัง 10-Nov เข้า 3 โรง: TKT 82.6% (R1 87.9 / R2 72.7) → CAG 20.16 (4.13÷24.80%=16.65 ÷82.6%=20.16 ✓) · MS 83.4% → 17.88 (14.90÷83.4%=17.87 ≈ ไฟล์ 17.88 ✓) · TDC 92.8% → 17.79 (16.51÷92.8%=17.79 ✓) · TN/PM 10-Nov ยัง 100.0 default → null
+  - 4–9 Nov diff vs CSV = 0 (TKT 8-Nov ยัง 0.0 · TN 5/6/9-Nov 100.0 · PM 4/9-Nov 0.0 · MS 9-Nov 92.0)
+- Gate 2: put.p ล่าสุดยังเป็น "on Nov 10, 2026" (rcvd 2026-11-11T02:45Z) → TWIC 11-Nov เว้น null
+- รวม 11-Nov (5 โรง): 1,898 ตัน (+2.2% vs 10-Nov 1,857) · ราคา 4.1134 (+0.04) · %ST 25.86 (+0.60) · CBG 15.91 · CAG รวมปิดไม่ได้ (8/9/10/11-Nov) · last complete = 7-Nov 16.208 (TN,TKT,PM,TDC 1,727 ตัน)
+- CSV .bak_1112r1 · 180 แถว (13-Oct ถึง 11-Nov; ตัด 12-Oct) · dashboard ใหม่ "Daily root dashboard - 11 November 2026.html" (gen: memory/_gen_1112.py = _gen_1111.py + patch) · กราฟ vs CSV 900 จุด mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact แก้จาก cloud session ไม่ได้) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-10 · source_file_mtime_seen (Nov) 2026-11-12T01:04:01Z · twic_email_seen on Nov 10, 2026 · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-12T01:04:01Z หรือ อีเมล put.p "on Nov 11, 2026"
+- ประเด็นผิดปกติ: TKT 10-Nov %Recovery 82.6% (R2 72.7%) → CAG 20.16 สูงสุดของ TKT ในรอบ 30 วัน · MS 10-Nov 83.4% · TKT 8-Nov ค้างผลโม่ 3 วัน · TN ค้าง 9/10-Nov
+
+## รอบ 12-Nov-2026 09:1x ICT (r2) — 🟢 UPDATE · T-1 = 11-Nov · TWIC 11-Nov เข้าแล้ว · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-12 09:11 ICT → T-1 = 11-Nov (dashboard = 11-Nov อยู่แล้ว แต่ข้อมูล TWIC เปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T01:37:05Z (> 01:04:01Z) → re-parse sheet "Nov —" (บรรทัด 2205) 7–11 Nov ทั้ง 5 โรงไทย: diff vs CSV = 0 (11-Nov ยัง default/placeholder: TN 100.0, TKT 95.0=R1=R2, PM 100.0, MS 92.0, TDC ว่าง · 10-Nov TN/PM 100.0 · 9-Nov TN 100.0, PM 0.0, MS 92.0 · 8-Nov TKT 0.0) · 12-Nov = forecast → ไม่แตะ
+- Gate 2: อีเมล put.p "on Nov 11, 2026" เข้า 2026-11-12T01:41Z (08:41 ICT) → sheet "Daily" serial 46337 = 11-Nov: 588.065 ตัน / 3.0906 THB / %ST 21.788 / CBG 14.185 / rec 105.29% / CAG 13.472 (3.0906÷0.217883=14.185 ✓ ÷1.0529=13.472 ✓) → CSV: 3.09,588,21.79,13.47,105.29 · แถว 9-Nov (46335), 10-Nov (46336) ตรงกับ CSV เดิม ✓
+- ยอดไทย 11-Nov ไม่เปลี่ยน: 1,898 ตัน · ราคา 4.1134 · %ST 25.86 · CBG 15.91 · CAG รวมปิดไม่ได้ (8/9/10/11-Nov) · last complete = 7-Nov 16.208 (TN,TKT,PM,TDC 1,727 ตัน)
+- CSV .bak_1112r2 · 180 แถว (13-Oct ถึง 11-Nov) · dashboard "Daily root dashboard - 11 November 2026.html" (.bak_1112r2; gen: memory/_gen_1112b.py = _gen_1112.py + แถว TWIC แบบมีข้อมูล) · กราฟ vs CSV 900 จุด mismatch 0 · node --check OK
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact แก้จาก cloud session ไม่ได้) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T01:37:05Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 16.208
+- รอบถัดไป gate: Nov mtime > 2026-11-12T01:37:05Z หรือ อีเมล put.p "on Nov 12, 2026" (พรุ่งนี้)
+- ประเด็น: TWIC 11-Nov %Recovery 105.29% (>100%) → CAG 13.47 ต่ำกว่า 10-Nov (14.45) · ค้างผลโม่ไทยเหมือน r1 (TKT 8-Nov ค้าง 3 วัน · TN/PM 9,10-Nov)
+### Lesson Learned
+- ผลลัพธ์ read_resource ของไฟล์ Nov ยาวมาก: พิมพ์เฉพาะแถววันที่ต้องใช้ (ตัดคอลัมน์ถึง index 80) อย่าพิมพ์ทั้ง sheet · ไฟล์แนบ TWIC ใช้หัว "=== Sheet: Daily ===" (ไม่ใช่ "## Sheet:")
+
+## รอบ 12-Nov-2026 10:1x ICT (r3) — 🟢 UPDATE · T-1 = 11-Nov · ผลโม่ PM เข้า/ถูกแก้ย้อนหลัง 4 วัน · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-12 10:10 ICT → T-1 = 11-Nov (dashboard = 11-Nov อยู่แล้ว แต่ตัวเลขต้นทางเปลี่ยน)
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T02:56:07Z (> 01:37:05Z) → re-parse sheet "Nov —" (บรรทัด 2205) 1–11 Nov ทั้ง 5 โรงไทย · CBG=price÷%ST และ CAG=CBG÷%Rec ผ่านทุกจุด · diff vs CSV = 4 จุด (PM ทั้งหมด):
+  - PM 11-Nov: null → 101.2% / CAG 15.74 (4.11÷25.81%=15.92 ÷101.2%=15.74 ✓)
+  - PM 10-Nov: null → 97.9% / CAG 16.58 (4.03÷24.83%=16.23 ÷97.9%=16.58 ✓)
+  - PM 7-Nov: **ถูกแก้ย้อนหลัง** 95.6% → 77.4% / CAG 16.97 → 20.96 (4.04÷24.90%=16.22 ÷77.4%=20.96 ✓)
+  - PM 8-Nov: แก้ 100.8% → 100.5% / CAG 15.83 → 15.88 (ไฟล์ 15.88 ✓)
+  - โรงอื่น 1–11 Nov diff = 0 (11-Nov: TN 100.0, TKT 95.0=R1=R2 = default · MS 92.0 placeholder · TDC ว่าง → null · PM 9-Nov ยัง 0.0 · PM 4-Nov 0.0) · 12-Nov = forecast
+- Gate 2: put.p ล่าสุด "on Nov 11, 2026" (rcvd 2026-11-12T01:41Z) เท่าเดิม → TWIC ไม่เปลี่ยน
+- ยอดไทย 11-Nov ไม่เปลี่ยน: 1,898 ตัน · ราคา 4.1134 · %ST 25.86 · CBG 15.91 · CAG รวม 11-Nov ปิดไม่ได้ (รอ TN, TKT, TDC) · **last complete = 7-Nov เปลี่ยนจาก 16.208 → 17.536** (เพราะ PM 7-Nov ถูกแก้; TN,TKT,PM,TDC 1,727 ตัน)
+- CSV .bak_1112r3 · 180 แถว (13-Oct ถึง 11-Nov) · dashboard "Daily root dashboard - 11 November 2026.html" (.bak_1112r3; gen: memory/_gen_1112c.py = _gen_1112b.py + SRC diff/upsert block) · กราฟ vs CSV 900 จุด mismatch 0 · node --check OK (3 inline scripts)
+- ⚠️ update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact แก้จาก cloud session ไม่ได้) → ไฟล์ .html คือ deliverable หลัก
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T02:56:07Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 17.536
+- รอบถัดไป gate: Nov mtime > 2026-11-12T02:56:07Z หรือ อีเมล put.p "on Nov 12, 2026" (พรุ่งนี้)
+- ประเด็น: PM 7-Nov %Recovery 77.4% (CAG 20.96) ผิดปกติและเป็นการแก้ค่าที่เคยรายงานแล้ว · ค้างผลโม่: TKT 8-Nov (4 วัน) · TN 9,10,11-Nov · PM 9-Nov · TDC 11-Nov
+### Lesson Learned
+- ค่าผลโม่ที่ "ปิดแล้ว" ยังถูกแก้ย้อนหลังได้ (PM 7/8-Nov) → ต้อง diff ทั้งเดือน (1 ถึง T-1) ทุกครั้งที่ mtime ขยับ ไม่ใช่แค่ 5 วันล่าสุด · แถวที่ volume = 0 จริง (เช่น TKT 1-Nov) ให้คง 0 ตาม CSV อย่า upsert เป็น null · node --check ต้องข้าม script type=application/json (cowork-artifact-meta)
+
+## รอบ 12-Nov-2026 11:3x ICT (r4) — ⚪ NO-OP · T-1 = 11-Nov (dashboard = 11-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- TZ=Asia/Bangkok date = 2026-11-12 11:36 ICT → T-1 = 11-Nov
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T04:26:15Z (> 02:56:07Z) → re-parse sheet "Nov —" (บรรทัด 2205) 1–11 Nov ทั้ง 5 โรงไทย (ราคา/ปริมาณ/%ST/%Rec/CAG): diff vs CSV = 0 · 11-Nov ยัง TN 100.0, TKT 95.0=R1=R2, MS 92.0, TDC ว่าง → null · PM 4/9-Nov 0.0 · TKT 8-Nov 0.0 · TN 5/6/9/10-Nov 100.0 · 12-Nov = forecast
+- Gate 2: put.p ล่าสุด "on Nov 11, 2026" (rcvd 2026-11-12T01:41Z) เท่าเดิม
+- ไม่แตะ CSV (180 แถว) / dashboard
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T04:26:15Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 17.536
+- รอบถัดไป gate: Nov mtime > 2026-11-12T04:26:15Z หรือ อีเมล put.p "on Nov 12, 2026" (พรุ่งนี้)
+
+## รอบ 12-Nov-2026 13:1x ICT (r5) — 🟢 UPDATE · T-1 = 11-Nov · ผลโม่ MS 11-Nov เข้าแล้ว (1 จุด) · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-12 13:10 ICT → T-1 = 11-Nov (dashboard = 11-Nov อยู่แล้ว)
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T06:07:23Z (> 04:26:15Z) → re-parse sheet "Nov —" (บรรทัด 2205) 1–11 Nov ทั้ง 5 โรงไทย → diff vs CSV = 1 จุด:
+  - MS 11-Nov: %Recovery 92.0% (placeholder) → 88.7% → CAG null → 16.68 (verify CBG=4.40÷29.73%=14.80 ✓ · CAG=14.80÷88.7%=16.68 ✓)
+  - จุดอื่น diff = 0 · 11-Nov ยัง TN 100.0, TKT 95.0=R1=R2, TDC ว่าง → null · MS 3/9-Nov ยัง 92.0 → null · 12-Nov = forecast
+- Gate 2: put.p ล่าสุด "on Nov 11, 2026" (rcvd 2026-11-12T01:41Z) เท่าเดิม · เทียบ TWIC 1–11 Nov กับไฟล์แนบ = ตรง CSV ทุกวัน
+- CSV: backup .bak_1112r5 → upsert 1 แถว (MS 11-Nov) → 180 แถว / 30 วัน (13-Oct..11-Nov) ไม่ซ้ำ key
+- Dashboard "Daily root dashboard - 11 November 2026.html" (backup .bak_1112r5): MS.cag[29]=16.68, MS.recov[29]=88.7 · header/timestamp 13:2x · caveat (ผลโม่เข้า 2 โรง PM+MS) · ข้อมูลใหม่รอบนี้ (คงข้อความ PM รอบ 10:1x ไว้เป็น "รอบก่อนหน้า") · ค่าผิดปกติ +MS 11-Nov 88.7% · ค้างผลโม่ ตัด MS 11-Nov · ตารางแถว MS (16.68 / 88.7, badge "ไม่นับ CAG" เทา) · footer
+- Verify: 900 จุดในกราฟ vs CSV mismatch = 0 · node --check ผ่านทั้ง 3 script block · JSON meta ok
+- KPI4 ไม่เปลี่ยน (MS ไม่นับ): last_complete_group_cag 7-Nov 17.536 · 8–11 Nov ยังปิดไม่ได้ (8-Nov รอ TKT · 9-Nov รอ TN, PM · 10-Nov รอ TN · 11-Nov รอ TN, TKT, TDC)
+- update_artifact / verify_artifact (id root-price-dashboard): ไม่มีเครื่องมือในเซสชันนี้เหมือนเดิม → ไฟล์ .html ในโฟลเดอร์ lovely = source of truth
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T06:07:23Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 17.536
+- รอบถัดไป gate: Nov mtime > 2026-11-12T06:07:23Z หรือ อีเมล put.p "on Nov 12, 2026" (พรุ่งนี้)
+### Lesson Learned
+- ไม่มี (หมายเหตุ: node --check ต้องข้าม script block type="application/json" id="cowork-artifact-meta" — ตรวจด้วย json.loads แทน)
+
+## รอบ 12-Nov-2026 14:1x ICT (r6) — ⚪ NO-OP · T-1 = 11-Nov (dashboard = 11-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- TZ=Asia/Bangkok date = 2026-11-12 14:10 ICT → T-1 = 11-Nov
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T06:07:23Z เท่ากับ r5 · re-parse sheet "Nov —" (บรรทัด 2205) ซ้ำเพื่อความชัวร์ 6–11 Nov ทั้ง 5 โรงไทย: diff vs CSV = 0 · 11-Nov ยัง TN 100.0, TKT 95.0=R1=R2, TDC ว่าง → null · MS 3/9-Nov 92.0 · PM 4/9-Nov 0.0 · TKT 8-Nov 0.0 · TN 5/6/9/10-Nov 100.0 · 12-Nov = forecast
+- Gate 2: put.p ล่าสุด "on Nov 11, 2026" (rcvd 2026-11-12T01:41Z) เท่าเดิม
+- ไม่แตะ CSV (180 แถว) / dashboard
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T06:07:23Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 17.536
+- รอบถัดไป gate: Nov mtime > 2026-11-12T06:07:23Z หรือ อีเมล put.p "on Nov 12, 2026" (พรุ่งนี้)
+
+## รอบ 12-Nov-2026 15:1x ICT (r7) — ⚪ NO-OP · T-1 = 11-Nov (dashboard = 11-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+- TZ=Asia/Bangkok date = 2026-11-12 15:10 ICT → T-1 = 11-Nov
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T07:06:27Z (> 06:07:23Z) → re-parse sheet "Nov —" (บรรทัด 2205) 1–11 Nov ทั้ง 5 โรงไทย (ราคา/ปริมาณ/%ST/%Rec/CAG): diff vs CSV = 0 · 11-Nov ยัง TN 100.0, TKT 95.0=R1=R2, TDC ว่าง → null · MS 3/9-Nov 92.0 · PM 1/4/9-Nov 0.0 · TKT 8-Nov 0.0 · TN 1/2/5/6/9/10-Nov 100.0 · 12/13-Nov = forecast
+- Gate 2: put.p ล่าสุด "on Nov 11, 2026" (rcvd 2026-11-12T01:41Z) เท่าเดิม
+- ไม่แตะ CSV (180 แถว) / dashboard
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T07:06:27Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 17.536
+- รอบถัดไป gate: Nov mtime > 2026-11-12T07:06:27Z หรือ อีเมล put.p "on Nov 12, 2026" (พรุ่งนี้)
+
+## รอบ 12-Nov-2026 16:1x ICT (r8) — 🟢 UPDATE · T-1 = 11-Nov · ผลโม่ TN 11-Nov เข้าแล้ว (1 จุด) · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-12 16:10 ICT → T-1 = 11-Nov (dashboard = 11-Nov อยู่แล้ว)
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T08:54:16Z (> 07:06:27Z) → re-parse sheet "Nov —" (index 2204, header +6, แถววันที่ D = +6+D) 1–11 Nov ทั้ง 5 โรงไทย → diff vs CSV = 1 จุด:
+  - TN 11-Nov: %Recovery 100.0% (default) → 86.9% → CAG null → 18.03 (verify CBG = 4.00÷25.55% = 15.66 ✓ · CAG = 15.66÷86.9% = 18.02 ≈ 18.03 ในไฟล์ ✓ ต่างจากการปัดราคา)
+  - 11-Nov ยังค้าง: TKT 95.0=R1=R2 (default), TDC ว่าง → null · จุดอื่น diff = 0 · 12-Nov เป็นต้นไป = forecast
+- Gate 2: put.p ล่าสุด "on Nov 11, 2026" (rcvd 2026-11-12T01:41Z) เท่าเดิม
+- CSV: backup .bak_1112r8 → upsert 1 แถว (TN 11-Nov) → 180 แถว, 30 วัน, ไม่มี key ซ้ำ
+- Dashboard "Daily root dashboard - 11 November 2026.html" (backup .bak_1112r8): TN.cag[29], TN.recov[29] + header/timestamp + caveat + ตาราง TN (badge รอผลโม่→ครบ) + total-row note + รายการค่าผิดปกติ (+TN 11-Nov 86.9%) + ค้างผลโม่ (ตัด TN 11-Nov) + footnote
+- Verify: 900 จุด vs CSV mismatch = 0 · node --check ผ่าน · update_artifact/verify_artifact ไม่มีในเซสชัน (เหมือนเดิม)
+- CAG รวม 11-Nov ยังปิดไม่ได้ (รอ TKT, TDC) → last_complete_group_cag 7-Nov 17.536 (ไม่เปลี่ยน)
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T08:54:16Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 17.536
+- รอบถัดไป gate: Nov mtime > 2026-11-12T08:54:16Z หรือ อีเมล put.p "on Nov 12, 2026"
+### Lesson Learned
+- ไม่มี (หมายเหตุ: /tmp ใน device shell เขียนไม่ได้ ให้ใช้ $HOME สำหรับไฟล์ชั่วคราว)
+
+## รอบ 12-Nov-2026 17:1x ICT (r9) — 🟢 UPDATE · T-1 = 11-Nov · ผลโม่ TKT 11-Nov เข้าแล้ว (1 จุด) · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-12 17:10 ICT → T-1 = 11-Nov (dashboard = 11-Nov อยู่แล้ว)
+- Gate 1: "11_Nov 2026.xlsx" (โฟลเดอร์หลัก) mtime 2026-11-12T10:03:45Z (> 08:54:16Z) → re-parse sheet "Nov —" (index 2204, แถววันที่ D = +6+D) เทียบ 5–11 Nov ทั้ง 5 โรงไทย → diff vs CSV = 1 จุด:
+  - TKT 11-Nov: %Recovery 95.0=R1=R2 (default) → Total 99.4% (R1 100.1% / R2 99.3%) → CAG null → 16.55 (verify CBG = 4.17÷25.36% = 16.44 ✓ · CAG = 16.44÷99.4% = 16.54 ≈ 16.55 ในไฟล์ ✓ ต่างจากการปัด)
+  - 11-Nov ยังค้าง: TDC (%Recovery ว่าง) → null · จุดอื่น diff = 0 · 12-Nov เป็นต้นไป = forecast (ไม่มี volume)
+- Gate 2: put.p ล่าสุด "on Nov 11, 2026" (rcvd 2026-11-12T01:41Z) เท่าเดิม
+- CSV: backup .bak_1112r9 → upsert 1 แถว (TKT 11-Nov) → 180 แถว, 30 วัน, ไม่มี key ซ้ำ
+- Dashboard "Daily root dashboard - 11 November 2026.html" (backup .bak_1112r9): TKT.cag[29], TKT.recov[29] + header/timestamp + caveat + ตาราง TKT (badge รอผลโม่→ครบ) + total-row note + ค้างผลโม่ (ตัด TKT 11-Nov) + footnote
+- Verify: 900 จุด vs CSV mismatch = 0 · node --check ผ่าน · update_artifact/verify_artifact ไม่มีในเซสชัน (เหมือนเดิม)
+- CAG รวม 11-Nov ยังปิดไม่ได้ (รอ TDC โรงเดียว) → last_complete_group_cag 7-Nov 17.536 (ไม่เปลี่ยน)
+- State: data_updated_through 2026-11-11 · twic_latest 2026-11-11 · source_file_mtime_seen (Nov) 2026-11-12T10:03:45Z · twic_email_seen on Nov 11, 2026 · last_complete_group_cag 7-Nov 17.536
+- รอบถัดไป gate: Nov mtime > 2026-11-12T10:03:45Z หรือ อีเมล put.p "on Nov 12, 2026"
+### Lesson Learned
+- ตอนเช็ค syntax ด้วย node ให้ตัด <script> ก้อนแรกที่เป็น JSON manifest ออกก่อน (ไม่ใช่ JS) ไม่งั้น node --check จะ error หลอก
