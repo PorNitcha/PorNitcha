@@ -1,0 +1,15 @@
+s=open('_gen_1117r2.py',encoding='utf-8').read()
+def rp(a,b):
+    global s
+    assert s.count(a)==1,(s.count(a),a[:60]); s=s.replace(a,b)
+rp("BK='1117r2'","BK='1117r3'")
+rp("NOW='17-Nov-2026 09:2x น.'","NOW='17-Nov-2026 10:1x น.'")
+rp("key[('2026-11-16','TDC')]['volume_tons']==''","key[('2026-11-16','MS')]['recovery_pct']=='' and key[('2026-11-16','TDC')]['volume_tons']=='278'")
+rp("NEWROWS=[('TDC',4.01,278,24.54,None,None)]","NEWROWS=[('MS',4.33,235,29.28,14.32,103.3)]")
+rp("'TDC':' &middot; ลงข้อมูลเพิ่มในรอบ 09:2x น. (รอบ 08:3x น. ช่องปริมาณยังว่าง)'}","'TDC':' &middot; ลงข้อมูลเพิ่มในรอบ 09:2x น. (รอบ 08:3x น. ช่องปริมาณยังว่าง)',\n       'MS':' &middot; ผลโม่เข้าในรอบ 10:1x น. (รอบก่อนเป็น 92.0% placeholder) &middot; <b style=\"color:#b45309\">%Recovery 103.3% สูงกว่าช่วงปกติของ MS เดือนนี้ (ราว 66&ndash;92%) &rarr; ควรติดตามว่าเป็นค่าจริงหรือจะถูกแก้</b> &middot; ไม่นับใน CAG รวม'}")
+rp("cagtxt='CAG รวม %s ปิดไม่ได้ (ผลโม่ %s ยังไม่เข้าทุกโรง; ไม่รวม MS)","cagtxt='CAG รวม %s ปิดไม่ได้ (ผลโม่ %s ของ TN, TKT, PM, TDC ยังไม่เข้า; ไม่รวม MS)")
+rp("TDC ลงข้อมูลแล้ว (รอบนี้) &rarr; ครบ 5 โรง &middot; ผลโม่ {D} ยังไม่เข้าทุกโรง (ค่าในไฟล์เป็น default/placeholder)","TDC ลงข้อมูลแล้ว (รอบ 09:2x น.) &rarr; ครบ 5 โรง &middot; ผลโม่ {D}: เข้าแล้วเฉพาะ MS (103.3% &rarr; CAG 14.32 &middot; ไม่นับ CAG รวม) &middot; TN, TKT, PM, TDC ยังไม่เข้า (ค่าในไฟล์เป็น default/ว่าง)")
+rp("16-Nov รอผลโม่ทุกโรง)</b>","16-Nov รอผลโม่ TN, TKT, PM, TDC)</b>")
+rp("ผลโม่ {D} ยังไม่เข้า: TN 100.0% / PM 100.0% / TKT 95.0% (Total=R1=R2) = default, MS 92.0% = placeholder, TDC ว่าง &rarr; เว้นว่างทั้ง %Recovery และ CAG","ผลโม่ {D}: MS เข้าแล้ว (103.3% &rarr; CAG 14.32 &middot; ไม่นับ CAG รวม) &middot; ยังไม่เข้า: TN 100.0% / PM 100.0% / TKT 95.0% (Total=R1=R2) = default, TDC ว่าง &rarr; เว้นว่างทั้ง %Recovery และ CAG")
+rp("<b style=\"color:#374151\">ข้อมูลใหม่ (รอบนี้):</b> TDC {D} ลงข้อมูลเพิ่ม ({fm(S['TDC']['vol'][I],0)} ตัน / {fm(S['TDC']['price'][I])} / %ST {fm(S['TDC']['st'][I])}% / CBG {fm(S['TDC']['price'][I]/(S['TDC']['st'][I]/100))}) &middot; ตรวจ 1&ndash;16-Nov จุดอื่นทั้ง 5 โรงกับไฟล์ต้นทาง diff = 0 (ไม่มีผลโม่เข้าเพิ่ม)","<b style=\"color:#374151\">ข้อมูลใหม่ (รอบนี้):</b> ผลโม่ MS {D} เข้า: %Recovery 92.0% (placeholder) &rarr; <b>103.3%</b> &rarr; CAG {fm(S['MS']['cag'][I])} (ตรวจ: {fm(S['MS']['price'][I])} &divide; {fm(S['MS']['st'][I])}% = CBG {fm(S['MS']['price'][I]/(S['MS']['st'][I]/100))} &divide; 103.3% = {fm(S['MS']['price'][I]/(S['MS']['st'][I]/100)/1.033)} &#10003;) &middot; <b style=\"color:#b45309\">103.3% สูงกว่าช่วงปกติของ MS เดือนนี้ (ราว 66&ndash;92%)</b> &middot; ตรวจ 1&ndash;16-Nov จุดอื่นทั้ง 5 โรงกับไฟล์ต้นทาง diff = 0")
+open('_gen_1117r3.py','w',encoding='utf-8').write(s)

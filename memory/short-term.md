@@ -285,3 +285,17 @@
 - (12-Nov) China templates v2 ส่งแล้ว (per kg, quarterly, GP after DC, slot+role รองรับ 2027) — รอ feedback Por/Cathy · ยังขาดข้อมูล: AP2027 ระดับ product (TWIT/TWFZ), LE10+2 ยังไม่ได้เติม (มีไฟล์ China_LE 10+2_1109.xlsx), Factory plan / production volume / capacity ของ TWFZ
 - (12-Nov) China templates v3 ส่งแล้ว (ตาม review รายแผ่นของ Por) — รอ feedback รอบถัดไป · TWFZ: scenario 2025 / AP2026 ว่างเพราะโรงงานเริ่ม Aug-26 → อาจตั้ง role เป็น LE8+4, LE9+3, AP2027 แทน
 
+
+
+### 2026-11-13 — Opp Day Q3/2026 script (ถอดเสียง 16 ท่อน) — รอ Por ยืนยันจุดค้าง
+- สถานะ: รวมสคริปต์เป็น Claude Doc "Opp Day Q3/2026 — Script (Draft v1)" https://claude.ai/artifact/VHT8BMif88CpWCaexYFm9Q (10 section + Checklist + Q&A prep)
+- คำที่ระบบถอดเสียงผิดบ่อย: HB/HBA/HPA = HVA · Slack/startup = Starch · Real Pro/Web Pro/Google/ที่โปร/zero growth = Well Grow (อ้าง long-term memory) · Alibaba = La Niña (?) · non-food = non-fried (?)
+- จุดขัดกัน 8 จุด (ใน Checklist ของ doc): เป้า 80% (ตอนนี้ vs 2030), cost saving 19 vs 49 ล้าน, EBITDA 127, NPM +40%/+10%, กำไรทั้งปี double digit (9M +8% → Q4 ต้อง +15-20%), Starch +17% vs total, Food 9% vs double digit
+- ยังไม่รู้: ชื่อ/ตำแหน่งผู้บริหาร (จิตอาภา=ชิดาภา?, พัชริน, จุลินทร์), ชื่อสินค้า (Bonudo?), Q&A ท่อนสุดท้ายเสีย ต้องอัดใหม่
+- Lesson: ถอดเสียงยาวมีโอกาส loop ซ้ำ (ท่อน 16) → แนะนำให้อัดสั้น ๆ; ใช้ long-term memory ช่วยแก้ชื่อเฉพาะ (Well Grow) ได้
+- Next step: Por ยืนยัน checklist → อัปเดต doc เป็น v2
+
+- **[16-Nov-2026] รอ Por ถามผู้ทำไฟล์ TDC AP27/28**: (1) pre-gel waxy (PW) อยู่ entity ใดใน P&L (2) F&I ของ TDC TKT ไม่ได้บวกใน Net Sale เหมือน TDC RY (3) Idle RY 37.9 → 61.8, TKT 48.2 → 28.0 (4) PPA 13.1 อยู่ที่ RY ทั้งหมด → ถ้ามีการแก้ไฟล์ ให้ rebuild TDC deep dive และ `recon_tdc_ap.py`
+
+- **[18-Nov-2026] LE2026 (10+2) ยังเป็น interim (web app v75, 'partial')**: ไฟล์ P&L LE10+2 ฉบับบันทึก 18-Nov 15:16 เข้าแอปแล้ว (`source/update-status.json`: complete=false, ไม่มี forecast_from) · Por กำลัง update ไฟล์อยู่ (แจ้ง 18-Nov) — ที่ Nov–Dec ยังเท่า LE9+3 ทุกบรรทัด: Total CN (TWIT, TWFZ, ElimCN), NBG, BioPlastic; เท่าเฉพาะ Volume / NS / GP: TDC2.0, TWIN, Waxy · **รอ Por**: (1) แจ้งเมื่อบันทึกฉบับใหม่ (ดูเวลาบันทึกไฟล์แล้ว reload) และเมื่อ final → ตั้ง complete=true, rebuild, ตรวจ recon Food, publish (2) `StarchBU!GU35` (`StarchTH!#REF!`) ยังไม่ได้แก้ในไฟล์ — แอปซ่อมช่อง Nov ของ Starch / TWPC เอง (3) TDC: GP ตรงกับ working sheet FC10+2 แล้ว เหลือ volume P&L สูงกว่าเดือนละ 32 t (4) Oct actual: volume ของ ElimS เปลี่ยน −412 t ในฉบับ 18-Nov — รอ Por ยืนยันว่าตั้งใจ
+- **[18-Nov-2026] Export Sales Forecast LE10+2 — แถว 670 'New New | Rice Paper DE' น่าจะผิดหน่วย** (value 200,000 / 260,000 THB, ASP 3.70 → volume 54 / 70 t ต่อครั้ง ใน Apr, Jul, Oct 2027 และ Apr, Oct 2028; ราคา 3.7 THB/kg vs ปกติ ~125) → Rice Paper NS/ton ของ AP2027 / AP2028 ใน Food Export deep dive ต่ำผิดปกติ · แจ้ง Por แล้ว รอ Por ถามคนทำไฟล์ว่า volume หรือ value ที่ผิด · **ยังไม่ได้แก้อะไร** ทั้งไฟล์ต้นทางและแอป (Por สั่งห้ามแก้ไฟล์ต้นทางโดยไม่ได้รับอนุญาต) · จุดเล็ก: Dec-2026 volume ไม่มี value 3 บรรทัด (SHUFRAKOL ใบเมี่ยง 1.2 t, Thai Wah Vietnam Ready DD 0.4 t × 2)
