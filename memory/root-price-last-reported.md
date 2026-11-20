@@ -3190,3 +3190,135 @@
 - State (ไม่เปลี่ยนจาก r7): `data_updated_through` 2026-11-17 · `twic_latest` 2026-11-17 · `source_file_mtime_seen` 2026-11-18T09:43:32.000Z · `last_complete_group_cag` 11-Nov = 16.77 (17-Nov รอ TN โรงเดียว)
 - ค้าง: TN 12–17 Nov (6 วันติด) · PM 16-Nov · MS 17-Nov (placeholder) · TDC 17-Nov %Recovery 83.1% รอยืนยัน
 - Lesson: ไม่มี
+
+## รอบ 19-Nov-2026 08:1x ICT (r1) — 🟢 UPDATE · T-1 = 18-Nov · วันใหม่ 18-Nov (4 โรงไทย · TDC ยังไม่ลง · MS ยังไม่ลง %ST) · TWIC 18-Nov ยังไม่มา · CSV+dashboard อัปเดตแล้ว · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-19 08:10 → T-1 = 2026-11-18 (dashboard ล่าสุดก่อนรอบนี้ = 17-Nov → ต้องอัปเดต)
+- Gate 1: `11_Nov 2026.xlsx` mtime = 2026-11-18T19:04:24.000Z · item-id URI ไม่ใส่ startPage · sheet "Nov —" index 2204, แถววันที่ D = +6+D
+  - 18-Nov: TN 404 ตัน @ 3.98 / %ST 24.94 (CBG 15.96 ✓ · rec 100.0 = default → null) · TKT 305 @ 4.07 / 25.03 (CBG 16.26 ✓ · 95.0×3 = default → null) · PM 479 @ 4.01 / 24.80 (CBG 16.17 ✓ · 100.0 = default → null) · **MS 182 @ 4.36 แต่ช่อง %ST และ CBG ว่าง** → เก็บราคา/ปริมาณ, %ST = null (rec 92.0 = placeholder → null) · TDC ช่องปริมาณว่าง (4.05 / 25.00% = forecast) → null ทั้งแถว
+  - ย้อนหลัง 1–17 Nov × 5 โรง: diff อัตโนมัติ (cloud parse + กฎ default → $HOME/rp/src.txt เทียบ CSV) = 0 จุดต่าง (ยกเว้น PM 12–15 ที่ไฟล์ว่าง/CSV = 0 ตามเดิม) · CBG/CAG formula check ผ่านทุกแถว · ไม่มีผลโม่ย้อนหลังเข้า (TN 12–17 ยัง 100.0 · PM 16 ยัง 0.0 · MS 17 ยัง 92.0)
+- Gate 2: อีเมล put.p ล่าสุด = "on Nov 17, 2026" (rcvd 2026-11-18T06:16:43Z) · "on Nov 18, 2026" ยังไม่มา ณ 08:10 น. → TWIC 18-Nov เว้นว่าง
+- CSV: backup `.bak_1119r1` → upsert 6 แถว (18-Nov × 6) → roll เหลือ 180 แถว (20-Oct ถึง 18-Nov)
+- Dashboard `Daily root dashboard - 18 November 2026.html` (40,139 bytes) สร้างจากฐาน 17-Nov ด้วย **memory/_gen_1119r1.py (เขียนใหม่เป็นแบบ data-driven — ข้อความ header/KPI/caveat/ตาราง สร้างจากข้อมูลเอง ไม่ต้อง patch ~25 จุดต่อวันอีก)**
+  - รวม 4 โรง (TN, TKT, PM, MS) 1,370 ตัน @ 4.0610 · %ST 24.91 / CBG 16.12 คิดจาก 3 โรง (TN, TKT, PM — MS ยังไม่ลง %ST) · เทียบ 4 โรงเดียวกัน 17-Nov 1,511 ตัน @ 4.0822 → ปริมาณ −9.3% ราคา −0.02
+  - ราคา: TN +0.02 (แดง) · TKT −0.03 · PM −0.01 · MS +0.01 (แดง) · ปริมาณ: TN 293→404 (+37.9%) · PM 664→479 (−27.9%) · MS 269→182 (−32.3%)
+- Verify (_vfy_1119r1.py, $HOME/vf): node --check ผ่าน 3 บล็อก · 900 จุดเทียบ CSV mismatch = 0 · render ส่วนบนด้วย Playwright ใน cloud ดูแล้วปกติ (กราฟ Chart.js โหลดไม่ได้ใน sandbox เพราะ CDN ถูกบล็อก — ไม่ใช่ปัญหาของไฟล์) · update_artifact/verify_artifact ไม่มีในเซสชัน (เหมือนเดิม — legacy live artifact `root-price-dashboard` ค้างที่ 23-Sep ต้องให้ Por สั่ง migrate ก่อน)
+- State: `data_updated_through` 2026-11-18 (ราคา/ปริมาณ 4 โรง · TDC ยังไม่ลง · MS ขาด %ST · ผลโม่ 18-Nov ยังไม่เข้าทุกโรง) · `twic_latest` 2026-11-17 · `dashboard_file_synced_through` 2026-11-18 · `source_file_mtime_seen` 2026-11-18T19:04:24.000Z · `twic_email_seen` on Nov 17, 2026 · `last_complete_group_cag` ยัง 11-Nov = 16.769 (12–15, 17 รอ TN · 16 รอ TN, PM · 18 รอ TN, TKT, PM + TDC ยังไม่ลง)
+- รอบถัดไป gate: mtime > 2026-11-18T19:04:24.000Z หรือ อีเมล put.p "on Nov 18, 2026"
+- ค้าง: TDC 18-Nov ปริมาณ/ราคา · MS 18-Nov %ST · ผลโม่ 18-Nov ทุกโรง · TN 12–18 Nov (7 วันติด) · PM 16-Nov · MS 17-Nov (placeholder) · TDC 17-Nov %Recovery 83.1% รอยืนยัน · TWIC 18-Nov
+- Lesson: (1) สคริปต์ยาว >~20KB ส่งผ่าน heredoc ใน device_bash ไม่ได้ (spawn E2BIG) → เขียนไฟล์ที่ /mnt/user-data/outputs ใน cloud แล้ว device_commit_files (stagedPath) ลง memory/ (2) รอบถัดไปของวันเดียวกัน/วันใหม่: copy _gen_1119r1.py แล้วแก้เฉพาะบล็อกตัวแปรบนสุด (BK/D/PD/NOW/DOW/old/new/OR/FIRST/LAST/TWMAIL/TWRCV/FC/NEWROWS/NEWNOTE/BACKNOTE + assert `(LAST,'TN') not in key` และ `tj==P and tw['vol'][I] is None` ถ้า TWIC เข้าแล้ว) (3) กรณีโรงลงปริมาณ/ราคาแต่ %ST ว่าง: เก็บราคา/ปริมาณ, %ST = null, %ST/CBG รวมคิดเฉพาะโรงที่มี %ST และระบุในหน้า
+
+## รอบ 19-Nov-2026 09:1x ICT (r2) — 🟢 UPDATE · T-1 = 18-Nov (dashboard = 18-Nov แล้ว แต่ตัวเลขเปลี่ยน 3 จุด) · TDC 18-Nov ลงแล้ว (⚠️ ซ้ำ 17-Nov ทุกค่า) · MS 18-Nov ลง %ST · ผลโม่ MS 17-Nov เข้า · TWIC 18-Nov ยังไม่มา · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-19 09:10 → T-1 = 2026-11-18
+- Gate 1: `11_Nov 2026.xlsx` mtime = 2026-11-19T01:39:05.000Z (> 18-Nov 19:04:24Z) → re-parse sheet "Nov —" (index 2204, แถววันที่ D = +6+D) · เทียบ 9–18 Nov × 5 โรงกับ CSV → เปลี่ยน 3 จุด:
+  - **MS 17-Nov**: %Recovery 92.0 (placeholder) → 93.2% → CAG 15.23 (verify 4.35÷30.66%=14.19 ÷93.2% = 15.22 ✓)
+  - **MS 18-Nov**: %ST ว่าง → 29.67% (CBG 14.69 ✓) · rec ยัง 92.0 = placeholder → null
+  - **TDC 18-Nov**: ช่องว่าง/forecast → 293 ตัน @ 4.10 / %ST 25.43% (CBG 16.12 ✓ · rec ว่าง → null) · ⚠️ **ตรงกับแถว 17-Nov ทุกค่า รวม Expense 1,199,877 และ Est. Starch 74,422** (Root consumption = −12) → น่าจะเป็นค่าคัดลอกจากวันก่อน · ใส่ตามไฟล์เพราะมี volume (ตาม precedent PM 19-Oct) แต่ flag สีแดงในแถว TDC + caveat ของ dashboard และแจ้ง Por ให้ยืนยัน
+  - นอกนั้น diff = 0 (TN 12–18 ยัง 100.0 · PM 16 ยัง 0.0 · TKT 18 ยัง 95.0×3 · PM 18 ยัง 100.0)
+- Gate 2: อีเมล put.p ล่าสุดยัง "on Nov 17, 2026" → TWIC 18-Nov เว้นว่าง
+- CSV: backup `.bak_1119r2` → upsert 3 แถว → 180 แถว (20-Oct ถึง 18-Nov)
+- Dashboard `Daily root dashboard - 18 November 2026.html` (40,284 bytes · backup เดิมไว้ที่ memory/…html.bak_1119r2) สร้างด้วย `memory/_gen_1119r2.py` (= r1 + โหมด same-day refresh: BASE env, assert `(LAST,'TN') in key`, EXTRA{} ต่อท้าย status-detail รายโรง, CAVX บรรทัดเตือนใน caveat)
+  - รวม 5 โรง 1,663 ตัน @ 4.0679 · %ST 25.52 · CBG 15.94 · เทียบ 17-Nov 1,804 ตัน @ 4.0851 → ปริมาณ −7.8% ราคา −0.02 · CAG รวมล่าสุดที่ครบยัง 11-Nov = 16.769
+- Verify: node --check ผ่าน 3 บล็อก · 900 จุดเทียบ CSV mismatch = 0 · update_artifact/verify_artifact ไม่มีในเซสชัน (เหมือนเดิม)
+- State: `data_updated_through` 2026-11-18 (ครบ 5 โรงไทย ราคา/ปริมาณ/%ST · ผลโม่ 18-Nov ยังไม่เข้า) · `twic_latest` 2026-11-17 · `source_file_mtime_seen` 2026-11-19T01:39:05.000Z · `twic_email_seen` on Nov 17, 2026 · `last_complete_group_cag` 11-Nov = 16.769
+- รอบถัดไป gate: mtime > 2026-11-19T01:39:05.000Z หรือ อีเมล put.p "on Nov 18, 2026"
+- ค้าง: ผลโม่ 18-Nov ทุกโรง · TN 12–18 Nov (7 วันติด) · PM 16-Nov · **TDC 18-Nov รอยืนยันว่าไม่ใช่ค่าคัดลอก (รอบหน้าเช็คว่าเปลี่ยนไหม)** · TDC 17-Nov %Recovery 83.1% รอยืนยัน · TWIC 18-Nov
+- Lesson: (1) device_bash ใช้ไม่ได้รอบนี้ ("Workspace unavailable") → stage ไฟล์ (CSV, md, html ฐาน 17-Nov + 18-Nov, _gen, _vfy) มารันใน cloud ด้วย BASE=<workdir>/ แล้ว device_commit_files (stagedPath ใต้ /mnt/user-data/outputs, ใส่ expectedMtimeMs) — ทำงานได้ครบ (2) same-day refresh: ใช้ _gen_1119r2.py เป็นแม่แบบ แก้ BK/NOW/NEWROWS/EXTRA/NEWNOTE/BACKNOTE/CAVX (3) ใน NEWNOTE ห้ามใช้ `%D` format ถ้าข้อความมี % ตัวอื่น — ต่อ string แทน
+
+## รอบ 19-Nov-2026 10:1x ICT (r3) — 🟢 UPDATE · T-1 = 18-Nov (dashboard = 18-Nov แล้ว แต่ตัวเลขเปลี่ยน 2 จุด) · ผลโม่ PM 18-Nov เข้า · TWIC 18-Nov เข้า · TDC 18-Nov ยังซ้ำ 17-Nov · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-19 10:10 → T-1 = 2026-11-18
+- Gate 1: `11_Nov 2026.xlsx` mtime = 2026-11-19T02:55:14.000Z (> 01:39:05Z) → re-parse sheet "Nov —" (index 2204, แถววันที่ D = +6+D) · diff อัตโนมัติ 1–18 Nov × 5 โรงกับ CSV (กฎ default: TN/PM/TDC 100.0, MS 100.0/92.0, TKT 95.0×3, 0.0, ว่าง → null) = เปลี่ยน 1 จุด:
+  - **PM 18-Nov**: %Recovery 100.0 (default) → 102.5% → CAG 15.78 (verify 4.01÷24.80%=16.17 ÷102.5% = 15.78 ✓)
+  - TDC 18-Nov ยัง 293 / 4.10 / 25.43% + Expense 1,199,877 + Est. Starch 74,422 = ตรง 17-Nov ทุกค่า (ยังไม่ถูกแก้) · rec ว่าง → คง flag แดงไว้
+  - นอกนั้น diff = 0 (TN 12–18 ยัง 100.0 · PM 16 ยัง 0.0 · TKT 18 ยัง 95.0×3 · MS 18 ยัง 92.0)
+- Gate 2: อีเมล put.p "on Nov 18, 2026" เข้า (rcvd 2026-11-19T03:00:52Z = 10:00 น.) · sheet Daily serial 46344: 462.656 ตัน / 3.1092 / %ST 22.216% / CBG 13.9955 / %Rec 100.56% / CAG 13.9176 → CSV 463 / 3.11 / 22.22 / 13.92 / 100.56 (verify 3.1092÷22.216%=13.996 ÷100.56% = 13.918 ✓) · 15–17 Nov ในไฟล์ตรง CSV
+- CSV: backup `.bak_1119r3` → upsert 2 แถว (PM 18-Nov, TWIC 18-Nov) → 180 แถว (20-Oct ถึง 18-Nov)
+- Dashboard `Daily root dashboard - 18 November 2026.html` (39,525 bytes · backup เดิม memory/…html.bak_1119r3) สร้างด้วย `memory/_gen_1119r3.py` (= r2 + TWIC-arrived branch: TWIN=True, HDX ต่อท้าย header, แถว TWIC แบบ "ครบ")
+  - รวม 5 โรง 1,663 ตัน @ 4.0679 · %ST 25.52 · CBG 15.94 (ไม่เปลี่ยนจาก r2) · CAG รวมล่าสุดที่ครบยัง 11-Nov = 16.769 · 18-Nov ยังรอ TN, TKT, TDC
+- Verify (_vfy_1119r3.py): node --check ผ่าน 3 บล็อก · 900 จุดเทียบ CSV mismatch = 0 · update_artifact/verify_artifact ไม่มีในเซสชัน (เหมือนเดิม)
+- State: `data_updated_through` 2026-11-18 (ครบ 5 โรงไทย · ผลโม่ 18-Nov เข้าแล้วเฉพาะ PM) · `twic_latest` 2026-11-18 · `dashboard_file_synced_through` 2026-11-18 · `source_file_mtime_seen` 2026-11-19T02:55:14.000Z · `twic_email_seen` on Nov 18, 2026 · `last_complete_group_cag` 11-Nov = 16.769
+- รอบถัดไป gate: mtime > 2026-11-19T02:55:14.000Z หรือ อีเมล put.p "on Nov 19, 2026"
+- ค้าง: ผลโม่ 18-Nov ของ TN, TKT, TDC (+MS) · TN 12–18 Nov (7 วันติด) · PM 16-Nov · TDC 18-Nov รอยืนยันว่าไม่ใช่ค่าคัดลอก · TDC 17-Nov %Recovery 83.1% รอยืนยัน
+- Lesson: (1) device_bash ใช้ได้รอบนี้สำหรับอ่าน/append log แต่ gen/verify รันใน cloud (stage → BASE=<workdir>/ → commit ด้วย expectedMtimeMs) ทำงานครบ (2) วันที่ TWIC เข้าในรอบ same-day ให้ใช้ _gen_1119r3.py เป็นแม่แบบ (TWIN=True) · วันใหม่ที่ TWIC ยังไม่มาใช้ _gen_1119r1.py/_r2
+
+## รอบ 19-Nov-2026 13:4x ICT (r4) — 🟢 UPDATE · T-1 = 18-Nov (dashboard = 18-Nov แล้ว แต่ตัวเลขเปลี่ยน 4 จุด) · ผลโม่ TN + TKT 18-Nov เข้า · ผลโม่ TN 15/16-Nov ย้อนหลัง · TDC 18-Nov ยังซ้ำ 17-Nov · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-19 13:42 → T-1 = 2026-11-18
+- Gate 1: `11_Nov 2026.xlsx` mtime = 2026-11-19T03:42:43.000Z (> 02:55:14Z) → re-parse sheet "Nov —" (index 2204, แถววันที่ D = +6+D) · diff อัตโนมัติ 1–18 Nov × 5 โรงกับ CSV (CBG/CAG formula check ผ่านทุกจุด) = เปลี่ยน 4 จุด:
+  - **TN 18-Nov**: 100.0 (default) → 88.5% → CAG 18.04 (3.98÷24.94%=15.96 ÷88.5% = 18.04 ✓)
+  - **TKT 18-Nov**: 95.0×3 (default) → Total 95.7% / R1 0.0% / R2 95.7% (ค่าจริง) → CAG 17.00 (4.07÷25.03%=16.26 ÷95.7% = 17.00 ✓)
+  - **TN 15-Nov** (ย้อนหลัง): → 85.5% → CAG 17.81 ✓ · **TN 16-Nov** (ย้อนหลัง): → 113.5% → CAG 14.10 ✓ (⚠️ สูงผิดปกติ >110%)
+  - ไม่เปลี่ยน: TN 12,13,14,17 ยัง 100.0 · PM 16 ยัง 0.0 · MS 18 ยัง 92.0 (placeholder) · TDC 18 ยัง 293 / 4.10 / 25.43% ตรง 17-Nov ทุกค่า rec ว่าง (flag แดงคงไว้) · PM 12–15 ในไฟล์ = ช่องว่าง (CSV เก็บเป็น vol 0 ตามที่ตัดสินไว้เดิม ไม่แตะ)
+- Gate 2: อีเมล put.p ล่าสุดยัง "on Nov 18, 2026" (rcvd 03:00:52Z) = เท่าเดิม ไม่ขยับ
+- CSV: backup `.bak_1119r4` → upsert 4 แถว → 180 แถว (20-Oct ถึง 18-Nov)
+- Dashboard `Daily root dashboard - 18 November 2026.html` (39,547 bytes · backup เดิม memory/…html.bak_1119r4) สร้างด้วย `memory/_gen_1119r4.py` (= r3 แก้ BK/NOW/HDX/NEWROWS/NEWNOTE/BACKNOTE)
+  - รวม 5 โรง 1,663 ตัน @ 4.0679 · %ST 25.52 · CBG 15.94 (ไม่เปลี่ยน) · **CAG รวมล่าสุดที่ครบขยับ 11-Nov (16.769) → 15-Nov = 17.007** (3 โรง TN/TKT/TDC 740 ตัน · PM ไม่ซื้อ) · 16-Nov รอ PM · 17-Nov รอ TN · 18-Nov รอ TDC
+- Verify (_vfy_1119r4.py): node --check ผ่าน 3 บล็อก · 900 จุดเทียบ CSV mismatch = 0 · update_artifact/verify_artifact ไม่มีในเซสชัน (legacy live artifact แก้จากที่นี่ไม่ได้ เหมือนเดิม)
+- State: `data_updated_through` 2026-11-18 (ครบ 5 โรงไทย · ผลโม่ 18-Nov เข้าแล้ว TN/TKT/PM) · `twic_latest` 2026-11-18 · `dashboard_file_synced_through` 2026-11-18 · `source_file_mtime_seen` 2026-11-19T03:42:43.000Z · `twic_email_seen` on Nov 18, 2026 · `last_complete_group_cag` 15-Nov = 17.007 (ก่อนหน้า 11-Nov = 16.769)
+- รอบถัดไป gate: mtime > 2026-11-19T03:42:43.000Z หรือ อีเมล put.p "on Nov 19, 2026"
+- ค้าง: ผลโม่ 18-Nov ของ TDC (+MS) · TN 12,13,14,17-Nov · PM 16-Nov · TDC 18-Nov รอยืนยันว่าไม่ใช่ค่าคัดลอก · TDC 17-Nov 83.1% และ TN 16-Nov 113.5% รอยืนยัน
+- Lesson: รอบ 11:1x/12:1x ของวันนี้ไม่มี log (ไม่ทราบว่ายิงหรือไม่) — รอบนี้ diff จาก state r3 ครบทั้ง 1–18 Nov จึงไม่มีอะไรหลุด · stage → gen/verify ใน cloud (BASE=<workdir>/) → commit ด้วย expectedMtimeMs ใช้ได้ปกติ
+
+## รอบ 19-Nov-2026 14:1x ICT (r5) — ⚪ NO-OP · T-1 = 18-Nov (dashboard = 18-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+
+- TZ=Asia/Bangkok date = 2026-11-19 14:10 → T-1 = 2026-11-18 · ไฟล์ `Daily root dashboard - 18 November 2026.html` มีอยู่แล้ว (r4)
+- Gate 1: `Daily root purchased report - 11_Nov 2026.xlsx` mtime = 2026-11-19T03:42:43.000Z = ค่าเดิมที่ r4 บันทึก (ไม่ขยับ) · re-parse sheet `## Sheet: Nov —` เทียบ 13–18 Nov กับ CSV ทั้ง 5 โรงไทย → diff = 0
+  - TDC 18-Nov: %Recovery ยังว่าง → null · ค่า vol/price/%ST ยังซ้ำ 17-Nov ทุกค่า (293 / 4.10 / 25.43%)
+  - MS 18-Nov: 92.0% = placeholder (แถว forecast 19/20-Nov ก็ 92.0%) → null เหมือนเดิม
+  - TN 13/14/17-Nov ยัง 100.0% = default → null · PM 16-Nov ยัง 0.0% → null
+- Gate 2 (TWIC): อีเมลล่าสุด "on Nov 18, 2026" (rcvd 19-Nov 03:00 UTC) = ที่ r3 เห็นแล้ว · ไม่มีอีเมลใหม่
+- ไม่แก้ CSV / dashboard · State เดิมจาก r4 ทั้งหมด (`source_file_mtime_seen` 2026-11-19T03:42:43.000Z · `twic_email_seen` on Nov 18, 2026 · `last_complete_group_cag` 15-Nov = 17.007)
+- รอบถัดไป gate: mtime > 2026-11-19T03:42:43.000Z (รอผลโม่ TDC 18-Nov, TN 17-Nov, PM 16-Nov)
+
+## รอบ 19-Nov-2026 15:1x ICT (r6) — ⚪ NO-OP · T-1 = 18-Nov (dashboard = 18-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+
+- TZ=Asia/Bangkok date = 2026-11-19 15:10 → T-1 = 2026-11-18 · ไฟล์ `Daily root dashboard - 18 November 2026.html` มีอยู่แล้ว (r4)
+- Gate 1: `Daily root purchased report - 11_Nov 2026.xlsx` mtime = 2026-11-19T03:42:43.000Z = ค่าเดิม (ไม่ขยับ) · re-parse sheet `## Sheet: Nov —` เทียบ 14–18 Nov กับ CSV ทั้ง 5 โรงไทย → diff = 0 (TDC 18-Nov ยังซ้ำ 17-Nov + rec ว่าง · MS 18-Nov 92.0% placeholder · TN 14/17-Nov 100.0% default · PM 16-Nov 0.0%)
+- Gate 2 (TWIC): อีเมลล่าสุดยัง "on Nov 18, 2026" (rcvd 19-Nov 03:00 UTC) · ไม่มีอีเมลใหม่
+- ไม่แก้ CSV / dashboard · State เดิมจาก r4 ทั้งหมด
+- รอบถัดไป gate: mtime > 2026-11-19T03:42:43.000Z หรือ อีเมล put.p "on Nov 19, 2026"
+
+## รอบ 19-Nov-2026 16:1x ICT (r7) — ⚪ NO-OP · T-1 = 18-Nov (dashboard = 18-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+
+- TZ=Asia/Bangkok date = 2026-11-19 16:11 → T-1 = 2026-11-18 · ไฟล์ `Daily root dashboard - 18 November 2026.html` มีอยู่แล้ว (r4)
+- Gate 1: `Daily root purchased report - 11_Nov 2026.xlsx` mtime **ขยับ** = 2026-11-19T08:49:47.000Z (> 03:42:43Z) → re-parse sheet `## Sheet: Nov —` (index 2204) เทียบ 13–18 Nov กับ CSV ทั้ง 5 โรงไทย → diff = 0 (ไฟล์ถูกเซฟใหม่แต่ตัวเลขช่วงนี้ไม่เปลี่ยน)
+  - TDC 18-Nov: ยัง 293 / 4.10 / 25.43% ซ้ำ 17-Nov ทุกค่า + rec ว่าง → null · MS 18-Nov 92.0% = placeholder (แถว forecast 19-Nov+ ก็ 92.0%) → null · TN 13/14/17-Nov 100.0% default → null · PM 16-Nov 0.0% → null
+- Gate 2 (TWIC): อีเมลล่าสุดยัง "on Nov 18, 2026" (rcvd 19-Nov 03:00 UTC) · อ่าน attachment sheet Daily เทียบ 13–18 Nov กับ CSV → diff = 0 (CBG/CAG formula check ผ่าน)
+- ไม่แก้ CSV / dashboard · State เดิมจาก r4 ยกเว้น `source_file_mtime_seen` 2026-11-19T08:49:47.000Z · `twic_email_seen` on Nov 18, 2026 · `last_complete_group_cag` 15-Nov = 17.007
+- รอบถัดไป gate: mtime > 2026-11-19T08:49:47.000Z หรือ อีเมล put.p "on Nov 19, 2026"
+
+## รอบ 19-Nov-2026 17:1x ICT (r8) — ⚪ NO-OP · T-1 = 18-Nov (dashboard = 18-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+
+- TZ=Asia/Bangkok date = 2026-11-19 17:11 → T-1 = 2026-11-18 · dashboard ไฟล์ล่าสุด = `Daily root dashboard - 18 November 2026.html` (r4)
+- Gate 1: `Daily root purchased report - 11_Nov 2026.xlsx` mtime **ขยับ** 2026-11-19T03:42:43Z → 2026-11-19T09:50:03Z (16:50 ICT) → re-parse sheet `## Sheet: Nov —` เทียบ 12–18 Nov กับ CSV ทั้ง 5 โรงไทย → diff = 0
+  - TDC 18-Nov: ยัง 293 / 4.10 / 25.43% ซ้ำ 17-Nov ทุกค่า + rec ว่าง → null · MS 18-Nov 92.0% = placeholder (แถว forecast 19-Nov ก็ 92.0%) → null · TN 12/13/14/17-Nov 100.0% default → null · PM 16-Nov 0.0% → null
+  - สิ่งที่ขยับในไฟล์คือแถว 19-Nov (PM ลงปริมาณ 270 แล้ว) = วันนี้ ยังไม่ใช่ T-1 → ไม่แตะ
+- Gate 2 (TWIC): อีเมลล่าสุดยังเป็น "on Nov 18, 2026" (rcvd 19-Nov 03:00 UTC) = อยู่ใน CSV แล้ว
+- CSV / dashboard: ไม่แก้ (180 แถวเท่าเดิม) · State ไม่เปลี่ยนจาก r4 ยกเว้น `source_file_mtime_seen` = 2026-11-19T09:50:03.000Z
+- รอบถัดไป gate: mtime > 2026-11-19T09:50:03.000Z หรือ TWIC อีเมล "on Nov 19, 2026" หรือวันที่เปลี่ยน (T-1 = 19-Nov)
+
+
+## รอบ 19-Nov-2026 18:1x ICT (r9) — ⚪ NO-OP · T-1 = 18-Nov (dashboard = 18-Nov แล้ว) · ไม่ส่งอีเมล · ไม่แจ้ง Por
+
+- TZ=Asia/Bangkok date = 2026-11-19 18:10 → T-1 = 2026-11-18 · dashboard ไฟล์ล่าสุด = `Daily root dashboard - 18 November 2026.html` (r4)
+- Gate 1: `Daily root purchased report - 11_Nov 2026.xlsx` mtime **ขยับ** 2026-11-19T09:50:03Z → 2026-11-19T10:12:12Z (17:12 ICT) → re-parse sheet `## Sheet: Nov —` (index 2204) เทียบ 12–18 Nov กับ CSV ทั้ง 5 โรงไทย → diff = 0
+  - TDC 18-Nov: ยัง 293 / 4.10 / 25.43% ซ้ำ 17-Nov ทุกค่า + rec ว่าง → null · MS 18-Nov 92.0% = placeholder (แถว forecast 19/20-Nov ก็ 92.0%) → null · TN 12/13/14/17-Nov 100.0% default → null · PM 16-Nov 0.0% → null
+  - สิ่งที่ขยับในไฟล์คือแถว 19-Nov (TKT ลงปริมาณ 481, PM 270) = วันนี้ ยังไม่ใช่ T-1 → ไม่แตะ
+- Gate 2 (TWIC): อีเมลล่าสุดยังเป็น "on Nov 18, 2026" (rcvd 19-Nov 03:00 UTC) = อยู่ใน CSV แล้ว
+- CSV / dashboard: ไม่แก้ (180 แถวเท่าเดิม) · State ไม่เปลี่ยนจาก r4 ยกเว้น `source_file_mtime_seen` = 2026-11-19T10:12:12.000Z · `data_updated_through` 2026-11-18 · `twic_email_seen` on Nov 18, 2026 · `last_complete_group_cag` 15-Nov = 17.007
+- รอบถัดไป gate: mtime > 2026-11-19T10:12:12.000Z หรือ TWIC อีเมล "on Nov 19, 2026" หรือวันที่เปลี่ยน (T-1 = 19-Nov)
+
+
+## รอบ 20-Nov-2026 08:2x ICT (r1) — 🟢 UPDATE · T-1 = 19-Nov · วันใหม่ 19-Nov (4 โรงไทย · TDC ยังไม่ลง) · TWIC 19-Nov ยังไม่มา · CSV+dashboard อัปเดตแล้ว · ไม่ส่งอีเมล · แจ้ง Por (push)
+- TZ=Asia/Bangkok date = 2026-11-20 08:18 → T-1 = 2026-11-19 (dashboard ล่าสุดก่อนรอบนี้ = 18-Nov → ต้องอัปเดต)
+- Gate 1: `11_Nov 2026.xlsx` mtime = 2026-11-20T00:24:57.000Z · อ่านด้วย item-id URI + **startPage=4,endPage=4 (sheet "Nov" = worksheet ที่ 4)** → ได้เฉพาะ sheet Nov (70K chars, index 22, แถววันที่ D = +6+D) เร็วกว่าอ่านทั้งไฟล์
+  - 19-Nov: TN 305 @ 3.99 / %ST 25.10 (CBG 15.90 ✓ · rec 100.0 = default → null) · TKT 481 @ 4.09 / 25.02 (CBG 16.35 ✓ · 95.0×3 = default → null) · PM 270 @ 3.83 / 23.20 (CBG 16.51 ✓ · 100.0 = default → null) · MS 231 @ 4.33 / 29.62 (CBG 14.62 ✓ · 92.0 = placeholder → null) · TDC ช่องปริมาณว่าง (4.05 / 25.00% = forecast) → null ทั้งแถว
+  - ย้อนหลัง 1–18 Nov × 5 โรง: diff อัตโนมัติ ($HOME/rp/src.txt เทียบ CSV) = 0 จุดเปลี่ยน (ต่างเฉพาะที่รู้แล้ว: MS 3/9/18-Nov 92.0 = placeholder · PM 12–15 ไฟล์ว่าง/CSV = 0) · CBG/CAG formula check ผ่านทุกแถว · ไม่มีผลโม่ย้อนหลังเข้า · TDC 18-Nov ยังซ้ำ 17-Nov ทุกค่า + rec ว่าง
+- Gate 2: อีเมล put.p ล่าสุด = "on Nov 18, 2026" (rcvd 2026-11-19T03:00:52Z) · "on Nov 19, 2026" ยังไม่มา ณ 08:18 น. → TWIC 19-Nov เว้นว่าง
+- CSV: backup `.bak_1120r1` → upsert 6 แถว (19-Nov × 6) → roll เหลือ 180 แถว (21-Oct ถึง 19-Nov)
+- Dashboard `Daily root dashboard - 19 November 2026.html` (39,814 bytes) สร้างจากฐาน 18-Nov ด้วย memory/_gen_1120r1.py (copy จาก _gen_1119r1.py แก้เฉพาะบล็อกตัวแปรบนสุด 13 บรรทัด — รันบนเครื่อง Por โดยตรง ไม่ต้อง stage)
+  - รวม 4 โรง (TN, TKT, PM, MS) 1,287 ตัน @ 4.0548 · %ST 25.48 / CBG 15.91 · เทียบ 4 โรงเดียวกัน 18-Nov 1,370 ตัน @ 4.0610 → ปริมาณ −6.1% ราคา −0.01
+  - ราคา: TN +0.01 (แดง) · TKT +0.02 (แดง) · **PM −0.18 (4.01→3.83, %ST 24.80→23.20)** · MS −0.03 · ปริมาณ: TN 404→305 (−24.5%) · **TKT 305→481 (+57.7%)** · **PM 479→270 (−43.6%)** · MS 182→231 (+26.9%)
+- Verify (_vfy_1120r1.py, $HOME/vf): node --check ผ่าน 3 บล็อก · 900 จุดเทียบ CSV mismatch = 0 · update_artifact/verify_artifact ไม่มีในเซสชัน (เหมือนเดิม)
+- State: `data_updated_through` 2026-11-19 (ราคา/ปริมาณ/%ST 4 โรง · TDC ยังไม่ลง · ผลโม่ 19-Nov ยังไม่เข้าทุกโรง) · `twic_latest` 2026-11-18 · `dashboard_file_synced_through` 2026-11-19 · `source_file_mtime_seen` 2026-11-20T00:24:57.000Z · `twic_email_seen` on Nov 18, 2026 · `last_complete_group_cag` 15-Nov = 17.007 (3 โรง TN/TKT/TDC 740 ตัน · ก่อนหน้า 11-Nov = 16.769)
+- รอบถัดไป gate: mtime > 2026-11-20T00:24:57.000Z หรือ อีเมล put.p "on Nov 19, 2026"
+- ค้าง: TDC 19-Nov ปริมาณ/ราคา · ผลโม่ 19-Nov ทุกโรง · ผลโม่ TDC 18-Nov (+ยืนยันว่าไม่ใช่ค่าคัดลอก 17-Nov) · TN 12,13,14,17-Nov · PM 16-Nov · TDC 17-Nov 83.1% และ TN 16-Nov 113.5% รอยืนยัน · TWIC 19-Nov
+- Lesson: read_resource ใส่ startPage=4/endPage=4 อ่านเฉพาะ sheet Nov ได้เลย (เช็คเลข worksheet จากรายการหัวไฟล์ทุกเดือน เพราะลำดับ sheet อาจเปลี่ยน) · รอบถัดไป copy _gen_1120r1.py แก้บล็อกบนสุด (ถ้า TWIC เข้าแล้วใช้โครง _gen_1119r4.py)
