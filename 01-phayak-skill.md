@@ -384,3 +384,41 @@ _(ยังไม่มี entry — จะเพิ่มหลังจบง�
 - **วิธีทำ** (`gen_q1.py` + `build_q1.ps1` ใน `FCu review tools\`): Sheet1 มีแต่ FY → สร้างแถวจาก app data แล้ว **validate ก่อนว่าโค้ดเดียวกัน reproduce ตาราง FY ของ Sheet1 ได้ครบ 27 แถว × 3 scenario** จึงค่อยใช้กับ Q1 · นิยามแถวที่ได้จากการ validate: HVA = HVA + Waxy · WG = FoodWG + ElimF.TH · Admin = People + Non-people · Oth Income = Other operating income and expenses (ไม่รวม PPA) · Interest = Interest expenses · NP pre war = NP + war impact · Q1 Act 2026 = Jan–Mar ของ scenario LE10+2 · AP 2027 = AP2027 Board
 - **พบในไฟล์ต้นทาง (แจ้ง Por แล้ว ไม่ได้แก้)**: Sheet1 คอลัมน์ AP2026 แสดง HVA = 177 (ไม่รวม Waxy) และ Waxy = 2 ขณะที่คอลัมน์ LE เป็น HVA รวม Waxy; ข้อมูล AP2026 ใน P&L คือ HVA 187 รวม Waxy 10
 - **ตัวเลขหลัก Q1**: OPBA 301 / 281 / 267 · NP 71 / 122 / 48 (Q1'25 / Q1'26 / Q1 AP27) · war impact มีเฉพาะ Q1'26 (2)
+
+### รอบ 79 — Web app v80: deep dive มุมมอง Trend / Compare 2 measures เลือกปี 2027 / 2028 ได้ (23-Nov-2026)
+- **Por สั่ง**: 'for deep dive, please add 2027 information too.' — ตอนแรกกำกวม (deck หรือ artifact) จึงถาม; Por ตอบด้วยภาพปุ่ม VIEW 'Trend (1 measure) | Compare 2 measures' = **แท็บ deep dive ใน artifact**
+- **สาเหตุที่ไม่เห็น 2027**: ตัวเลือก Year ของสองมุมมองนี้มาจากปีที่มี actual เท่านั้น (ถึง 2026) แม้ข้อมูล AP2027 / AP2028 มีอยู่แล้ว (ใช้ได้เฉพาะในมุมมอง Scenario comparison / P&L)
+- **สิ่งที่แก้ (`app-template.html`, สำรอง `_backup/app-template_v79.html.bak`)**: Year เพิ่ม '2027 (AP)' / '2028 (AP)' เมื่อ deep dive มี scenario ของปีนั้น · ปีแผน: ข้อมูลหลัก = AP ของปีนั้น (ไม่มีตัวเลือก actual), ค่าเริ่มต้นของ Compare with = scenario ล่าสุดของปีก่อนหน้า (2027 → LE2026 (10+2) เต็มปี; 2028 → AP2027) ไม่ใช่ actual ปีก่อนที่ยังปิดไม่ครบ · measure แบบ growth เทียบกับ LE ปีก่อนเมื่อเดือนของปีก่อนยังไม่ปิด (`ddPrior`, `ddPriorScen`) · มุมมองอื่น (P&L, GP variance, Scenario, Topline) กลับไปปี actual ล่าสุดเอง · BU ที่ไม่มี scenario (FOOD VN) ไม่มีปีแผนให้เลือก
+- **ตรวจ**: ทั้ง 3 deep dive × ปี 2026 / 2027 / 2028 × Trend / growth / Compare ไม่มี error · Food TH NS LE10+2 2,594.0 → AP2027 2,825.6; Food Export 401.5 → 440.0; TDC 1,299.8 → 1,997.0 (ตรงกับ P&L / AP)
+- **บทเรียน**: คำขอสั้นที่กำกวมและงานแต่ละทางใช้เวลามาก → ตรวจข้อเท็จจริงก่อน (ข้อมูล 2027 มีอยู่ที่ไหนแล้วบ้าง) แล้วถาม 1 คำถามพร้อมตัวเลือก — ภาพที่ Por ส่งมาตอบได้ชัดกว่าเดา
+
+### รอบ 80 — Web app v81: Food Export deep dive ใช้ลำดับ category + grouping เดียวกับ Food deep dive (23-Nov-2026)
+- **Por สั่ง**: 'ในหน้า food export deep dive — ลำดับของ category & category grouping ให้ทำเหมือนหน้า food deep dive'
+- **เดิม**: deep dive แบบ records (Food Export, TDC) เรียงค่าของทุก dimension ตาม volume มาก→น้อย และไม่มีแถวกลุ่ม · **แก้**: `extract_dd_foodexp.py` ใส่ `order` + `groups` ให้ dimension `cat` โดยอ่านจาก `deepdive-food.json` (`categories`, `category_groups`) → แก้ลำดับ / กลุ่มที่ Food ที่เดียว Food Export ตามเอง · `app-template.html`: `ddDimOrder` ใช้ `order` ถ้ามี (ค่านอกลำดับมาตรฐานต่อท้ายตาม volume), `ddRows` เพิ่มแถว memo ของกลุ่ม (TOTAL READY = RTE + RTC, ไม่รวมซ้ำใน TOTAL)
+- **ผล**: Trend / Compare / Scenario comparison เรียง DBV, DBV-SP, DRN, DRV, …, RTE, RTC, TOTAL READY, BEAN SHEET, RICE PAPER, STARCH, TAPIOCA PEARL, … · dimension อื่น (Country, Customer, Brand, Product, Pack) ยังเรียงตาม volume · tie-out กับ P&L = 0
+- **กติกา (ย้ำของเดิม)**: ลำดับ category / channel มาตรฐานของ Food ใช้ทุกรายงานที่มี category ของ Food รวม Food Export
+
+### รอบ 81 — Web app v82: BU P&L 'Collapse all' ยังแสดง Idle / Trade Agreement / Loyalty programmes (23-Nov-2026)
+- **Por สั่ง**: 'when collapse all — i still want to see idle cost, trade agreement, and loyalty programmes.' (ปุ่ม DETAIL LINES ในแท็บ BU P&L)
+- **แก้**: `app-template.html` เพิ่ม `BU_KEEP = {Idle, Trade Agreement off-invoice, Loyalty programmes}` — บรรทัดเหล่านี้ไม่ถูกซ่อนเมื่อกลุ่มของมัน (Net Sales / Total COST) ถูก collapse ไม่ว่าจะกด Collapse all หรือพับทีละกลุ่ม · ถ้า Por ขอเพิ่มบรรทัดที่ต้องเห็นเสมอ ให้เติมชื่อใน `BU_KEEP`
+
+### รอบ 82 — Web app v83: TDC deep dive เพิ่ม scenario 'LE2027 Q1' จากไฟล์ Working Sheet ..._Year2027Q1 (23-Nov-2026)
+- **Por สั่ง**: 'have TDC deep dive updated. i want to also have numbers for LE2027 Q1'27 too.' (ไฟล์ใหม่ `deepdive\TDC forecast (detail)\Working Sheet PL TDC FC10+2_Year2027Q1.xlsx`)
+- **โครงสร้างไฟล์ใหม่**: sheet `WorkingSheet10+2_2027_RY` / `_TKT` (ลูกค้า × SN, คอลัมน์ Vol / Net Sale / Cost FG / X Rate Jan'27–Dec'27 — **ใช้เฉพาะ Jan–Mar ตามชื่อไฟล์**; คอลัมน์ Apr–Dec ไม่ใช่ forecast รอบนี้) · `Summary for P&L` เปลี่ยน layout (label อยู่คอลัมน์ C; บล็อก 2026 / 2027 รวม / 2027 Rayong / 2027 TKT) → I&F / Idle / PPA รายโรงงานอ่านจากบล็อกของโรงงาน
+- **กับดักที่กันไว้**: ชื่อไฟล์มี 'FC10+2' ทำให้ loop เดิมจะอ่านเป็น LE2026 (10+2) ทับของเดิม (และ parse Summary ผิดเพราะ layout ใหม่) → loop เดิมข้ามไฟล์ที่มี `_Year` · ตัวแปร `chk` ของ block ใหม่ไปทับตัวแปรท้ายสคริปต์ → เปลี่ยนชื่อ (สคริปต์ยาวที่ใช้ตัวแปร global ต้องระวังชื่อซ้ำ)
+- **ผล**: scenario `LE2027 Q1` (year 2027, `partial` = [0,1,2], 2 โรงงาน, 334 records, ไม่รวม Waxy) ตรงกับ Summary ของไฟล์ทุกเดือน: Q1 Volume 13,735 t (RY 12,711 / TKT 1,024), NS 431.9 mB, GP 54.0 mB · เทียบ AP2027 Board Q1: Volume 14,569, NS 450.0, GP 58.3 · ยังไม่มีในไฟล์ P&L → ไม่มี P&L adjustment
+- **แอป**: scenario แบบ part-year (`partial`) ให้ค่าเฉพาะช่วงเดือนที่มี (ช่วงอื่น '–') · Trend / Compare เมื่อเลือกเป็น Data basis จะเทียบเฉพาะ Jan–Mar (`ddBasisN`) · ค่าเริ่มต้นของปี 2027 ยังเป็น AP2027 Board · `ddPriorScen` ไม่เลือก scenario part-year
+- **พบในไฟล์ต้นทาง (แจ้ง Por, ไม่ได้แก้)**: `Summary for P&L` ส่วนล่าง 'TDC' (แถว 40–53) หัก Waxy ออกจากยอดที่ไม่รวม Waxy อยู่แล้ว (เช่น Vol Jan'27 4,128.4 − 22 = 4,106.4; Nov'26 4,587 − 32 = 4,555) — deep dive ใช้ยอดจาก detail (ไม่รวม Waxy ครั้งเดียว)
+
+### รอบ 83 — Web app v84: แก้หัวคอลัมน์ไตรมาสของ scenario ที่เทียบ + ช่วงเทียบเมื่อ scenario มีไม่ครบปี (23-Nov-2026)
+- **Por ถาม** (ภาพ TDC deep dive, Year 2027 (AP), Data basis AP2027 Board, Compare with LE2027 Q1): 'is this header correct?' — **ไม่ถูก**: ใต้ 'Quarterly LE2027 Q1' เขียน Q1 26 … Q4 26
+- **สาเหตุ**: หัวไตรมาสฝั่ง Compare with ใช้ปี y−1 ตายตัว (ถูกเฉพาะเมื่อเทียบกับปีก่อน) — มีมาก่อน v83 แต่เพิ่งเห็นเมื่อเทียบ scenario ปีเดียวกัน · อีกจุด: คอลัมน์เทียบท้ายตารางเป็น Full year ทั้งที่ LE2027 Q1 มีแค่ Jan–Mar → ได้ '–'
+- **แก้**: หัวไตรมาสใช้ปีของ scenario ที่เลือกใน Compare with (`ddBaseSc`) · ช่วงเทียบ = เดือนที่ทั้งสองฝั่งมี (`ddBaseN`, `ddCmpN`) → AP2027 Board vs LE2027 Q1 เทียบ Jan–Mar: 450.0 vs 431.9 (Δ 18.1) ทั้งใน Trend, Compare และ tiles
+- **บทเรียน**: เพิ่ม scenario ชนิดใหม่ (part-year, ปีเดียวกับข้อมูลหลัก) ต้องทดสอบทั้งสองทิศ — เป็น Data basis และเป็น Compare with — และอ่านหัวตารางทุกแถวด้วย ไม่ใช่ดูแค่ตัวเลข (รอบ 82 ทดสอบเฉพาะทิศ basis จึงหลุด)
+
+### รอบ 84 — Excel: Food BU P&L รายไตรมาส Q1'26–Q1'27 แยก TH / WG / VN ตาม layout ที่ Por วางมา (25-Nov-2026)
+- **Por สั่ง**: วาง layout (Q1'26 … Q1'27 × Food BU / TH / WG / VN; แถว Vol, NIV, TA, NS, COGS, GP + บล็อก Per Ton) 'ช่วยทำ excel file หน้าตานี้' + 'ผูกเป็นสูตรนะคะ สำหรับ per ton basis'
+- **ไฟล์**: `04_FC 10+2\Food BU P&L by quarter Q1'26-Q1'27 (claude 25-Nov).xlsx` (สคริปต์ `FCu review toolsuild_food_q.py`) · ค่าจาก bu-pnl.json: Q1–Q3'26 actual, Q4'26 = LE10+2 (Oct act + Nov–Dec FC), Q1'27 = AP2027 Board · input สีน้ำเงิน (Vol, NIV, TA, COGS) · สูตร: NS = NIV + TA, GP = NS + COGS, Per Ton = ค่า × 1,000,000 ÷ Vol (THB/ton, Vol = 0 → '-') · แถว Check = Food BU − (TH+WG+VN) = elimination
+- **นิยามที่ตรวจก่อนเขียน**: TA = Trade Agreement off-invoice + Loyalty programmes → NIV + TA = NS และ NS + Total COST = GP ตรงทุกไตรมาส / entity · Food BU (Foods) ≠ TH + WG + VN เพราะมี ElimF.TH (TH↔WG) และ ElimF (TH↔VN)
+- **เครื่องมือ**: recalc.py ของ skill xlsx ใช้ไม่ได้บน Windows (LibreOffice / AF_UNIX) → ใช้ Excel COM เปิด-CalculateFull-ตรวจ error-บันทึกแทน (175 สูตร, 0 error)
+- **ข้อสังเกตแจ้ง Por**: WG per ton แกว่งมาก (Sep'26 actual 51 t / NS 24.8 mB ≈ 487k THB/ton; Q4'26 ≈ 108k; Q1'27 AP ≈ 440k) — volume ของ WG ในไฟล์ P&L อาจไม่ใช่หน่วยตันเดียวกับ Food TH

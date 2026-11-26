@@ -3590,3 +3590,45 @@ At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-bac
 [2026-11-20 09:43:00] Backup pushed to GitHub.
 [2026-11-23 08:28:49] Starting backup...
 [2026-11-23 08:28:49] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
+git.exe : warning: in the working copy of '01-phayak-skill.md', LF will be replaced by CRLF the next time Git touches 
+it
+At C:\Users\NitchaSuwongtham\OneDrive - THAIWAH\Desktop\lovely\.claude\daily-backup.ps1:24 char:5
++     & $gitExe -C $repoPath add -A 2>&1 | ForEach-Object { Write-Log $ ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'Daily root dashboard - 19 November 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/mid-term.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'memory/root-price-last-reported.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'Daily root dashboard - 22 November 2026.html', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'memory/Daily root dashboard - 19 November 2026.html.bak_1120r2', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1120r2.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_gen_1123r1.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_vfy_1120r2.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/_vfy_1123r1.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1120r2', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-history.csv.bak_1123r1', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'memory/root-price-last-reported.md.bak_1123r1', LF will be replaced by CRLF the next 
+time Git touches it
+[main f8cf7d9] Auto backup 2026-11-23 08:28:49
+ 16 files changed, 5065 insertions(+), 55 deletions(-)
+ create mode 100644 Daily root dashboard - 22 November 2026.html
+ create mode 100644 memory/Daily root dashboard - 19 November 2026.html.bak_1120r2
+ create mode 100644 memory/_gen_1120r2.py
+ create mode 100644 memory/_gen_1123r1.py
+ create mode 100644 memory/_vfy_1120r2.py
+ create mode 100644 memory/_vfy_1123r1.py
+ create mode 100644 memory/root-price-history.csv.bak_1120r2
+ create mode 100644 memory/root-price-history.csv.bak_1123r1
+ create mode 100644 memory/root-price-last-reported.md.bak_1123r1
+[2026-11-26 07:44:29] Starting backup...
+[2026-11-26 07:44:29] Using git: C:\Users\NitchaSuwongtham\AppData\Local\Programs\Git\cmd\git.exe
